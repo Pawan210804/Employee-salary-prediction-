@@ -25,6 +25,20 @@ st.set_page_config(
 )
 
 # ──────────────────────────────────────────────
+# HIDE STREAMLIT TOOLBAR / GITHUB FORK BUTTON
+# ──────────────────────────────────────────────
+st.markdown("""
+<style>
+#MainMenu { visibility: hidden; }
+header { visibility: hidden; }
+footer { visibility: hidden; }
+[data-testid="stToolbar"]   { display: none !important; }
+[data-testid="stDecoration"]{ display: none !important; }
+[data-testid="stStatusWidget"] { display: none !important; }
+</style>
+""", unsafe_allow_html=True)
+
+# ──────────────────────────────────────────────
 # TAILWIND + GSAP + CUSTOM CSS/JS
 # ──────────────────────────────────────────────
 st.markdown("""
