@@ -560,6 +560,120 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ──────────────────────────────────────────────
+# IN-PAGE MODEL SWITCHER NAVBAR
+# ──────────────────────────────────────────────
+st.markdown("""
+<style>
+.model-btn-active {
+  background: linear-gradient(135deg,#7c3aed,#6d28d9) !important;
+  color: #fff !important;
+  border: 1px solid #7c3aed !important;
+  box-shadow: 0 0 14px rgba(124,58,237,0.4) !important;
+}
+/* Override default button style for navbar */
+div[data-testid="column"] .stButton > button {
+  border-radius: 999px !important;
+  padding: 0.38rem 0.6rem !important;
+  font-size: 0.78rem !important;
+  font-weight: 500 !important;
+  background: #1c2537 !important;
+  color: #94a3b8 !important;
+  border: 1px solid #1e2d45 !important;
+  box-shadow: none !important;
+  letter-spacing: 0.01em !important;
+}
+div[data-testid="column"] .stButton > button:hover {
+  border-color: #7c3aed !important;
+  color: #a78bfa !important;
+  background: rgba(124,58,237,0.12) !important;
+  transform: none !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
+MODELS = ["Random Forest", "Gradient Boosting", "Extra Trees", "Ridge Regression", "Lasso Regression"]
+MODEL_ICONS = {
+    "Random Forest":     "🌲",
+    "Gradient Boosting": "⚡",
+    "Extra Trees":       "🌳",
+    "Ridge Regression":  "📐",
+    "Lasso Regression":  "🔗",
+}
+MODEL_DESCRIPTIONS = {
+    "Random Forest":     "Ensemble · Feature importances · Best accuracy",
+    "Gradient Boosting": "Boosted ensemble · Handles nonlinearity well",
+    "Extra Trees":       "Faster than RF · Low variance",
+    "Ridge Regression":  "Linear · L2 regularisation · Fast",
+    "Lasso Regression":  "Linear · L1 · Sparse features",
+}
+
+if 'navbar_model' not in st.session_state:
+    st.session_state['navbar_model'] = model_choice
+
+st.markdown('<div style="margin-bottom:0.5rem;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:#475569;">🎛️ Select Model</div>', unsafe_allow_html=True)
+
+nav_cols = st.columns(len(MODELS))
+for i, m in enumerate(MODELS):
+    with nav_cols[i]:
+        if st.button(f"{MODEL_ICONS[m]} {m}", key=f"nav_model_{i}",
+                     use_container_width=True, help=MODEL_DESCRIPTIONS[m]):
+            st.session_state['navbar_model'] = m
+            st.rerun()
+
+active_model = st.session_state['navbar_model']
+
+# Highlight active button via JS
+active_idx = MODELS.index(active_model)
+st.markdown(f"""
+<script>
+(function() {{
+  const attempt = () => {{
+    const btns = document.querySelectorAll('[data-testid="column"] .stButton > button');
+    if (btns.length < {len(MODELS)}) {{ setTimeout(attempt, 150); return; }}
+    btns.forEach((b, i) => {{
+      b.style.background = '';
+      b.style.color = '';
+      b.style.borderColor = '';
+      b.style.boxShadow = '';
+    }});
+    const active = btns[{active_idx}];
+    if (active) {{
+      active.style.background = 'linear-gradient(135deg,#7c3aed,#6d28d9)';
+      active.style.color = '#fff';
+      active.style.borderColor = '#7c3aed';
+      active.style.boxShadow = '0 0 14px rgba(124,58,237,0.45)';
+    }}
+  }};
+  attempt();
+}})();
+</script>
+""", unsafe_allow_html=True)
+
+# Active model info bar
+st.markdown(f"""
+<div style="display:flex;align-items:center;gap:0.75rem;
+  background:#1c2537;border:1px solid rgba(124,58,237,0.3);
+  border-radius:12px;padding:0.75rem 1.2rem;margin:0.75rem 0 1.5rem 0;">
+  <span style="font-size:1.4rem;">{MODEL_ICONS[active_model]}</span>
+  <div>
+    <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;
+      color:#a78bfa;font-size:0.9rem;">{active_model}</div>
+    <div style="font-size:0.78rem;color:#64748b;margin-top:0.1rem;">
+      {MODEL_DESCRIPTIONS[active_model]}
+    </div>
+  </div>
+  <div style="margin-left:auto;">
+    <span style="background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);
+      border-radius:999px;padding:3px 12px;font-size:0.72rem;color:#a78bfa;">● Active</span>
+  </div>
+</div>
+<div style="height:1px;background:linear-gradient(90deg,transparent,#1e2d45,transparent);margin-bottom:1.5rem;"></div>
+""", unsafe_allow_html=True)
+
+# Override model_choice with navbar selection
+model_choice = active_model
+
+# ──────────────────────────────────────────────
 # FILE UPLOAD
 # ──────────────────────────────────────────────
 st.markdown('<div class="section-header"><span class="step-num">1</span> Upload Dataset</div>', unsafe_allow_html=True)
