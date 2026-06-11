@@ -141,57 +141,26 @@ html,body,[class*="css"]{font-family:var(--fb)!important;background:var(--cr)!im
 .es-sub{font-size:0.83rem;color:var(--ink-mu);max-width:360px;line-height:1.6;}
 .es-tip{background:var(--si-p);border:1px solid var(--bdr-w);border-radius:var(--r-sm);padding:0.5rem 0.9rem;font-size:0.78rem;color:var(--si);}
 
-/* ── NAVBAR ── */
-.navbar{
-  display:flex;align-items:center;gap:0;
-  background:var(--glass);
-  border:1px solid var(--bdr);
-  border-radius:var(--r-lg);
-  padding:0.5rem 0.75rem;
-  margin-bottom:1.2rem;
-  box-shadow:var(--sh);
-  backdrop-filter:blur(12px);
-  flex-wrap:wrap;
-  gap:0.4rem;
-  position:relative;
+
+/* ── NAVBAR BUTTONS ── */
+/* Active model button = filled sienna pill */
+div[data-testid="stHorizontalBlock"] div[data-testid="stButton"] button[kind="primary"]{
+  background:var(--si)!important;color:#fff!important;border:none!important;
+  border-radius:999px!important;font-size:0.78rem!important;font-weight:600!important;
+  padding:0.35rem 0.75rem!important;box-shadow:0 2px 10px rgba(139,74,43,0.3)!important;
+  transition:all 0.18s!important;
 }
-.navbar-brand{
-  font-family:var(--fd);font-size:1.05rem;font-weight:700;color:var(--si);
-  display:flex;align-items:center;gap:0.45rem;
-  padding-right:0.9rem;
-  border-right:1px solid var(--bdr);
-  margin-right:0.5rem;
-  white-space:nowrap;
+/* Inactive model buttons = ghost pill */
+div[data-testid="stHorizontalBlock"] div[data-testid="stButton"] button[kind="secondary"]{
+  background:transparent!important;color:var(--ink-mu)!important;
+  border:1px solid var(--bdr)!important;border-radius:999px!important;
+  font-size:0.78rem!important;font-weight:400!important;
+  padding:0.35rem 0.75rem!important;box-shadow:none!important;
+  transition:all 0.18s!important;
 }
-.nm-btn{
-  display:inline-flex;align-items:center;gap:0.45rem;
-  padding:0.38rem 0.85rem;
-  border-radius:999px;
-  font-size:0.78rem;font-weight:500;
-  border:1px solid transparent;
-  background:transparent;
-  color:var(--ink-mu);
-  cursor:pointer;
-  transition:all 0.18s;
-  font-family:var(--fb);
-  white-space:nowrap;
-}
-.nm-btn:hover{background:var(--cr-dd);border-color:var(--bdr);color:var(--ink);}
-.nm-btn.active{
-  background:var(--si)!important;
-  color:#fff!important;
-  border-color:var(--si)!important;
-  box-shadow:0 2px 10px rgba(139,74,43,0.3);
-}
-.nm-divider{width:1px;height:22px;background:var(--bdr);margin:0 0.25rem;flex-shrink:0;}
-.nm-right{margin-left:auto;display:flex;align-items:center;gap:0.5rem;}
-.nm-status{
-  display:flex;align-items:center;gap:0.4rem;
-  font-size:0.72rem;color:var(--ink-mu);
-  padding:0.3rem 0.65rem;
-  background:var(--cr-d);
-  border:1px solid var(--bdr);
-  border-radius:999px;
+div[data-testid="stHorizontalBlock"] div[data-testid="stButton"] button[kind="secondary"]:hover{
+  background:var(--cr-dd)!important;color:var(--ink)!important;
+  border-color:var(--si-l)!important;
 }
 </style>
 
@@ -262,31 +231,29 @@ if "show_nav" not in st.session_state:
     st.session_state.show_nav=True
 
 # ── NAVBAR ────────────────────────────────────
-am=st.session_state.active_model
+am = st.session_state.active_model
 
-nav_html=f"""
-<div class="navbar hc">
-  <div class="navbar-brand">
-    <span class="pdt" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--si);flex-shrink:0;"></span>
-    SalaryIQ
-  </div>
-"""
-for name,icon,desc in MODELS:
-    active_cls="active" if name==am else ""
-    # No onclick — Streamlit's iframe blocks fixed/sessionStorage JS.
-    # Model selection is handled solely by the sidebar selectbox (source of truth).
-    nav_html+=f'<div class="nm-btn {active_cls}" title="{desc} · Change via sidebar">{icon} {name}</div>'
+# Brand + model buttons as real Streamlit columns
+st.html('''<div style="display:flex;align-items:center;gap:0.6rem;
+  background:rgba(245,240,232,0.88);border:1px solid rgba(90,70,50,0.14);
+  border-radius:14px;padding:0.45rem 0.9rem;margin-bottom:0.9rem;
+  box-shadow:0 2px 12px rgba(44,36,22,0.07);flex-wrap:wrap;">
+  <span style="font-family:'Playfair Display',Georgia,serif;font-size:1rem;font-weight:700;
+    color:#8B4A2B;padding-right:0.85rem;border-right:1px solid rgba(90,70,50,0.14);
+    margin-right:0.3rem;white-space:nowrap;">💡 SalaryIQ</span>
+  <span style="font-size:0.72rem;color:#8A7D6A;">Select model →</span>
+</div>''')
 
-nav_html+=f"""
-  <div class="nm-right">
-    <div class="nm-status">
-      <span class="pdt" style="display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--sage);"></span>
-      Active: {MODEL_ICONS[am]} {am}
-    </div>
-  </div>
-</div>
-"""
-st.html(nav_html)
+_cols = st.columns(len(MODELS))
+for _col, (name, icon, desc) in zip(_cols, MODELS):
+    with _col:
+        _is_active = (name == am)
+        _label = f"{icon} {name}" if not _is_active else f"✓ {icon} {name}"
+        if st.button(_label, key=f"nav_{name}", use_container_width=True,
+                     help=desc, type="primary" if _is_active else "secondary"):
+            st.session_state.active_model = name
+            st.rerun()
+
 
 # ── SIDEBAR ───────────────────────────────────
 with st.sidebar:
