@@ -24,18 +24,16 @@ st.set_page_config(
 )
 
 st.markdown("""
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
+
 #MainMenu{visibility:hidden;}header{visibility:hidden;}footer{visibility:hidden;}
 [data-testid="stToolbar"]{display:none!important;}
 [data-testid="stDecoration"]{display:none!important;}
 [data-testid="stStatusWidget"]{display:none!important;}
-</style>""", unsafe_allow_html=True)
 
-# ── FULL THEME ───────────────────────────────
-st.markdown("""
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
+
 :root{
   --cr:#F5F0E8;--cr-d:#EDE6D6;--cr-dd:#E3D9C6;
   --parch:#D4C9B0;--ink:#2C2416;--ink-m:#5A5040;
