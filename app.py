@@ -102,7 +102,6 @@ html,body,[class*="css"]{{font-family:var(--fb)!important;background:var(--cr)!i
 .stApp{{background:var(--cr)!important;}}
 .main .block-container{{padding-top:0.4rem!important;max-width:1380px;padding-left:1.5rem!important;padding-right:1.5rem!important;}}
 
-/* INPUTS */
 .stSelectbox>div>div{{background:var(--cr-d)!important;border:1px solid var(--bdr)!important;color:var(--ink)!important;border-radius:var(--r-sm)!important;}}
 .stTextInput input,.stNumberInput input{{background:var(--cr-d)!important;border:1px solid var(--bdr)!important;color:var(--ink)!important;border-radius:var(--r-sm)!important;}}
 .stSlider>div>div>div{{background:var(--si)!important;}}
@@ -111,51 +110,41 @@ html,body,[class*="css"]{{font-family:var(--fb)!important;background:var(--cr)!i
 .stFileUploader{{background:var(--cr-d)!important;border:1.5px dashed var(--parch)!important;border-radius:var(--r-md)!important;}}
 [data-testid="stFileUploader"]>div{{background:var(--cr-d)!important;}}
 
-/* TABS */
 .stTabs [data-baseweb="tab-list"]{{background:var(--cr-d);border-radius:var(--r-md);padding:4px;gap:3px;border:1px solid var(--bdr);}}
 .stTabs [data-baseweb="tab"]{{border-radius:var(--r-sm)!important;color:var(--ink-mu)!important;font-weight:500!important;font-size:0.82rem!important;font-family:var(--fb)!important;transition:all 0.2s!important;padding:0.45rem 0.9rem!important;}}
 .stTabs [aria-selected="true"]{{background:var(--si)!important;color:#fff!important;box-shadow:0 2px 12px rgba(139,74,43,0.3)!important;}}
 
-/* BUTTONS */
 .stButton>button{{background:var(--si)!important;color:#fff!important;border:none!important;border-radius:var(--r-sm)!important;padding:0.6rem 1.8rem!important;font-weight:600!important;font-size:0.87rem!important;font-family:var(--fb)!important;letter-spacing:0.02em!important;transition:all 0.25s!important;box-shadow:0 3px 14px rgba(139,74,43,0.28)!important;}}
 .stButton>button:hover{{background:#7A3D22!important;transform:translateY(-2px)!important;box-shadow:0 6px 22px rgba(139,74,43,0.38)!important;}}
 
-/* METRICS */
 [data-testid="stMetric"]{{background:var(--glass);border:1px solid var(--bdr);border-radius:var(--r-md);padding:1rem 1.2rem;}}
 [data-testid="stMetricValue"]{{color:var(--ink)!important;font-family:var(--fd)!important;font-size:1.55rem!important;}}
 [data-testid="stMetricLabel"]{{color:var(--ink-mu)!important;font-size:0.68rem!important;text-transform:uppercase!important;letter-spacing:0.1em!important;}}
 [data-testid="stMetricDelta"]{{font-size:0.72rem!important;}}
 
-/* EXPANDER */
 .streamlit-expanderHeader{{background:var(--cr-d)!important;border-radius:var(--r-sm)!important;color:var(--si)!important;font-size:0.88rem!important;}}
 .streamlit-expanderContent{{background:var(--cr)!important;border:1px solid var(--bdr)!important;border-radius:0 0 var(--r-sm) var(--r-sm)!important;}}
 
-/* DATAFRAME */
 [data-testid="stDataFrame"]{{border-radius:var(--r-md)!important;overflow:hidden;border:1px solid var(--bdr)!important;}}
 .dvn-scroller{{background:var(--cr-d)!important;}}
 
-/* SCROLLBAR */
 ::-webkit-scrollbar{{width:4px;height:4px;}}
 ::-webkit-scrollbar-track{{background:var(--cr-d);}}
 ::-webkit-scrollbar-thumb{{background:var(--parch);border-radius:999px;}}
 ::-webkit-scrollbar-thumb:hover{{background:var(--si-l);}}
 
-/* GLASS CARD */
 .gc{{background:var(--glass);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:1.4rem 1.7rem;box-shadow:var(--sh);transition:box-shadow 0.25s,transform 0.25s;}}
 .gc:hover{{box-shadow:var(--sh-l);transform:translateY(-2px);}}
 .gc-sm{{background:var(--glass);border:1px solid var(--bdr);border-radius:var(--r-md);padding:0.9rem 1.1rem;box-shadow:var(--sh);}}
 
-/* TAGS */
 .tag{{display:inline-flex;align-items:center;gap:0.3rem;background:var(--cr-d);border:1px solid var(--bdr);border-radius:999px;padding:0.2rem 0.7rem;font-size:0.71rem;color:var(--ink-mu);font-family:var(--fb);}}
 .tag-s{{border-color:var(--bdr-w);color:var(--si);background:var(--si-p);}}
 .tag-g{{border-color:rgba(92,122,94,0.35);color:var(--sage);background:var(--sage-p);}}
 .tag-a{{border-color:rgba(184,115,51,0.35);color:var(--amb);background:var(--amb-p);}}
 
-/* SECTION HEADER */
 .sh{{display:flex;align-items:center;gap:0.7rem;font-family:var(--fd);font-size:1.1rem;font-weight:600;color:var(--si);border-bottom:1px solid var(--bdr);padding-bottom:0.5rem;margin:1.8rem 0 1rem 0;}}
 .sn{{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:var(--si);color:#fff;font-family:var(--fb);font-weight:700;font-size:0.76rem;flex-shrink:0;}}
 
-/* INSIGHT BADGE */
 .ib{{display:flex;align-items:flex-start;gap:0.8rem;background:var(--glass);border:1px solid var(--bdr);border-radius:var(--r-md);padding:0.9rem 1.1rem;margin-bottom:0.6rem;transition:border-color 0.2s,box-shadow 0.2s;}}
 .ib:hover{{border-color:var(--si-l);box-shadow:var(--sh);}}
 .ib-icon{{font-size:1.15rem;flex-shrink:0;margin-top:0.05rem;}}
@@ -164,29 +153,22 @@ html,body,[class*="css"]{{font-family:var(--fb)!important;background:var(--cr)!i
 
 .sr{{height:1px;background:linear-gradient(90deg,transparent,var(--parch),transparent);margin:1.8rem 0;}}
 
-/* PREDICTION ANIM */
 @keyframes pR{{from{{opacity:0;transform:scale(0.94) translateY(14px);}}to{{opacity:1;transform:scale(1) translateY(0);}}}}
 .pr{{animation:pR 0.5s cubic-bezier(0.22,1,0.36,1) forwards;}}
 
-/* HERO FADE */
 @keyframes hfu{{from{{opacity:0;transform:translateY(14px);}}to{{opacity:1;transform:translateY(0);}}}}
 .hc{{animation:hfu 0.65s cubic-bezier(0.22,1,0.36,1) both;}}
 .hc:nth-child(2){{animation-delay:0.08s;}}.hc:nth-child(3){{animation-delay:0.16s;}}.hc:nth-child(4){{animation-delay:0.24s;}}
 
-/* EMPTY STATE */
 .es{{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:2.5rem 2rem;background:var(--glass);border:1.5px dashed var(--parch);border-radius:var(--r-lg);gap:0.65rem;}}
 .es-icon{{font-size:2.3rem;margin-bottom:0.3rem;opacity:0.55;}}
 .es-title{{font-family:var(--fd);font-size:1.1rem;color:var(--ink-m);font-weight:600;}}
 .es-sub{{font-size:0.81rem;color:var(--ink-mu);max-width:340px;line-height:1.6;}}
 .es-tip{{background:var(--si-p);border:1px solid var(--bdr-w);border-radius:var(--r-sm);padding:0.45rem 0.85rem;font-size:0.76rem;color:var(--si);}}
 
-/* PULSE DOT */
 @keyframes pd{{0%,100%{{opacity:1;transform:scale(1);}}50%{{opacity:0.5;transform:scale(1.5);}}}}
 .pdt{{animation:pd 2.5s ease-in-out infinite;}}
 
-/* ══════════════════════════════════
-   HAMBURGER NAVBAR
-══════════════════════════════════ */
 .nav-wrap{{
   position:sticky;top:0;z-index:9999;
   display:flex;align-items:center;justify-content:space-between;
@@ -202,85 +184,11 @@ html,body,[class*="css"]{{font-family:var(--fb)!important;background:var(--cr)!i
 .nav-brand-text{{font-family:var(--fd);font-size:1.08rem;font-weight:700;color:var(--si);letter-spacing:-0.01em;}}
 .nav-brand-dot{{width:8px;height:8px;border-radius:50%;background:var(--si);flex-shrink:0;}}
 .nav-right{{display:flex;align-items:center;gap:0.6rem;}}
-.nav-model-pill{{display:inline-flex;align-items:center;gap:0.4rem;background:var(--si-p);border:1px solid var(--bdr-w);border-radius:999px;padding:0.28rem 0.85rem;font-size:0.76rem;color:var(--si);font-weight:600;cursor:pointer;transition:all 0.2s;}}
-.nav-model-pill:hover{{background:var(--si);color:#fff;}}
-.nav-theme-btn{{width:32px;height:32px;border-radius:50%;background:var(--cr-dd);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:0.9rem;cursor:pointer;transition:all 0.2s;}}
-.nav-theme-btn:hover{{background:var(--si-p);border-color:var(--bdr-w);}}
+.nav-model-pill{{display:inline-flex;align-items:center;gap:0.4rem;background:var(--si-p);border:1px solid var(--bdr-w);border-radius:999px;padding:0.28rem 0.85rem;font-size:0.76rem;color:var(--si);font-weight:600;}}
 
-/* HAMBURGER DRAWER */
-.hb-btn{{
-  display:flex;flex-direction:column;justify-content:center;align-items:center;
-  width:36px;height:36px;border-radius:var(--r-sm);
-  background:var(--cr-dd);border:1px solid var(--bdr);
-  cursor:pointer;gap:4.5px;transition:all 0.2s;flex-shrink:0;
-}}
-.hb-btn:hover{{background:var(--si-p);border-color:var(--bdr-w);}}
-.hb-line{{width:16px;height:1.5px;background:var(--ink-m);border-radius:999px;transition:all 0.22s;}}
-.hb-open .hb-line:nth-child(1){{transform:translateY(6px) rotate(45deg);}}
-.hb-open .hb-line:nth-child(2){{opacity:0;transform:scaleX(0);}}
-.hb-open .hb-line:nth-child(3){{transform:translateY(-6px) rotate(-45deg);}}
-
-.drawer{{
-  position:fixed;top:0;right:0;width:300px;height:100vh;
-  background:var(--cr-d);border-left:1px solid var(--bdr);
-  z-index:99999;padding:1.5rem;
-  box-shadow:-8px 0 40px rgba(44,36,22,{"0.45" if dm else "0.18"});
-  overflow-y:auto;
-  transform:translateX(100%);transition:transform 0.3s cubic-bezier(0.22,1,0.36,1);
-}}
-.drawer.open{{transform:translateX(0);}}
-.drawer-overlay{{
-  position:fixed;inset:0;background:rgba(0,0,0,{"0.55" if dm else "0.35"});
-  z-index:99998;opacity:0;pointer-events:none;
-  transition:opacity 0.3s;
-}}
-.drawer-overlay.open{{opacity:1;pointer-events:all;}}
-.drawer-header{{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem;padding-bottom:1rem;border-bottom:1px solid var(--bdr);}}
-.drawer-title{{font-family:var(--fd);font-size:1rem;font-weight:700;color:var(--si);}}
-.drawer-close{{width:28px;height:28px;border-radius:50%;background:var(--cr-dd);border:1px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:0.85rem;cursor:pointer;color:var(--ink-mu);}}
-.drawer-section{{margin-bottom:1.2rem;}}
-.drawer-section-label{{font-size:0.68rem;color:var(--ink-mu);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.55rem;}}
-.model-option{{
-  display:flex;align-items:center;gap:0.65rem;
-  padding:0.7rem 0.9rem;border-radius:var(--r-sm);
-  border:1px solid var(--bdr);background:var(--glass);
-  margin-bottom:0.4rem;cursor:pointer;transition:all 0.18s;
-}}
-.model-option:hover{{border-color:var(--si-l);background:var(--si-p);transform:translateX(3px);}}
-.model-option.active{{border-color:var(--bdr-w);background:var(--si-p);}}
-.model-icon{{font-size:1.1rem;flex-shrink:0;}}
-.model-name{{font-size:0.85rem;font-weight:600;color:var(--ink);line-height:1.2;}}
-.model-desc{{font-size:0.71rem;color:var(--ink-mu);}}
-.model-check{{margin-left:auto;color:var(--si);font-size:0.85rem;font-weight:700;}}
-
-/* CONFIG ITEM */
-.cfg-row{{display:flex;align-items:center;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--bdr);}}
-.cfg-label{{font-size:0.82rem;color:var(--ink-m);}}
-.cfg-val{{font-family:var(--fm);font-size:0.78rem;color:var(--si);font-weight:500;}}
-
-/* PROGRESS BAR */
 .pbar-wrap{{background:var(--cr-dd);border-radius:999px;height:5px;overflow:hidden;}}
 .pbar-fill{{height:5px;border-radius:999px;background:linear-gradient(90deg,var(--si),var(--si-l));transition:width 0.6s ease;}}
 
-/* SCORE CARD */
-.score-card{{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:0.8rem;margin:1rem 0;
-}}
-.score-item{{
-  background:var(--glass);border:1px solid var(--bdr);border-radius:var(--r-md);
-  padding:1rem;text-align:center;
-}}
-.score-val{{font-family:var(--fd);font-size:1.5rem;font-weight:700;color:var(--si);}}
-.score-label{{font-size:0.68rem;color:var(--ink-mu);text-transform:uppercase;letter-spacing:0.09em;margin-top:0.25rem;}}
-
-/* GROWTH TABLE */
-.growth-row{{display:flex;align-items:center;gap:1rem;padding:0.6rem 0;border-bottom:1px solid var(--bdr);}}
-.growth-year{{font-family:var(--fm);font-size:0.8rem;color:var(--ink-mu);width:60px;flex-shrink:0;}}
-.growth-bar{{flex:1;height:8px;background:var(--cr-dd);border-radius:999px;overflow:hidden;}}
-.growth-fill{{height:8px;border-radius:999px;background:linear-gradient(90deg,var(--sage),#8BB890);}}
-.growth-val{{font-weight:600;font-size:0.82rem;color:var(--ink);width:80px;text-align:right;flex-shrink:0;}}
-
-/* HEALTH SCORE */
 .health-ring{{
   width:90px;height:90px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
@@ -288,20 +196,17 @@ html,body,[class*="css"]{{font-family:var(--fb)!important;background:var(--cr)!i
   flex-shrink:0;
 }}
 
-/* NOTIFICATION TOAST */
-@keyframes toastIn{{from{{opacity:0;transform:translateY(20px);}}to{{opacity:1;transform:translateY(0);}}}}
-.toast{{
-  position:fixed;bottom:1.5rem;right:1.5rem;
-  background:var(--si);color:#fff;
-  padding:0.65rem 1.2rem;border-radius:var(--r-md);
-  font-size:0.83rem;font-weight:500;
-  box-shadow:0 4px 20px rgba(139,74,43,0.4);
-  animation:toastIn 0.35s ease forwards;
-  z-index:99999;
+/* Settings panel */
+.settings-panel{{
+  background:var(--glass);
+  border:1px solid var(--bdr-w);
+  border-radius:var(--r-lg);
+  padding:1.2rem 1.5rem;
+  margin-bottom:1rem;
+  box-shadow:var(--sh-l);
 }}
 </style>
 
-<!-- BACKGROUND CANVAS -->
 <canvas id="bg-canvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;opacity:{"0.2" if dm else "0.32"};z-index:0;"></canvas>
 <script>
 (function(){{
@@ -330,7 +235,6 @@ html,body,[class*="css"]{{font-family:var(--fb)!important;background:var(--cr)!i
 </script>
 """)
 
-
 # ── MODEL REGISTRY ────────────────────────────
 MODELS = [
     ("Random Forest",     "🌲", "Ensemble · Best accuracy"),
@@ -343,25 +247,8 @@ MODEL_NAMES = [m[0] for m in MODELS]
 MODEL_ICONS = {m[0]: m[1] for m in MODELS}
 MODEL_DESC  = {m[0]: m[2] for m in MODELS}
 
-# ── HAMBURGER NAV ────────────────────────────
+# ── NAV BAR (display only) ────────────────────
 am = st.session_state.active_model
-
-# Build drawer HTML (pure display — interaction via Streamlit buttons below)
-drawer_items_html = ""
-for name, icon, desc in MODELS:
-    active_cls = "active" if name == am else ""
-    check = '<span class="model-check">✓</span>' if name == am else ""
-    drawer_items_html += f"""
-    <div class="model-option {active_cls}" id="opt-{name.replace(' ','-')}">
-      <span class="model-icon">{icon}</span>
-      <div><div class="model-name">{name}</div><div class="model-desc">{desc}</div></div>
-      {check}
-    </div>"""
-
-dm_icon = "☀️" if dm else "🌙"
-nav_open = st.session_state.nav_open
-drawer_cls = "open" if nav_open else ""
-
 st.html(f"""
 <div class="nav-wrap">
   <div class="nav-brand">
@@ -370,104 +257,77 @@ st.html(f"""
     <span style="font-size:0.7rem;color:var(--ink-mu);margin-left:0.4rem;border-left:1px solid var(--bdr);padding-left:0.6rem;">ML Salary Intelligence</span>
   </div>
   <div class="nav-right">
-    <span class="nav-model-pill">
-      {MODEL_ICONS[am]} {am}
-    </span>
+    <span class="nav-model-pill">{MODEL_ICONS[am]} {am}</span>
     <span class="tag tag-s" style="font-size:0.68rem;">{"🌙 Dark" if dm else "☀️ Light"}</span>
   </div>
 </div>
-
-<div class="drawer-overlay {drawer_cls}" id="drawer-overlay" onclick="closeDrawer()"></div>
-<div class="drawer {drawer_cls}" id="main-drawer">
-  <div class="drawer-header">
-    <span class="drawer-title">⚙️ Configuration</span>
-    <span class="drawer-close" onclick="closeDrawer()">✕</span>
-  </div>
-
-  <div class="drawer-section">
-    <div class="drawer-section-label">Select Algorithm</div>
-    {drawer_items_html}
-  </div>
-
-  <div class="drawer-section" style="margin-top:1.5rem;">
-    <div class="drawer-section-label">Dataset Info</div>
-    <div class="gc-sm">
-      <div style="font-size:0.78rem;color:var(--ink-mu);line-height:1.9;">
-        📁 adult.csv · UCI Census<br>
-        👥 ~48,000 records<br>
-        📊 14 features
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-function closeDrawer(){{
-  document.getElementById('main-drawer').classList.remove('open');
-  document.getElementById('drawer-overlay').classList.remove('open');
-}}
-</script>
 """)
 
-# Hamburger + theme buttons as real Streamlit widgets
-top_cols = st.columns([0.04, 0.04, 0.92])
-with top_cols[0]:
-    if st.button("☰", help="Open model selector", key="hb_btn"):
+# ── CONFIG DEFAULTS (always set before any widget reads them) ─────────────
+if 'cfg_test_size' not in st.session_state:
+    st.session_state['cfg_test_size']  = 0.20
+    st.session_state['cfg_seed']       = 42
+    st.session_state['cfg_confidence'] = True
+    st.session_state['cfg_comparison'] = False
+    st.session_state['cfg_feat_imp']   = True
+    st.session_state['cfg_cv']         = False
+    st.session_state['cfg_salary_sim'] = True
+
+# ── HAMBURGER + THEME BUTTONS ─────────────────
+btn_col1, btn_col2, _ = st.columns([0.04, 0.04, 0.92])
+with btn_col1:
+    if st.button("☰", help="Settings", key="hb_btn"):
         st.session_state.nav_open = not st.session_state.nav_open
         st.rerun()
-with top_cols[1]:
+with btn_col2:
     dm_lbl = "☀️" if dm else "🌙"
-    if st.button(dm_lbl, help="Toggle dark/light mode", key="theme_btn"):
+    if st.button(dm_lbl, help="Toggle theme", key="theme_btn"):
         st.session_state.dark_mode = not st.session_state.dark_mode
         st.rerun()
 
-# Model selector buttons inside an expander (opens when hamburger clicked)
-if nav_open:
-    with st.expander("🎛️ Select Model & Settings", expanded=True):
-        st.markdown("**Choose Algorithm**")
-        mcols = st.columns(len(MODELS))
-        for mc, (name, icon, desc) in zip(mcols, MODELS):
-            with mc:
-                is_active = name == am
-                lbl = f"{'✓ ' if is_active else ''}{icon} {name.split()[0]}"
-                if st.button(lbl, key=f"nav_m_{name}", use_container_width=True,
-                             type="primary" if is_active else "secondary"):
-                    st.session_state.active_model = name
-                    st.session_state.nav_open = False
-                    st.rerun()
+# ── SETTINGS PANEL — only renders when nav_open=True ─────────────────────
+if st.session_state.nav_open:
+    st.html('<div class="settings-panel">')
+    close_c, title_c = st.columns([0.12, 0.88])
+    with close_c:
+        if st.button("✕ Close", key="nav_close", use_container_width=True):
+            st.session_state.nav_open = False
+            st.rerun()
+    with title_c:
+        st.markdown("### ⚙️ Settings")
 
-        st.html('<div class="sr" style="margin:0.8rem 0;"></div>')
-        col_s1, col_s2 = st.columns(2)
-        with col_s1:
-            test_size_nav = st.slider("Test split (%)", 10, 40, 20, step=5, key="ts_nav") / 100
-            random_seed_nav = st.number_input("Random seed", value=42, step=1, key="rs_nav")
-        with col_s2:
-            show_confidence   = st.checkbox("Confidence intervals", value=True, key="ci_nav")
-            enable_comparison = st.checkbox("Model comparison",      value=False, key="mc_nav")
-            show_feat_imp     = st.checkbox("Feature importance",    value=True,  key="fi_nav")
-            show_cv           = st.checkbox("5-fold cross-val",      value=False, key="cv_nav")
-            show_salary_sim   = st.checkbox("Salary simulator",      value=True,  key="ss_nav")
+    st.markdown("**Choose Algorithm**")
+    mcols = st.columns(len(MODELS))
+    for mc, (name, icon, desc) in zip(mcols, MODELS):
+        with mc:
+            is_active = name == st.session_state.active_model
+            lbl = f"{'✓ ' if is_active else ''}{icon} {name.split()[0]}"
+            if st.button(lbl, key=f"nav_m_{name}", use_container_width=True,
+                         type="primary" if is_active else "secondary"):
+                st.session_state.active_model = name
+                st.session_state.nav_open = False
+                st.rerun()
 
-        # Store in session
-        st.session_state['cfg_test_size']        = test_size_nav
-        st.session_state['cfg_seed']             = random_seed_nav
-        st.session_state['cfg_confidence']       = show_confidence
-        st.session_state['cfg_comparison']       = enable_comparison
-        st.session_state['cfg_feat_imp']         = show_feat_imp
-        st.session_state['cfg_cv']               = show_cv
-        st.session_state['cfg_salary_sim']       = show_salary_sim
-else:
-    # Defaults if never opened
-    if 'cfg_test_size' not in st.session_state:
-        st.session_state['cfg_test_size']  = 0.20
-        st.session_state['cfg_seed']       = 42
-        st.session_state['cfg_confidence'] = True
-        st.session_state['cfg_comparison'] = False
-        st.session_state['cfg_feat_imp']   = True
-        st.session_state['cfg_cv']         = False
-        st.session_state['cfg_salary_sim'] = True
+    st.html('<div class="sr" style="margin:0.6rem 0;"></div>')
+    col_s1, col_s2 = st.columns(2)
+    with col_s1:
+        st.session_state['cfg_test_size'] = (
+            st.slider("Test split (%)", 10, 40,
+                      int(st.session_state['cfg_test_size'] * 100),
+                      step=5, key="ts_nav") / 100
+        )
+        st.session_state['cfg_seed'] = int(st.number_input(
+            "Random seed", value=int(st.session_state['cfg_seed']), step=1, key="rs_nav"
+        ))
+    with col_s2:
+        st.session_state['cfg_confidence'] = st.checkbox("Confidence intervals", value=st.session_state['cfg_confidence'], key="ci_nav")
+        st.session_state['cfg_comparison'] = st.checkbox("Model comparison",     value=st.session_state['cfg_comparison'], key="mc_nav")
+        st.session_state['cfg_feat_imp']   = st.checkbox("Feature importance",   value=st.session_state['cfg_feat_imp'],   key="fi_nav")
+        st.session_state['cfg_cv']         = st.checkbox("5-fold cross-val",     value=st.session_state['cfg_cv'],         key="cv_nav")
+        st.session_state['cfg_salary_sim'] = st.checkbox("Salary simulator",     value=st.session_state['cfg_salary_sim'], key="ss_nav")
+    st.html('</div>')
 
-# Pull config
+# ── Pull config values ────────────────────────
 model_choice      = st.session_state.active_model
 test_size         = st.session_state['cfg_test_size']
 random_seed       = st.session_state['cfg_seed']
@@ -504,18 +364,26 @@ def load_data(uploaded_file):
         st.error(f"Error loading file: {e}")
         return None
     data = data.copy()
+
+    # Strip whitespace from string columns
     for col in data.select_dtypes(include='object').columns:
         data[col] = data[col].str.strip()
+
     data.replace('?', 'Others', inplace=True)
     if 'native-country' in data.columns:
         data['native-country'].replace('?', 'United-States', inplace=True)
-    for v in ['Without-pay', 'Never-worked']:
-        if 'workclass' in data.columns:
+
+    # Remove rare workclass values if column exists
+    if 'workclass' in data.columns:
+        for v in ['Without-pay', 'Never-worked']:
             data = data[data['workclass'] != v]
-    for v in ['1st-4th', '5th-6th', 'Preschool']:
-        if 'education' in data.columns:
+
+    # Remove rare education values if column exists
+    if 'education' in data.columns:
+        for v in ['1st-4th', '5th-6th', 'Preschool']:
             data = data[data['education'] != v]
 
+    # Cap outliers
     def cap(s):
         Q1, Q3 = s.quantile(0.25), s.quantile(0.75)
         IQR = Q3 - Q1
@@ -524,12 +392,21 @@ def load_data(uploaded_file):
     for col in ['age', 'fnlwgt', 'capital-gain', 'capital-loss', 'hours-per-week']:
         if col in data.columns:
             data[col] = cap(data[col])
+
+    # Drop redundant education string column (keep educational-num)
     if 'education' in data.columns:
         data.drop(columns=['education'], inplace=True)
+
+    # ── FIX: Handle income column gracefully ─────────────────────────────
+    # income_numeric is created ONLY if an income column exists
     if 'income' in data.columns:
         data['income_clean'] = data['income'].str.strip().str.replace('.', '', regex=False)
-        data['income_numeric'] = data['income_clean'].apply(lambda x: 25000 if x == '<=50K' else 75000)
+        data['income_numeric'] = data['income_clean'].apply(
+            lambda x: 25000 if x == '<=50K' else 75000
+        )
         data.drop(columns=['income_clean'], inplace=True)
+    # If no income column → income_numeric stays absent; app handles this gracefully
+
     return data
 
 
@@ -569,7 +446,6 @@ def salary_tier(v):
 
 
 def data_health_score(df):
-    """Compute a 0-100 data health score."""
     score = 100
     missing_pct = df.isnull().sum().sum() / (df.shape[0] * df.shape[1]) * 100
     score -= min(30, missing_pct * 3)
@@ -578,8 +454,8 @@ def data_health_score(df):
         imbalance = abs(vc.iloc[0] - 0.5) * 100
         score -= min(20, imbalance * 0.4)
     n = df.shape[0]
-    if n < 1000:   score -= 20
-    elif n < 5000: score -= 10
+    if n < 1000:    score -= 20
+    elif n < 5000:  score -= 10
     elif n > 40000: score += 5
     score = max(0, min(100, score))
     label = "Excellent" if score >= 85 else ("Good" if score >= 65 else ("Fair" if score >= 45 else "Poor"))
@@ -588,7 +464,6 @@ def data_health_score(df):
 
 
 def salary_growth_projection(base_salary, years=10, growth_rate=0.04):
-    """Project salary growth over N years."""
     return [base_salary * ((1 + growth_rate) ** y) for y in range(years + 1)]
 
 
@@ -599,10 +474,10 @@ st.html(f"""
   <div style="display:flex;align-items:baseline;gap:0.65rem;margin-bottom:0.45rem;" class="hc">
     <span style="font-family:'Playfair Display',serif;font-size:2.1rem;font-weight:700;color:var(--si);letter-spacing:-0.01em;line-height:1;">SalaryIQ</span>
     <span style="font-size:1.2rem;opacity:0.6;">💡</span>
-    <span class="tag tag-s" style="margin-left:0.3rem;">v2.0</span>
+    <span class="tag tag-s" style="margin-left:0.3rem;">v2.1</span>
   </div>
   <p class="hc" style="color:var(--ink-m);font-size:0.95rem;max-width:540px;line-height:1.65;margin:0 0 1rem;font-weight:300;">
-    Machine-learning salary intelligence built on census data. Upload, train in one click, and uncover pay insights instantly.
+    Machine-learning salary intelligence. Upload a dataset (with or without income labels), train in one click, and uncover pay insights instantly.
   </p>
   <div class="hc" style="display:flex;gap:0.45rem;flex-wrap:wrap;">
     <span class="tag tag-s">5 ML Models</span>
@@ -611,22 +486,21 @@ st.html(f"""
     <span class="tag">Growth Projection</span>
     <span class="tag">Data Health Score</span>
     <span class="tag">Salary Simulator</span>
-    <span class="tag">PDF Report</span>
   </div>
 </div>
 """)
 
 # ── FILE UPLOAD ───────────────────────────────
 st.html('<div class="sh"><span class="sn">1</span> Upload Dataset</div>')
-uploaded_file = st.file_uploader("Upload adult.csv", type="csv", label_visibility="collapsed")
+uploaded_file = st.file_uploader("Upload CSV", type="csv", label_visibility="collapsed")
 
 if uploaded_file is None:
     st.html("""
     <div class="es" style="margin-bottom:1.5rem;">
       <div class="es-icon">📂</div>
       <div class="es-title">No dataset loaded yet</div>
-      <div class="es-sub">Drop your <code style="background:var(--cr-dd);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:0.82em;">adult.csv</code> above to begin. The app cleans, preprocesses and prepares data automatically.</div>
-      <div class="es-tip">UCI Census Income dataset · 14 features · ~48,000 records</div>
+      <div class="es-sub">Drop your CSV above. The app auto-cleans and preprocesses your data. Works with or without an <code style="background:var(--cr-dd);padding:2px 6px;border-radius:4px;font-family:'DM Mono',monospace;font-size:0.82em;">income</code> column.</div>
+      <div class="es-tip">UCI Census Income dataset · 14 features · ~48,000 records recommended</div>
     </div>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;">
       <div class="gc-sm" style="text-align:center;padding:1.3rem 1rem;">
@@ -642,7 +516,7 @@ if uploaded_file is None:
       <div class="gc-sm" style="text-align:center;padding:1.3rem 1rem;">
         <div style="font-size:1.7rem;margin-bottom:0.45rem;">📦</div>
         <div style="font-family:'Playfair Display',serif;font-size:0.9rem;font-weight:600;color:var(--ink);margin-bottom:0.3rem;">Predict & Export</div>
-        <div style="font-size:0.76rem;color:var(--ink-mu);line-height:1.55;">Single predictions, batch CSV, growth projections and PDF report.</div>
+        <div style="font-size:0.76rem;color:var(--ink-mu);line-height:1.55;">Single predictions, batch CSV, growth projections and data health.</div>
       </div>
     </div>
     """)
@@ -652,26 +526,44 @@ with st.spinner("Loading and preprocessing data…"):
     df = load_data(uploaded_file)
 
 if df is None:
-    st.error("Could not process the file.")
+    st.error("Could not process the file. Please check the format.")
     st.stop()
 
-if 'income_numeric' not in df.columns:
-    st.error("⚠️ Column `income_numeric` could not be created. Ensure your CSV has an `income` column with `<=50K` / `>50K` values.")
-    st.stop()
+# ── FIX: Detect whether income labels are present ────────────────────────
+HAS_INCOME = 'income_numeric' in df.columns
 
 n_rows, n_cols = df.shape
-high_earners = (df['income_numeric'] == 75000).sum()
-pct_high = high_earners / n_rows * 100
-avg_salary = df['income_numeric'].mean()
-health_score, health_label, health_color = data_health_score(df)
 
+if HAS_INCOME:
+    high_earners = (df['income_numeric'] == 75000).sum()
+    pct_high     = high_earners / n_rows * 100
+    avg_salary   = df['income_numeric'].mean()
+    health_score, health_label, health_color = data_health_score(df)
+else:
+    high_earners = 0
+    pct_high     = 0.0
+    avg_salary   = 50000  # fallback default
+    health_score, health_label, health_color = data_health_score(df)
+
+# ── TOP METRICS ───────────────────────────────
 c1, c2, c3, c4, c5 = st.columns(5)
-c1.metric("Records",        f"{n_rows:,}",          "after cleaning")
-c2.metric("Features",       f"{n_cols - 2}",         "input columns")
-c3.metric("High Earners",   f"{pct_high:.1f}%",      f"{high_earners:,} records")
-c4.metric("Algorithm",      MODEL_ICONS[model_choice] + " " + model_choice.split()[0])
-c5.metric("Data Health",    f"{health_score}/100",   health_label)
+c1.metric("Records",      f"{n_rows:,}",           "after cleaning")
+c2.metric("Features",     f"{n_cols - (2 if HAS_INCOME else 0)}",  "input columns")
+if HAS_INCOME:
+    c3.metric("High Earners", f"{pct_high:.1f}%",  f"{high_earners:,} records")
+else:
+    c3.metric("Income Labels", "Not provided",     "EDA limited")
+c4.metric("Algorithm",    MODEL_ICONS[model_choice] + " " + model_choice.split()[0])
+c5.metric("Data Health",  f"{health_score}/100",   health_label)
 
+# ── WARN if no income column ──────────────────
+if not HAS_INCOME:
+    st.warning(
+        "⚠️ No **income** column detected in your CSV. "
+        "Prediction tabs (Train Model, Single Predict, Batch Predict, Simulator, What-If, Compare) "
+        "require an `income` column with `<=50K` / `>50K` values. "
+        "EDA, Growth Projector, and Data Health are fully available."
+    )
 
 # ── TABS ──────────────────────────────────────
 tabs = st.tabs([
@@ -682,13 +574,32 @@ tabs = st.tabs([
     "💡 Salary Insights",
     "🎯 Simulator",
     "📈 What-If",
-    "🌱 Growth Projector",  # NEW
-    "🏥 Data Health",       # NEW
+    "🌱 Growth Projector",
+    "🏥 Data Health",
     "⚖️ Compare Models",
 ])
 (tab_eda, tab_train, tab_predict, tab_batch,
  tab_insights, tab_sim, tab_whatif,
  tab_growth, tab_health, tab_compare) = tabs
+
+
+# ═══════════════════════════════════════════════
+# HELPER: "needs income" gate
+# ═══════════════════════════════════════════════
+def _income_gate(tab_name="this tab"):
+    """Render a friendly message and return True if income data is missing."""
+    if not HAS_INCOME:
+        st.html(f"""<div class="es">
+          <div class="es-icon">🔒</div>
+          <div class="es-title">Income labels required</div>
+          <div class="es-sub">{tab_name} needs an <code style="background:var(--cr-dd);padding:2px 5px;border-radius:4px;font-family:monospace;">income</code> column
+          with <code style="background:var(--cr-dd);padding:2px 5px;border-radius:4px;font-family:monospace;">&lt;=50K</code> /
+          <code style="background:var(--cr-dd);padding:2px 5px;border-radius:4px;font-family:monospace;">&gt;50K</code> values.
+          Please upload a dataset that includes salary labels.</div>
+          <div class="es-tip">Tip: the UCI Adult / Census Income dataset has this column by default</div>
+        </div>""")
+        return True
+    return False
 
 
 # ═══════════════════════════════════════════════
@@ -702,7 +613,8 @@ with tab_eda:
         ca, cb = st.columns([3, 1])
         with ca:
             st.markdown("**Dataset Preview** (first 50 rows)")
-            st.dataframe(df.drop(columns=['income_numeric'], errors='ignore').head(50), use_container_width=True)
+            preview_cols = [c for c in df.columns if c not in ['income_numeric']]
+            st.dataframe(df[preview_cols].head(50), use_container_width=True)
         with cb:
             st.markdown("**Quick Stats**")
             nd = df.select_dtypes(include=np.number)
@@ -721,14 +633,16 @@ with tab_eda:
             chart_type = st.radio("Chart type", ["Histogram", "Categorical bar", "Box plot", "Violin plot"])
             if chart_type in ["Histogram", "Box plot", "Violin plot"]:
                 col_to_plot = st.selectbox("Column", num_cols)
-                split_income = st.checkbox("Split by income group", value=True)
+                split_income = st.checkbox("Split by income group", value=HAS_INCOME, disabled=not HAS_INCOME)
             else:
-                col_to_plot = st.selectbox("Column", cat_cols)
+                col_to_plot = st.selectbox("Column", cat_cols) if cat_cols else None
                 split_income = False
         with cp:
-            if chart_type == "Histogram":
+            if col_to_plot is None:
+                st.info("No categorical columns found.")
+            elif chart_type == "Histogram":
                 fig, ax = dark_fig(9, 4)
-                if split_income and 'income' in df.columns:
+                if split_income and HAS_INCOME and 'income' in df.columns:
                     for grp, col in zip(df['income'].unique(), [ACC, ACC2]):
                         vals = df.loc[df['income'] == grp, col_to_plot].dropna()
                         ax.hist(vals, bins=40, alpha=0.6, color=col, label=grp, edgecolor="none")
@@ -740,7 +654,7 @@ with tab_eda:
 
             elif chart_type == "Box plot":
                 fig, ax = dark_fig(9, 4)
-                if split_income and 'income' in df.columns:
+                if split_income and HAS_INCOME and 'income' in df.columns:
                     groups = [df.loc[df['income'] == g, col_to_plot].dropna() for g in df['income'].unique()]
                     labels = df['income'].unique().tolist()
                     bp = ax.boxplot(groups, labels=labels, patch_artist=True, notch=True,
@@ -758,7 +672,7 @@ with tab_eda:
 
             elif chart_type == "Violin plot":
                 fig, ax = dark_fig(9, 4)
-                if split_income and 'income' in df.columns:
+                if split_income and HAS_INCOME and 'income' in df.columns:
                     groups = [df.loc[df['income'] == g, col_to_plot].dropna().values for g in df['income'].unique()]
                     vp = ax.violinplot(groups, showmedians=True)
                     for body, col in zip(vp['bodies'], [ACC, ACC2]):
@@ -800,7 +714,11 @@ with tab_eda:
         plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
     with eda4:
-        if 'income' in df.columns and 'occupation' in df.columns:
+        if not HAS_INCOME:
+            st.info("Income breakdown requires an `income` column in your dataset.")
+        elif 'occupation' not in df.columns:
+            st.info("Income breakdown requires `occupation` column.")
+        else:
             fig, axes = dark_fig(12, 9, nrows=2, ncols=2)
             ax1, ax2, ax3, ax4 = axes.flatten()
             oi = df.groupby('occupation')['income_numeric'].mean().sort_values()
@@ -827,17 +745,15 @@ with tab_eda:
                     ax4.text(bar.get_x() + bar.get_width() / 2, bar.get_height() + 400,
                              f"${bar.get_height():,.0f}", ha='center', va='bottom', color=TEXT_PY, fontsize=9)
             plt.tight_layout(pad=2.0); st.pyplot(fig); plt.close(fig)
-        else:
-            st.info("Income breakdown requires income and occupation columns.")
 
     with eda5:
         st.markdown("**Data Quality Report**")
         missing = df.isnull().sum()
         quality_df = pd.DataFrame({
-            'Missing': missing,
-            'Missing %': (missing / len(df) * 100).round(2),
-            'Dtype': df.dtypes,
-            'Unique Values': df.nunique()
+            'Missing':        missing,
+            'Missing %':      (missing / len(df) * 100).round(2),
+            'Dtype':          df.dtypes,
+            'Unique Values':  df.nunique()
         })
         st.dataframe(quality_df, use_container_width=True)
         if missing.sum() > 0:
@@ -847,7 +763,7 @@ with tab_eda:
             plt.xticks(rotation=45, ha='right'); plt.tight_layout(); st.pyplot(fig); plt.close(fig)
         else:
             st.success("✅ No missing values detected.")
-        if 'income' in df.columns:
+        if HAS_INCOME and 'income' in df.columns:
             st.markdown("**Class Balance**")
             vc = df['income'].value_counts()
             fig, ax = dark_fig(6, 3)
@@ -862,130 +778,128 @@ with tab_eda:
 # ═══════════════════════════════════════════════
 with tab_train:
     st.html('<div class="sh"><span class="sn">3</span> Train the ML Model</div>')
-    if 'income_numeric' not in df.columns:
-        st.error("⚠️ `income_numeric` column missing. Ensure CSV has `income` column.")
-        st.stop()
+    if _income_gate("Train Model"):
+        pass
+    else:
+        X = df.drop(columns=[c for c in ['income', 'income_numeric'] if c in df.columns])
+        y = df['income_numeric']
+        cat_f = X.select_dtypes(include='object').columns.tolist()
+        num_f = X.select_dtypes(include=np.number).columns.tolist()
+        prep = ColumnTransformer(transformers=[
+            ('cat', OneHotEncoder(handle_unknown='ignore'), cat_f),
+            ('num', 'passthrough', num_f)
+        ])
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=int(random_seed))
 
-    X = df.drop(columns=[c for c in ['income', 'income_numeric'] if c in df.columns])
-    y = df['income_numeric']
-    cat_f = X.select_dtypes(include='object').columns.tolist()
-    num_f = X.select_dtypes(include=np.number).columns.tolist()
-    prep = ColumnTransformer(transformers=[
-        ('cat', OneHotEncoder(handle_unknown='ignore'), cat_f),
-        ('num', 'passthrough', num_f)
-    ])
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=int(random_seed))
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Training samples", f"{len(X_train):,}")
+        c2.metric("Testing samples",  f"{len(X_test):,}")
+        c3.metric("Cat. features",    len(cat_f))
+        c4.metric("Num. features",    len(num_f))
 
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Training samples", f"{len(X_train):,}")
-    c2.metric("Testing samples",  f"{len(X_test):,}")
-    c3.metric("Cat. features",    len(cat_f))
-    c4.metric("Num. features",    len(num_f))
-
-    st.html(f"""<div class="gc-sm" style="margin:0.8rem 0;">
-      <div style="font-size:0.7rem;color:var(--ink-mu);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.09em;">Ready to train</div>
-      <div style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:var(--si);">{MODEL_ICONS[model_choice]} {model_choice}</div>
-      <div style="font-size:0.76rem;color:var(--ink-mu);margin-top:0.2rem;">{len(cat_f)} categorical · {len(num_f)} numerical · {test_size * 100:.0f}% test · seed {int(random_seed)}</div>
-    </div>""")
-
-    if st.button("🚀 Train Model Now", use_container_width=True):
-        with st.spinner(f"Training {model_choice}…"):
-            model = train_model(X_train, y_train, prep, model_type=model_choice, seed=int(random_seed))
-        st.session_state.update({'model': model, 'X_columns': X.columns.tolist(), 'df': df,
-                                  'X_test': X_test, 'y_test': y_test, 'cat_f': cat_f, 'num_f': num_f})
-        y_pred = model.predict(X_test)
-        mae  = mean_absolute_error(y_test, y_pred)
-        rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-        r2   = r2_score(y_test, y_pred)
-        st.session_state['metrics'] = dict(mae=mae, rmse=rmse, r2=r2)
-
-        if show_cv:
-            with st.spinner("Running 5-fold cross-validation…"):
-                full_model = train_model(X, y, prep, model_type=model_choice, seed=int(random_seed))
-                cv_scores  = cross_val_score(full_model, X, y, cv=5, scoring='r2', n_jobs=-1)
-                st.session_state['cv_scores'] = cv_scores
-        st.success(f"✅ {model_choice} trained successfully!")
-
-    if 'metrics' in st.session_state:
-        m = st.session_state['metrics']
-        c1, c2, c3 = st.columns(3)
-        c1.metric("MAE",      f"${m['mae']:,.0f}",   "avg absolute error")
-        c2.metric("RMSE",     f"${m['rmse']:,.0f}",  "root mean squared")
-        c3.metric("R² Score", f"{m['r2']:.3f}",      "1.0 = perfect fit")
-
-        r2_pct = int(m['r2'] * 100)
-        ring_color = ACC2 if r2_pct >= 80 else (ACC3 if r2_pct >= 60 else ACC)
-        quality_label = ("Excellent — model explains most variance." if r2_pct >= 80 else
-                         "Good — reasonable predictive power." if r2_pct >= 60 else
-                         "Moderate — consider a different algorithm.")
-
-        # R² ring + progress bar
-        st.html(f"""<div class="gc-sm" style="display:flex;align-items:center;gap:1.4rem;margin:1rem 0;">
-          <div style="width:72px;height:72px;border-radius:50%;border:3px solid {ring_color};
-            display:flex;align-items:center;justify-content:center;
-            font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:{ring_color};flex-shrink:0;">
-            {r2_pct}%</div>
-          <div style="flex:1;">
-            <div style="font-family:'Playfair Display',serif;font-weight:600;color:var(--ink);margin-bottom:0.3rem;">Model Fit Score</div>
-            <div style="font-size:0.81rem;color:var(--ink-m);margin-bottom:0.5rem;">{quality_label}</div>
-            <div class="pbar-wrap"><div class="pbar-fill" style="width:{r2_pct}%;"></div></div>
-          </div>
+        st.html(f"""<div class="gc-sm" style="margin:0.8rem 0;">
+          <div style="font-size:0.7rem;color:var(--ink-mu);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.09em;">Ready to train</div>
+          <div style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:var(--si);">{MODEL_ICONS[model_choice]} {model_choice}</div>
+          <div style="font-size:0.76rem;color:var(--ink-mu);margin-top:0.2rem;">{len(cat_f)} categorical · {len(num_f)} numerical · {test_size * 100:.0f}% test · seed {int(random_seed)}</div>
         </div>""")
 
-        if show_cv and 'cv_scores' in st.session_state:
-            cv = st.session_state['cv_scores']
-            st.html(f"""<div class="gc-sm" style="margin-bottom:1rem;">
-              <div style="font-size:0.7rem;color:var(--ink-mu);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">5-Fold Cross Validation R²</div>
-              <div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--si);">{cv.mean():.3f}
-                <span style="font-size:0.82rem;color:var(--ink-mu);font-family:'DM Sans',sans-serif;">± {cv.std():.3f}</span></div>
-              <div style="font-size:0.76rem;color:var(--ink-mu);margin-top:0.25rem;">Folds: {', '.join([f'{s:.3f}' for s in cv])}</div>
+        if st.button("🚀 Train Model Now", use_container_width=True):
+            with st.spinner(f"Training {model_choice}…"):
+                model = train_model(X_train, y_train, prep, model_type=model_choice, seed=int(random_seed))
+            st.session_state.update({'model': model, 'X_columns': X.columns.tolist(), 'df': df,
+                                      'X_test': X_test, 'y_test': y_test, 'cat_f': cat_f, 'num_f': num_f})
+            y_pred = model.predict(X_test)
+            mae  = mean_absolute_error(y_test, y_pred)
+            rmse = np.sqrt(mean_squared_error(y_test, y_pred))
+            r2   = r2_score(y_test, y_pred)
+            st.session_state['metrics'] = dict(mae=mae, rmse=rmse, r2=r2)
+
+            if show_cv:
+                with st.spinner("Running 5-fold cross-validation…"):
+                    full_model = train_model(X, y, prep, model_type=model_choice, seed=int(random_seed))
+                    cv_scores  = cross_val_score(full_model, X, y, cv=5, scoring='r2', n_jobs=-1)
+                    st.session_state['cv_scores'] = cv_scores
+            st.success(f"✅ {model_choice} trained successfully!")
+
+        if 'metrics' in st.session_state:
+            m = st.session_state['metrics']
+            c1, c2, c3 = st.columns(3)
+            c1.metric("MAE",      f"${m['mae']:,.0f}",  "avg absolute error")
+            c2.metric("RMSE",     f"${m['rmse']:,.0f}", "root mean squared")
+            c3.metric("R² Score", f"{m['r2']:.3f}",     "1.0 = perfect fit")
+
+            r2_pct = int(m['r2'] * 100)
+            ring_color = ACC2 if r2_pct >= 80 else (ACC3 if r2_pct >= 60 else ACC)
+            quality_label = ("Excellent — model explains most variance." if r2_pct >= 80 else
+                             "Good — reasonable predictive power." if r2_pct >= 60 else
+                             "Moderate — consider a different algorithm.")
+
+            st.html(f"""<div class="gc-sm" style="display:flex;align-items:center;gap:1.4rem;margin:1rem 0;">
+              <div style="width:72px;height:72px;border-radius:50%;border:3px solid {ring_color};
+                display:flex;align-items:center;justify-content:center;
+                font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:{ring_color};flex-shrink:0;">
+                {r2_pct}%</div>
+              <div style="flex:1;">
+                <div style="font-family:'Playfair Display',serif;font-weight:600;color:var(--ink);margin-bottom:0.3rem;">Model Fit Score</div>
+                <div style="font-size:0.81rem;color:var(--ink-m);margin-bottom:0.5rem;">{quality_label}</div>
+                <div class="pbar-wrap"><div class="pbar-fill" style="width:{r2_pct}%;"></div></div>
+              </div>
             </div>""")
 
-        fi_df = get_feat_imp(st.session_state['model'], cat_f, num_f)
-        if fi_df is not None and show_feat_imp:
-            st.markdown("**Top 15 Feature Importances**")
-            fig, ax = dark_fig(10, 5)
-            bars = ax.barh(fi_df['Feature'], fi_df['Importance'],
-                           color=plt.cm.get_cmap('YlOrBr')(np.linspace(0.3, 0.9, len(fi_df)))[::-1],
-                           edgecolor="none")
-            ax.invert_yaxis(); ax.set_xlabel("Importance"); ax.set_title("Feature Importances (Top 15)")
-            for bar, val in zip(bars, fi_df['Importance']):
-                ax.text(bar.get_width() + 0.001, bar.get_y() + bar.get_height() / 2,
-                        f"{val:.3f}", va='center', color=MUTED_PY, fontsize=8)
-            plt.tight_layout(); st.pyplot(fig); plt.close(fig)
+            if show_cv and 'cv_scores' in st.session_state:
+                cv = st.session_state['cv_scores']
+                st.html(f"""<div class="gc-sm" style="margin-bottom:1rem;">
+                  <div style="font-size:0.7rem;color:var(--ink-mu);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">5-Fold Cross Validation R²</div>
+                  <div style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--si);">{cv.mean():.3f}
+                    <span style="font-size:0.82rem;color:var(--ink-mu);font-family:'DM Sans',sans-serif;">± {cv.std():.3f}</span></div>
+                  <div style="font-size:0.76rem;color:var(--ink-mu);margin-top:0.25rem;">Folds: {', '.join([f'{s:.3f}' for s in cv])}</div>
+                </div>""")
 
-        X_te = st.session_state['X_test']; y_te = st.session_state['y_test']
-        y_pr = st.session_state['model'].predict(X_te); res = y_te - y_pr
+            fi_df = get_feat_imp(st.session_state['model'], cat_f, num_f)
+            if fi_df is not None and show_feat_imp:
+                st.markdown("**Top 15 Feature Importances**")
+                fig, ax = dark_fig(10, 5)
+                bars = ax.barh(fi_df['Feature'], fi_df['Importance'],
+                               color=plt.cm.get_cmap('YlOrBr')(np.linspace(0.3, 0.9, len(fi_df)))[::-1],
+                               edgecolor="none")
+                ax.invert_yaxis(); ax.set_xlabel("Importance"); ax.set_title("Feature Importances (Top 15)")
+                for bar, val in zip(bars, fi_df['Importance']):
+                    ax.text(bar.get_width() + 0.001, bar.get_y() + bar.get_height() / 2,
+                            f"{val:.3f}", va='center', color=MUTED_PY, fontsize=8)
+                plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
-        cl, cr = st.columns(2)
-        with cl:
-            fig, ax = dark_fig(6, 4)
-            jit = np.random.RandomState(0).uniform(-1500, 1500, len(y_te))
-            ax.scatter(y_te + jit, y_pr, alpha=0.2, s=10, color=ACC, edgecolors="none")
-            mn, mx = min(y_te.min(), y_pr.min()), max(y_te.max(), y_pr.max())
-            ax.plot([mn, mx], [mn, mx], color=ACC3, linewidth=1.5, linestyle="--", label="Perfect fit")
-            ax.set_xlabel("Actual ($)"); ax.set_ylabel("Predicted ($)"); ax.set_title("Actual vs. Predicted")
-            ax.legend(facecolor=SURFACE_PY, edgecolor=BORDER_PY, labelcolor=TEXT_PY, fontsize=9)
-            plt.tight_layout(); st.pyplot(fig); plt.close(fig)
-        with cr:
-            fig, ax = dark_fig(6, 4)
-            ax.hist(res, bins=40, color=ACC2, edgecolor="none", alpha=0.8)
-            ax.axvline(0, color=ACC, linestyle="--", linewidth=1.5, label="Zero error")
-            ax.set_xlabel("Residual ($)"); ax.set_ylabel("Count"); ax.set_title("Residual Distribution")
-            ax.legend(facecolor=SURFACE_PY, edgecolor=BORDER_PY, labelcolor=TEXT_PY, fontsize=9)
-            plt.tight_layout(); st.pyplot(fig); plt.close(fig)
+            X_te = st.session_state['X_test']; y_te = st.session_state['y_test']
+            y_pr = st.session_state['model'].predict(X_te); res = y_te - y_pr
 
-        sum_df = pd.DataFrame({
-            'Metric': ['MAE', 'RMSE', 'R²', 'Model', 'Test Size', 'Train Samples', 'Test Samples'],
-            'Value':  [f"${m['mae']:,.0f}", f"${m['rmse']:,.0f}", f"{m['r2']:.4f}",
-                       model_choice, f"{test_size * 100:.0f}%", f"{len(X_train):,}", f"{len(X_test):,}"]
-        })
-        st.download_button("⬇️ Download Model Summary", data=sum_df.to_csv(index=False).encode(),
-                           file_name="model_summary.csv", mime="text/csv")
-    else:
-        st.html("""<div class="es"><div class="es-icon">🤖</div><div class="es-title">No model trained yet</div>
-        <div class="es-sub">Click <b>Train Model Now</b> above. Training typically takes 10–30 seconds.</div>
-        <div class="es-tip">Tip: Random Forest gives best accuracy on this dataset</div></div>""")
+            cl, cr = st.columns(2)
+            with cl:
+                fig, ax = dark_fig(6, 4)
+                jit = np.random.RandomState(0).uniform(-1500, 1500, len(y_te))
+                ax.scatter(y_te + jit, y_pr, alpha=0.2, s=10, color=ACC, edgecolors="none")
+                mn, mx = min(y_te.min(), y_pr.min()), max(y_te.max(), y_pr.max())
+                ax.plot([mn, mx], [mn, mx], color=ACC3, linewidth=1.5, linestyle="--", label="Perfect fit")
+                ax.set_xlabel("Actual ($)"); ax.set_ylabel("Predicted ($)"); ax.set_title("Actual vs. Predicted")
+                ax.legend(facecolor=SURFACE_PY, edgecolor=BORDER_PY, labelcolor=TEXT_PY, fontsize=9)
+                plt.tight_layout(); st.pyplot(fig); plt.close(fig)
+            with cr:
+                fig, ax = dark_fig(6, 4)
+                ax.hist(res, bins=40, color=ACC2, edgecolor="none", alpha=0.8)
+                ax.axvline(0, color=ACC, linestyle="--", linewidth=1.5, label="Zero error")
+                ax.set_xlabel("Residual ($)"); ax.set_ylabel("Count"); ax.set_title("Residual Distribution")
+                ax.legend(facecolor=SURFACE_PY, edgecolor=BORDER_PY, labelcolor=TEXT_PY, fontsize=9)
+                plt.tight_layout(); st.pyplot(fig); plt.close(fig)
+
+            sum_df = pd.DataFrame({
+                'Metric': ['MAE', 'RMSE', 'R²', 'Model', 'Test Size', 'Train Samples', 'Test Samples'],
+                'Value':  [f"${m['mae']:,.0f}", f"${m['rmse']:,.0f}", f"{m['r2']:.4f}",
+                           model_choice, f"{test_size * 100:.0f}%", f"{len(X_train):,}", f"{len(X_test):,}"]
+            })
+            st.download_button("⬇️ Download Model Summary", data=sum_df.to_csv(index=False).encode(),
+                               file_name="model_summary.csv", mime="text/csv")
+        else:
+            st.html("""<div class="es"><div class="es-icon">🤖</div><div class="es-title">No model trained yet</div>
+            <div class="es-sub">Click <b>Train Model Now</b> above. Training typically takes 10–30 seconds.</div>
+            <div class="es-tip">Tip: Random Forest gives best accuracy on this dataset</div></div>""")
 
 
 # ═══════════════════════════════════════════════
@@ -993,7 +907,9 @@ with tab_train:
 # ═══════════════════════════════════════════════
 with tab_predict:
     st.html('<div class="sh"><span class="sn">4</span> Single Employee Prediction</div>')
-    if 'model' not in st.session_state:
+    if _income_gate("Single Predict"):
+        pass
+    elif 'model' not in st.session_state:
         st.html("""<div class="es"><div class="es-icon">🔍</div><div class="es-title">Train a model first</div>
         <div class="es-sub">Go to <b>Train Model</b>, click <b>Train Model Now</b>, then return here.</div>
         <div class="es-tip">Predictions include confidence interval and percentile ranking</div></div>""")
@@ -1048,8 +964,8 @@ with tab_predict:
 
                 ca, cb, cc = st.columns(3)
                 ca.metric("Dataset Average", f"${nat_avg:,.0f}")
-                cb.metric("Percentile", f"{pct:.0f}th")
-                cc.metric("vs. Average", f"${pred - nat_avg:+,.0f}")
+                cb.metric("Percentile",      f"{pct:.0f}th")
+                cc.metric("vs. Average",     f"${pred - nat_avg:+,.0f}")
 
                 fig, ax = dark_fig(7, 0.85)
                 ax.barh([0], [100], color=CARD_PY, height=0.5, edgecolor="none")
@@ -1094,7 +1010,9 @@ with tab_predict:
 # ═══════════════════════════════════════════════
 with tab_batch:
     st.html('<div class="sh"><span class="sn">5</span> Batch Prediction</div>')
-    if 'model' not in st.session_state:
+    if _income_gate("Batch Predict"):
+        pass
+    elif 'model' not in st.session_state:
         st.html("""<div class="es"><div class="es-icon">📦</div><div class="es-title">No model available</div>
         <div class="es-sub">Train a model in <b>Train Model</b> first, then upload a batch CSV here.</div>
         <div class="es-tip">Batch results include salary tier labels and percentile rankings</div></div>""")
@@ -1121,10 +1039,10 @@ with tab_batch:
                     st.success(f"✅ Predicted salaries for {len(bd):,} records.")
 
                     c1, c2, c3, c4 = st.columns(4)
-                    c1.metric("Average",  f"${preds.mean():,.0f}")
-                    c2.metric("Median",   f"${np.median(preds):,.0f}")
-                    c3.metric("Min",      f"${preds.min():,.0f}")
-                    c4.metric("Max",      f"${preds.max():,.0f}")
+                    c1.metric("Average", f"${preds.mean():,.0f}")
+                    c2.metric("Median",  f"${np.median(preds):,.0f}")
+                    c3.metric("Min",     f"${preds.min():,.0f}")
+                    c4.metric("Max",     f"${preds.max():,.0f}")
 
                     cl, cr = st.columns([2, 1])
                     with cl:
@@ -1152,7 +1070,7 @@ with tab_batch:
                                        data=bd.to_csv(index=False).encode('utf-8'),
                                        file_name='predicted_salaries.csv', mime='text/csv')
                 except KeyError as ke:
-                    st.error(f"Missing column: {ke}")
+                    st.error(f"Missing column in batch file: {ke}")
                 except Exception as e:
                     st.error(f"Batch error: {e}")
         else:
@@ -1165,24 +1083,24 @@ with tab_batch:
 # ═══════════════════════════════════════════════
 with tab_insights:
     st.html('<div class="sh"><span class="sn">6</span> Salary Insights & Intelligence</div>')
-    if 'income_numeric' not in df.columns:
-        st.info("Load a dataset with income data to see insights.")
+    if _income_gate("Salary Insights"):
+        pass
     else:
         high_df = df[df['income_numeric'] == 75000]
         low_df  = df[df['income_numeric'] == 25000]
-        top_occ   = high_df['occupation'].mode()[0]    if 'occupation'      in df.columns else "N/A"
-        top_wc    = high_df['workclass'].mode()[0]     if 'workclass'       in df.columns else "N/A"
-        avg_edu_h = high_df['educational-num'].mean()  if 'educational-num' in df.columns else 0
-        avg_edu_l = low_df['educational-num'].mean()   if 'educational-num' in df.columns else 0
-        avg_hrs_h = high_df['hours-per-week'].mean()   if 'hours-per-week'  in df.columns else 0
-        avg_hrs_l = low_df['hours-per-week'].mean()    if 'hours-per-week'  in df.columns else 0
+        top_occ   = high_df['occupation'].mode()[0]    if 'occupation'      in df.columns and len(high_df) else "N/A"
+        top_wc    = high_df['workclass'].mode()[0]     if 'workclass'       in df.columns and len(high_df) else "N/A"
+        avg_edu_h = high_df['educational-num'].mean()  if 'educational-num' in df.columns and len(high_df) else 0
+        avg_edu_l = low_df['educational-num'].mean()   if 'educational-num' in df.columns and len(low_df)  else 0
+        avg_hrs_h = high_df['hours-per-week'].mean()   if 'hours-per-week'  in df.columns and len(high_df) else 0
+        avg_hrs_l = low_df['hours-per-week'].mean()    if 'hours-per-week'  in df.columns and len(low_df)  else 0
 
         for icon, title, body in [
-            ("💼", "Top High-Earning Occupation", f"<b style='color:var(--ink)'>{top_occ}</b> is the most common occupation among high earners."),
-            ("🏢", "Dominant Work Class", f"High earners most frequently work in <b style='color:var(--ink)'>{top_wc}</b>."),
-            ("🎓", "Education Premium", f"High earners avg edu level <b style='color:var(--si)'>{avg_edu_h:.1f}/16</b> vs <b style='color:var(--ink-mu)'>{avg_edu_l:.1f}/16</b> — a <b style='color:var(--sage)'>+{avg_edu_h - avg_edu_l:.1f} level gap</b>."),
-            ("⏱️", "Hours Worked", f"High earners average <b style='color:var(--si)'>{avg_hrs_h:.0f} hrs/week</b> vs <b style='color:var(--ink-mu)'>{avg_hrs_l:.0f} hrs/week</b> for low earners."),
-            ("👥", "Dataset Composition", f"<b style='color:var(--sage)'>{pct_high:.1f}%</b> high earners ({high_earners:,} records) and <b style='color:var(--ink-mu)'>{100 - pct_high:.1f}%</b> low earners."),
+            ("💼", "Top High-Earning Occupation",  f"<b style='color:var(--ink)'>{top_occ}</b> is the most common occupation among high earners."),
+            ("🏢", "Dominant Work Class",           f"High earners most frequently work in <b style='color:var(--ink)'>{top_wc}</b>."),
+            ("🎓", "Education Premium",             f"High earners avg edu level <b style='color:var(--si)'>{avg_edu_h:.1f}/16</b> vs <b style='color:var(--ink-mu)'>{avg_edu_l:.1f}/16</b> — a <b style='color:var(--sage)'>+{avg_edu_h - avg_edu_l:.1f} level gap</b>."),
+            ("⏱️", "Hours Worked",                  f"High earners average <b style='color:var(--si)'>{avg_hrs_h:.0f} hrs/week</b> vs <b style='color:var(--ink-mu)'>{avg_hrs_l:.0f} hrs/week</b> for low earners."),
+            ("👥", "Dataset Composition",           f"<b style='color:var(--sage)'>{pct_high:.1f}%</b> high earners ({high_earners:,} records)."),
         ]:
             st.html(f"""<div class="ib"><div class="ib-icon">{icon}</div>
               <div><div class="ib-title">{title}</div><div class="ib-text">{body}</div></div></div>""")
@@ -1218,14 +1136,12 @@ with tab_sim:
     st.html('<div class="sh"><span class="sn">7</span> Salary Simulator</div>')
     if not show_salary_sim:
         st.info("Enable **Salary Simulator** in the ☰ menu to use this tool.")
+    elif _income_gate("Salary Simulator"):
+        pass
     elif 'model' not in st.session_state:
         st.html("""<div class="es"><div class="es-icon">🎯</div><div class="es-title">Train a model first</div>
         <div class="es-sub">The salary simulator needs a trained model. Go to <b>Train Model</b> tab first.</div></div>""")
     else:
-        st.html("""<div class="gc-sm" style="margin-bottom:1.1rem;">
-          <div class="ib-title" style="margin-bottom:0.25rem;">Interactive Career Planner</div>
-          <div class="ib-text">Adjust sliders to simulate how changes in education, hours worked, or age affect predicted salary.</div>
-        </div>""")
         model  = st.session_state['model']
         X_cols = st.session_state['X_columns']
         df_r   = st.session_state.get('df', df)
@@ -1233,12 +1149,12 @@ with tab_sim:
         col_l, col_r = st.columns([1, 1])
         with col_l:
             st.markdown("**Base Profile**")
-            s_occ     = st.selectbox("Occupation",     df_r['occupation'].unique().tolist(),    key="sim_occ")
-            s_wc      = st.selectbox("Work Class",     df_r['workclass'].unique().tolist(),     key="sim_wc")
-            s_mar     = st.selectbox("Marital Status", df_r['marital-status'].unique().tolist(),key="sim_mar")
-            s_rel     = st.selectbox("Relationship",   df_r['relationship'].unique().tolist(),  key="sim_rel")
-            s_gen     = st.radio("Gender",             df_r['gender'].unique().tolist(),        key="sim_gen")
-            s_race    = st.selectbox("Race",           df_r['race'].unique().tolist(),          key="sim_race")
+            s_occ     = st.selectbox("Occupation",     df_r['occupation'].unique().tolist(),     key="sim_occ")
+            s_wc      = st.selectbox("Work Class",     df_r['workclass'].unique().tolist(),      key="sim_wc")
+            s_mar     = st.selectbox("Marital Status", df_r['marital-status'].unique().tolist(), key="sim_mar")
+            s_rel     = st.selectbox("Relationship",   df_r['relationship'].unique().tolist(),   key="sim_rel")
+            s_gen     = st.radio("Gender",             df_r['gender'].unique().tolist(),         key="sim_gen")
+            s_race    = st.selectbox("Race",           df_r['race'].unique().tolist(),           key="sim_race")
             s_country = st.selectbox("Country",        sorted(df_r['native-country'].unique().tolist()), key="sim_country")
 
         with col_r:
@@ -1260,9 +1176,9 @@ with tab_sim:
                 return model.predict(nd)[0]
 
             try:
-                base_pred = sim_predict(s_age, s_edu, s_hrs, s_cap)
+                base_pred  = sim_predict(s_age, s_edu, s_hrs, s_cap)
                 tier_label, _ = salary_tier(base_pred)
-                pct_above = (df_r['income_numeric'] < base_pred).mean() * 100
+                pct_above  = (df_r['income_numeric'] < base_pred).mean() * 100
 
                 st.html(f"""<div class="gc-sm" style="text-align:center;margin-top:1rem;border-color:rgba(139,74,43,0.25);">
                   <div style="font-size:0.68rem;color:var(--ink-mu);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.28rem;">Predicted Salary</div>
@@ -1271,12 +1187,12 @@ with tab_sim:
                 </div>""")
 
                 st.markdown("**Sensitivity Analysis**")
-                edu_range  = range(1, 17)
-                hrs_range  = range(20, 81, 5)
-                age_range  = range(20, 65, 5)
-                edu_preds  = [sim_predict(s_age, e, s_hrs, s_cap) for e in edu_range]
-                hrs_preds  = [sim_predict(s_age, s_edu, h, s_cap) for h in hrs_range]
-                age_preds  = [sim_predict(a, s_edu, s_hrs, s_cap) for a in age_range]
+                edu_range = range(1, 17)
+                hrs_range = range(20, 81, 5)
+                age_range = range(20, 65, 5)
+                edu_preds = [sim_predict(s_age, e, s_hrs, s_cap) for e in edu_range]
+                hrs_preds = [sim_predict(s_age, s_edu, h, s_cap) for h in hrs_range]
+                age_preds = [sim_predict(a, s_edu, s_hrs, s_cap) for a in age_range]
 
                 fig, axes = dark_fig(12, 3.5, nrows=1, ncols=3)
                 ax1, ax2, ax3 = axes.flatten()
@@ -1299,14 +1215,12 @@ with tab_sim:
 # ═══════════════════════════════════════════════
 with tab_whatif:
     st.html('<div class="sh"><span class="sn">8</span> What-If Analysis</div>')
-    if 'model' not in st.session_state:
+    if _income_gate("What-If Analysis"):
+        pass
+    elif 'model' not in st.session_state:
         st.html("""<div class="es"><div class="es-icon">📈</div><div class="es-title">Train a model first</div>
         <div class="es-sub">What-If analysis needs a trained model. Go to <b>Train Model</b> tab first.</div></div>""")
     else:
-        st.html("""<div class="gc-sm" style="margin-bottom:1.1rem;">
-          <div class="ib-title" style="margin-bottom:0.25rem;">Side-by-Side Scenario Comparison</div>
-          <div class="ib-text">Define two employee profiles and compare their predicted salaries instantly.</div>
-        </div>""")
         model  = st.session_state['model']
         X_cols = st.session_state['X_columns']
         df_r   = st.session_state.get('df', df)
@@ -1320,19 +1234,19 @@ with tab_whatif:
             with col:
                 st.markdown(f"**{label}**")
                 p = {
-                    'age':            st.slider("Age", int(df_r['age'].min()), int(df_r['age'].max()), default_age, key=f"{key_prefix}_age"),
-                    'workclass':      st.selectbox("Work Class",     df_r['workclass'].unique().tolist(),      key=f"{key_prefix}_wc"),
-                    'fnlwgt':         200000,
-                    'educational-num':st.slider("Education Level", 1, 16, default_edu,                        key=f"{key_prefix}_edu"),
-                    'marital-status': st.selectbox("Marital Status", df_r['marital-status'].unique().tolist(),key=f"{key_prefix}_mar"),
-                    'occupation':     st.selectbox("Occupation",     df_r['occupation'].unique().tolist(),     key=f"{key_prefix}_occ"),
-                    'relationship':   st.selectbox("Relationship",   df_r['relationship'].unique().tolist(),   key=f"{key_prefix}_rel"),
-                    'race':           st.selectbox("Race",           df_r['race'].unique().tolist(),           key=f"{key_prefix}_race"),
-                    'gender':         st.radio("Gender",             df_r['gender'].unique().tolist(),         key=f"{key_prefix}_gen"),
-                    'capital-gain':   st.slider("Capital Gain ($)", 0, int(df_r['capital-gain'].max()), 0,     key=f"{key_prefix}_cap"),
-                    'capital-loss':   0,
-                    'hours-per-week': st.slider("Hours/Week", 10, 80, 40,                                      key=f"{key_prefix}_hrs"),
-                    'native-country': st.selectbox("Country",        sorted(df_r['native-country'].unique().tolist()), key=f"{key_prefix}_ctry"),
+                    'age':             st.slider("Age", int(df_r['age'].min()), int(df_r['age'].max()), default_age, key=f"{key_prefix}_age"),
+                    'workclass':       st.selectbox("Work Class",     df_r['workclass'].unique().tolist(),       key=f"{key_prefix}_wc"),
+                    'fnlwgt':          200000,
+                    'educational-num': st.slider("Education Level", 1, 16, default_edu,                         key=f"{key_prefix}_edu"),
+                    'marital-status':  st.selectbox("Marital Status", df_r['marital-status'].unique().tolist(),  key=f"{key_prefix}_mar"),
+                    'occupation':      st.selectbox("Occupation",     df_r['occupation'].unique().tolist(),      key=f"{key_prefix}_occ"),
+                    'relationship':    st.selectbox("Relationship",   df_r['relationship'].unique().tolist(),    key=f"{key_prefix}_rel"),
+                    'race':            st.selectbox("Race",           df_r['race'].unique().tolist(),            key=f"{key_prefix}_race"),
+                    'gender':          st.radio("Gender",             df_r['gender'].unique().tolist(),          key=f"{key_prefix}_gen"),
+                    'capital-gain':    st.slider("Capital Gain ($)", 0, int(df_r['capital-gain'].max()), 0,      key=f"{key_prefix}_cap"),
+                    'capital-loss':    0,
+                    'hours-per-week':  st.slider("Hours/Week", 10, 80, 40,                                       key=f"{key_prefix}_hrs"),
+                    'native-country':  st.selectbox("Country", sorted(df_r['native-country'].unique().tolist()), key=f"{key_prefix}_ctry"),
                 }
                 profiles[label] = p
 
@@ -1356,9 +1270,9 @@ with tab_whatif:
                           <div style="font-size:0.76rem;color:var(--ink-mu);margin-top:0.25rem;">{res['tier']} · {res['pct']:.0f}th percentile</div>
                         </div>""")
 
-                preds  = [r['pred'] for r in results.values()]
-                diff   = abs(preds[0] - preds[1])
-                higher = list(results.keys())[0] if preds[0] >= preds[1] else list(results.keys())[1]
+                preds_list = [r['pred'] for r in results.values()]
+                diff   = abs(preds_list[0] - preds_list[1])
+                higher = list(results.keys())[0] if preds_list[0] >= preds_list[1] else list(results.keys())[1]
                 st.html(f"""<div class="ib" style="margin-top:1.1rem;">
                   <div class="ib-icon">💡</div>
                   <div><div class="ib-title">Comparison Result</div>
@@ -1381,19 +1295,20 @@ with tab_whatif:
 
 
 # ═══════════════════════════════════════════════
-# TAB 8 — SALARY GROWTH PROJECTOR (NEW)
+# TAB 8 — SALARY GROWTH PROJECTOR
 # ═══════════════════════════════════════════════
 with tab_growth:
     st.html('<div class="sh"><span class="sn">9</span> Salary Growth Projector</div>')
     st.html("""<div class="gc-sm" style="margin-bottom:1.2rem;">
       <div class="ib-title" style="margin-bottom:0.25rem;">📈 Career Growth Forecast</div>
-      <div class="ib-text">Model your salary trajectory over time using adjustable growth rates. Compare multiple scenarios side-by-side.</div>
+      <div class="ib-text">Model your salary trajectory over time using adjustable growth rates. Compare multiple scenarios side-by-side. Available with any dataset.</div>
     </div>""")
 
     c1, c2, c3 = st.columns(3)
     with c1:
-        base_sal    = st.number_input("Starting Salary ($)", min_value=10000, max_value=500000, value=int(avg_salary), step=1000)
-        proj_years  = st.slider("Projection Years", 5, 30, 10)
+        base_sal   = st.number_input("Starting Salary ($)", min_value=10000, max_value=500000,
+                                      value=int(avg_salary), step=1000)
+        proj_years = st.slider("Projection Years", 5, 30, 10)
     with c2:
         growth_rate1 = st.slider("Conservative Growth (%/yr)", 1, 10, 3) / 100
         growth_rate2 = st.slider("Moderate Growth (%/yr)",     1, 15, 6) / 100
@@ -1401,12 +1316,12 @@ with tab_growth:
         growth_rate3 = st.slider("Aggressive Growth (%/yr)", 1, 20, 10) / 100
         inflation    = st.slider("Inflation Rate (%/yr)",    1,  8,  3) / 100
 
-    years   = list(range(proj_years + 1))
-    proj1   = salary_growth_projection(base_sal, proj_years, growth_rate1)
-    proj2   = salary_growth_projection(base_sal, proj_years, growth_rate2)
-    proj3   = salary_growth_projection(base_sal, proj_years, growth_rate3)
-    real1   = [p / ((1 + inflation) ** y) for y, p in zip(years, proj1)]
-    real3   = [p / ((1 + inflation) ** y) for y, p in zip(years, proj3)]
+    years = list(range(proj_years + 1))
+    proj1 = salary_growth_projection(base_sal, proj_years, growth_rate1)
+    proj2 = salary_growth_projection(base_sal, proj_years, growth_rate2)
+    proj3 = salary_growth_projection(base_sal, proj_years, growth_rate3)
+    real1 = [p / ((1 + inflation) ** y) for y, p in zip(years, proj1)]
+    real3 = [p / ((1 + inflation) ** y) for y, p in zip(years, proj3)]
 
     fig, axes = dark_fig(12, 4.5, nrows=1, ncols=2)
     ax1, ax2  = axes.flatten()
@@ -1421,14 +1336,13 @@ with tab_growth:
     ax1.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"${x:,.0f}"))
 
     ax2.plot(years, proj2, color=ACC3, linewidth=2.5,   label="Nominal (Moderate)")
-    ax2.plot(years, real1, color=MUTED_PY, linewidth=2, linestyle="--", label=f"Real (Conservative, {inflation*100:.0f}% inflation)")
-    ax2.plot(years, real3, color=ACC2,     linewidth=2, linestyle="-.", label=f"Real (Aggressive, {inflation*100:.0f}% inflation)")
+    ax2.plot(years, real1, color=MUTED_PY, linewidth=2, linestyle="--", label=f"Real (Conservative, {inflation*100:.0f}% infl.)")
+    ax2.plot(years, real3, color=ACC2,     linewidth=2, linestyle="-.", label=f"Real (Aggressive, {inflation*100:.0f}% infl.)")
     ax2.set_xlabel("Years"); ax2.set_ylabel("Salary ($)"); ax2.set_title("Nominal vs. Real Salary")
     ax2.legend(facecolor=SURFACE_PY, edgecolor=BORDER_PY, labelcolor=TEXT_PY, fontsize=8)
     ax2.yaxis.set_major_formatter(plt.FuncFormatter(lambda x, _: f"${x:,.0f}"))
     plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
-    # Summary table
     st.markdown("**Projection Summary**")
     summary_rows = []
     for yr in [1, 3, 5, 10, proj_years]:
@@ -1438,15 +1352,13 @@ with tab_growth:
                 f"Conservative ({growth_rate1*100:.0f}%)": f"${proj1[yr]:,.0f}",
                 f"Moderate ({growth_rate2*100:.0f}%)":     f"${proj2[yr]:,.0f}",
                 f"Aggressive ({growth_rate3*100:.0f}%)":   f"${proj3[yr]:,.0f}",
-                f"Real Value (Mod., {inflation*100:.0f}% inf.)": f"${proj2[yr]/((1+inflation)**yr):,.0f}",
+                f"Real (Mod., {inflation*100:.0f}% inf.)": f"${proj2[yr]/((1+inflation)**yr):,.0f}",
             })
     proj_df = pd.DataFrame(summary_rows)
     st.dataframe(proj_df, use_container_width=True, hide_index=True)
 
-    # Milestones
     st.markdown("**💰 Salary Milestones** (Moderate scenario)")
-    milestones = [50000, 75000, 100000, 150000, 200000]
-    for ms in milestones:
+    for ms in [50000, 75000, 100000, 150000, 200000]:
         if proj2[-1] >= ms:
             yr_reach = next((y for y, p in enumerate(proj2) if p >= ms), None)
             if yr_reach is not None:
@@ -1456,54 +1368,42 @@ with tab_growth:
                   <div class="ib-text" style="font-size:0.76rem;">Reached in Year {yr_reach} (${proj2[min(yr_reach,proj_years)]:,.0f})</div></div>
                 </div>""")
 
-    export_data = proj_df.to_csv(index=False).encode()
-    st.download_button("⬇️ Export Growth Projection", data=export_data, file_name="salary_growth.csv", mime="text/csv")
+    st.download_button("⬇️ Export Growth Projection", data=proj_df.to_csv(index=False).encode(),
+                       file_name="salary_growth.csv", mime="text/csv")
 
 
 # ═══════════════════════════════════════════════
-# TAB 9 — DATA HEALTH (NEW)
+# TAB 9 — DATA HEALTH
 # ═══════════════════════════════════════════════
 with tab_health:
     st.html('<div class="sh"><span class="sn">10</span> Data Health Dashboard</div>')
 
-    hs, hl, hc = data_health_score(df)
-
+    hs, hl, hc_color = data_health_score(df)
     col_ring, col_detail = st.columns([1, 3])
     with col_ring:
-        ring_style = f"border: 4px solid {hc};"
         st.html(f"""<div style="display:flex;flex-direction:column;align-items:center;gap:0.6rem;padding:1.5rem;">
-          <div class="health-ring" style="{ring_style}color:{hc};">{hs}</div>
+          <div class="health-ring" style="border:4px solid {hc_color};color:{hc_color};">{hs}</div>
           <div style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--ink);">{hl}</div>
           <div style="font-size:0.75rem;color:var(--ink-mu);text-align:center;">Overall Data<br>Health Score</div>
         </div>""")
 
     with col_detail:
-        # Individual checks
         checks = []
-
-        # Missing values
         missing_pct = df.isnull().sum().sum() / (df.shape[0] * df.shape[1]) * 100
-        checks.append(("Missing Values", missing_pct == 0, f"{missing_pct:.2f}% missing overall"))
-
-        # Class balance
-        if 'income_numeric' in df.columns:
+        checks.append(("Missing Values",    missing_pct == 0,  f"{missing_pct:.2f}% missing overall"))
+        if HAS_INCOME:
             vc = df['income_numeric'].value_counts(normalize=True)
             ratio = vc.iloc[0]
             checks.append(("Class Balance", 0.3 <= ratio <= 0.7, f"Majority class: {ratio*100:.1f}%"))
-
-        # Row count
-        checks.append(("Sufficient Data", n_rows >= 5000, f"{n_rows:,} records ({'>=' if n_rows >= 5000 else '<'} 5,000 recommended)"))
-
-        # Duplicate rows
+        else:
+            checks.append(("Class Balance", False, "No income labels — cannot assess class balance"))
+        checks.append(("Sufficient Data",   n_rows >= 5000,    f"{n_rows:,} records"))
         dup_count = df.duplicated().sum()
-        checks.append(("No Duplicates", dup_count == 0, f"{dup_count:,} duplicate rows found"))
-
-        # Numeric range sanity
+        checks.append(("No Duplicates",     dup_count == 0,    f"{dup_count:,} duplicate rows found"))
         age_ok = df['age'].between(15, 90).all() if 'age' in df.columns else True
-        checks.append(("Age Range Sane", age_ok, "All ages between 15–90" if age_ok else "Some ages outside expected range"))
-
+        checks.append(("Age Range Sane",    age_ok,            "All ages between 15–90" if age_ok else "Some ages outside expected range"))
         hrs_ok = df['hours-per-week'].between(1, 100).all() if 'hours-per-week' in df.columns else True
-        checks.append(("Hours/Week Sane", hrs_ok, "All hours-per-week between 1–100" if hrs_ok else "Some hours outside expected range"))
+        checks.append(("Hours/Week Sane",   hrs_ok,            "All hours-per-week between 1–100" if hrs_ok else "Some hours outside expected range"))
 
         for name, passed, detail in checks:
             icon  = "✅" if passed else "⚠️"
@@ -1517,34 +1417,31 @@ with tab_health:
             </div>""")
 
     st.html('<div class="sr"></div>')
-
-    # Column-level stats
     st.markdown("**Column Health Report**")
     col_health = []
     for col in df.columns:
-        miss = df[col].isnull().sum()
-        uniq = df[col].nunique()
+        miss  = df[col].isnull().sum()
+        uniq  = df[col].nunique()
         dtype = str(df[col].dtype)
         issues = []
-        if miss > 0:              issues.append(f"{miss} missing")
-        if uniq == 1:             issues.append("constant")
-        if uniq == len(df):       issues.append("all unique (ID-like)")
+        if miss > 0:        issues.append(f"{miss} missing")
+        if uniq == 1:       issues.append("constant")
+        if uniq == len(df): issues.append("all unique (ID-like)")
         col_health.append({
-            'Column':         col,
-            'Type':           dtype,
-            'Unique Values':  uniq,
-            'Missing':        miss,
-            'Missing %':      f"{miss/len(df)*100:.1f}%",
-            'Status':         "⚠️ " + "; ".join(issues) if issues else "✅ OK"
+            'Column':        col,
+            'Type':          dtype,
+            'Unique Values': uniq,
+            'Missing':       miss,
+            'Missing %':     f"{miss/len(df)*100:.1f}%",
+            'Status':        "⚠️ " + "; ".join(issues) if issues else "✅ OK"
         })
     st.dataframe(pd.DataFrame(col_health), use_container_width=True, hide_index=True)
 
-    # Distribution skewness
     st.markdown("**Numeric Column Skewness**")
-    num_df = df.select_dtypes(include=np.number)
+    num_df_h = df.select_dtypes(include=np.number)
     skew_data = []
-    for col in num_df.columns:
-        sk = num_df[col].skew()
+    for col in num_df_h.columns:
+        sk = num_df_h[col].skew()
         skew_data.append({'Column': col, 'Skewness': round(sk, 3),
                           'Verdict': "Symmetric" if abs(sk) < 0.5 else ("Moderate" if abs(sk) < 1 else "Highly Skewed")})
     skew_df = pd.DataFrame(skew_data).sort_values('Skewness', key=abs, ascending=False)
@@ -1557,9 +1454,8 @@ with tab_health:
     ax.set_xlabel("Skewness"); ax.set_title("Feature Skewness (green = symmetric)")
     plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
-    # Export
-    health_export = pd.DataFrame(col_health)
-    st.download_button("⬇️ Export Health Report", data=health_export.to_csv(index=False).encode(),
+    st.download_button("⬇️ Export Health Report",
+                       data=pd.DataFrame(col_health).to_csv(index=False).encode(),
                        file_name="data_health_report.csv", mime="text/csv")
 
 
@@ -1570,6 +1466,8 @@ with tab_compare:
     st.html('<div class="sh"><span class="sn">11</span> Compare Models</div>')
     if not enable_comparison:
         st.info("Enable **Model comparison** in the ☰ menu to use this tab.")
+    elif _income_gate("Model Comparison"):
+        pass
     elif 'model' not in st.session_state:
         st.html("""<div class="es"><div class="es-icon">⚖️</div><div class="es-title">Train a model first</div>
         <div class="es-sub">Train at least one model, then enable model comparison in the ☰ menu.</div></div>""")
@@ -1580,8 +1478,8 @@ with tab_compare:
         </div>""")
 
         if st.button("🏆 Run Full Model Comparison", use_container_width=True):
-            X_c   = df.drop(columns=[c for c in ['income', 'income_numeric'] if c in df.columns])
-            y_c   = df['income_numeric']
+            X_c    = df.drop(columns=[c for c in ['income', 'income_numeric'] if c in df.columns])
+            y_c    = df['income_numeric']
             cat_fc = X_c.select_dtypes(include='object').columns.tolist()
             num_fc = X_c.select_dtypes(include=np.number).columns.tolist()
             prep_c = ColumnTransformer(transformers=[
