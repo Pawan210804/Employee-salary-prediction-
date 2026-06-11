@@ -5,7 +5,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from sklearn.model_selection import train_test_split, cross_val_score
+from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, ExtraTreesRegressor
 from sklearn.linear_model import Ridge, Lasso
 from sklearn.metrics import mean_absolute_error, r2_score, mean_squared_error
@@ -19,369 +19,438 @@ import json
 # ──────────────────────────────────────────────
 st.set_page_config(
     layout="wide",
-    page_title="SalaryIQ — ML Salary Intelligence",
-    page_icon="💡",
+    page_title="SalaryIQ",
+    page_icon="◈",
     initial_sidebar_state="expanded",
 )
 
 # ──────────────────────────────────────────────
-# HIDE STREAMLIT TOOLBAR / GITHUB FORK BUTTON
+# GLOBAL STYLES — Bridge color palette + minimalist
+# Bridge palette: deep steel #0D1117, span gray #1C2333,
+# cable orange #E8692A, tension teal #2ABFBF,
+# mist white #F0F4F8, iron #8B9BB4
 # ──────────────────────────────────────────────
 st.markdown("""
-<style>
-#MainMenu { visibility: hidden; }
-header { visibility: hidden; }
-footer { visibility: hidden; }
-[data-testid="stToolbar"]   { display: none !important; }
-[data-testid="stDecoration"]{ display: none !important; }
-[data-testid="stStatusWidget"] { display: none !important; }
-</style>
-""", unsafe_allow_html=True)
-
-# ──────────────────────────────────────────────
-# TAILWIND + GSAP + CUSTOM CSS/JS
-# ──────────────────────────────────────────────
-st.markdown("""
-<!-- Tailwind CSS CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          midnight: '#0b0f1a',
-          navy: '#111827',
-          surface: '#161d2e',
-          card: '#1c2537',
-          border: '#1e2d45',
-          violet: { DEFAULT: '#7c3aed', light: '#a78bfa', dark: '#5b21b6' },
-          cyan: { DEFAULT: '#06b6d4', light: '#67e8f9' },
-          emerald: { DEFAULT: '#10b981', light: '#6ee7b7' },
-          amber: { DEFAULT: '#f59e0b', light: '#fcd34d' },
-          rose: { DEFAULT: '#f43f5e', light: '#fda4af' },
-        },
-        fontFamily: {
-          display: ['Space Grotesk', 'sans-serif'],
-          body: ['Inter', 'sans-serif'],
-          mono: ['JetBrains Mono', 'monospace'],
-        },
-        boxShadow: {
-          glow: '0 0 20px rgba(124,58,237,0.35)',
-          'glow-cyan': '0 0 20px rgba(6,182,212,0.3)',
-          'glow-emerald': '0 0 20px rgba(16,185,129,0.3)',
-        },
-        animation: {
-          'float': 'float 6s ease-in-out infinite',
-          'pulse-slow': 'pulse 4s ease-in-out infinite',
-          'shimmer': 'shimmer 2s linear infinite',
-        },
-      }
-    }
-  }
-</script>
-
-<!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-<!-- GSAP CDN -->
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
 <style>
-/* ── Base reset ── */
+/* ── RESET & BASE ── */
+*, *::before, *::after { box-sizing: border-box; }
+
 html, body, [class*="css"] {
-  font-family: 'Inter', sans-serif;
-  background-color: #0b0f1a !important;
-  color: #e2e8f0 !important;
+  font-family: 'Outfit', sans-serif !important;
+  background: #0D1117 !important;
+  color: #C9D3E0 !important;
 }
-.stApp { background: #0b0f1a !important; }
-.main .block-container { padding-top: 1.5rem !important; max-width: 1400px; }
+
+/* ── Hide Streamlit chrome ── */
+#MainMenu, header, footer,
+[data-testid="stToolbar"],
+[data-testid="stDecoration"],
+[data-testid="stStatusWidget"] { display: none !important; }
+
+/* ── App shell ── */
+.stApp { background: #0D1117 !important; }
+.main .block-container {
+  padding: 2rem 2.5rem 3rem !important;
+  max-width: 1360px !important;
+}
 
 /* ── Sidebar ── */
 [data-testid="stSidebar"] {
-  background: #111827 !important;
-  border-right: 1px solid #1e2d45 !important;
+  background: #0A0E14 !important;
+  border-right: 1px solid #1C2333 !important;
 }
-[data-testid="stSidebar"] * { color: #e2e8f0 !important; }
+[data-testid="stSidebar"] * { color: #C9D3E0 !important; }
+[data-testid="stSidebar"] .stSelectbox label,
+[data-testid="stSidebar"] .stSlider label { font-size: 0.78rem !important; color: #6B7B94 !important; }
 
-/* ── Inputs ── */
-.stSelectbox select, .stTextInput input, .stNumberInput input {
-  background: #1c2537 !important;
-  border: 1px solid #1e2d45 !important;
-  color: #e2e8f0 !important;
+/* ── Form controls ── */
+.stSelectbox > div > div,
+.stTextInput > div > div > input,
+.stNumberInput > div > div > input {
+  background: #1C2333 !important;
+  border: 1px solid #252D3D !important;
+  border-radius: 8px !important;
+  color: #C9D3E0 !important;
+  font-family: 'Outfit', sans-serif !important;
+}
+.stSelectbox > div > div:focus-within,
+.stTextInput > div > div > input:focus,
+.stNumberInput > div > div > input:focus {
+  border-color: #E8692A !important;
+  box-shadow: 0 0 0 2px rgba(232, 105, 42, 0.12) !important;
+}
+.stSlider > div > div { color: #E8692A !important; }
+.stSlider [data-testid="stThumbValue"] { color: #E8692A !important; }
+.stRadio > div { gap: 0.5rem; }
+.stRadio label span { color: #8B9BB4 !important; font-size: 0.85rem !important; }
+.stCheckbox label span { color: #8B9BB4 !important; font-size: 0.82rem !important; }
+.stFileUploader {
+  background: #1C2333 !important;
+  border: 1px dashed #252D3D !important;
   border-radius: 10px !important;
 }
-.stSlider > div > div { color: #a78bfa !important; }
-.stRadio label { color: #94a3b8 !important; }
-.stCheckbox label { color: #94a3b8 !important; }
-.stFileUploader { background: #161d2e !important; border: 1px dashed #1e2d45 !important; border-radius: 12px !important; }
 
-/* ── Tabs ── */
+/* ── TABS ── */
 .stTabs [data-baseweb="tab-list"] {
-  background: #161d2e;
-  border-radius: 14px;
-  padding: 5px;
-  gap: 4px;
-  border: 1px solid #1e2d45;
+  background: transparent !important;
+  border-bottom: 1px solid #1C2333 !important;
+  gap: 0 !important;
+  padding: 0 !important;
 }
 .stTabs [data-baseweb="tab"] {
-  border-radius: 10px !important;
-  color: #64748b !important;
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+  border-radius: 0 !important;
+  color: #6B7B94 !important;
   font-weight: 500 !important;
-  font-size: 0.875rem !important;
+  font-size: 0.82rem !important;
+  letter-spacing: 0.02em !important;
+  padding: 0.6rem 1.2rem !important;
   transition: all 0.2s ease !important;
 }
+.stTabs [data-baseweb="tab"]:hover {
+  color: #C9D3E0 !important;
+  background: rgba(232, 105, 42, 0.04) !important;
+}
 .stTabs [aria-selected="true"] {
-  background: linear-gradient(135deg, #7c3aed, #6d28d9) !important;
-  color: #fff !important;
-  box-shadow: 0 0 16px rgba(124,58,237,0.4) !important;
+  color: #E8692A !important;
+  border-bottom-color: #E8692A !important;
+  background: transparent !important;
 }
 
 /* ── Buttons ── */
 .stButton > button {
-  background: linear-gradient(135deg, #7c3aed, #6d28d9) !important;
+  background: #E8692A !important;
   color: #fff !important;
   border: none !important;
-  border-radius: 12px !important;
-  padding: 0.6rem 2rem !important;
+  border-radius: 8px !important;
+  padding: 0.55rem 1.8rem !important;
   font-weight: 600 !important;
-  font-size: 0.9rem !important;
+  font-size: 0.85rem !important;
   letter-spacing: 0.02em !important;
-  transition: all 0.25s ease !important;
-  box-shadow: 0 4px 15px rgba(124,58,237,0.3) !important;
+  font-family: 'Outfit', sans-serif !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 2px 12px rgba(232, 105, 42, 0.25) !important;
 }
 .stButton > button:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 8px 25px rgba(124,58,237,0.5) !important;
+  background: #D45A1A !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 4px 20px rgba(232, 105, 42, 0.35) !important;
+}
+.stButton > button:active { transform: translateY(0) !important; }
+
+/* Secondary button variant */
+.btn-ghost > button {
+  background: transparent !important;
+  color: #8B9BB4 !important;
+  border: 1px solid #252D3D !important;
+  box-shadow: none !important;
+}
+.btn-ghost > button:hover {
+  border-color: #E8692A !important;
+  color: #E8692A !important;
+  background: rgba(232, 105, 42, 0.06) !important;
 }
 
 /* ── Metrics ── */
 [data-testid="stMetric"] {
-  background: #1c2537;
-  border: 1px solid #1e2d45;
-  border-radius: 14px;
-  padding: 1.2rem 1.4rem;
-}
-[data-testid="stMetricValue"] { color: #e2e8f0 !important; font-family: 'Space Grotesk', sans-serif !important; }
-[data-testid="stMetricLabel"] { color: #64748b !important; font-size: 0.72rem !important; text-transform: uppercase !important; letter-spacing: 0.1em !important; }
-
-/* ── Dataframe ── */
-[data-testid="stDataFrame"] { border-radius: 12px !important; overflow: hidden !important; }
-
-/* ── Expandable ── */
-.streamlit-expanderHeader { background: #161d2e !important; border-radius: 10px !important; color: #a78bfa !important; }
-.streamlit-expanderContent { background: #111827 !important; border: 1px solid #1e2d45 !important; border-radius: 0 0 10px 10px !important; }
-
-/* ── Info / Warning / Success ── */
-.stAlert { border-radius: 12px !important; }
-
-/* ── Hero animated gradient ── */
-@keyframes gradShift {
-  0%   { background-position: 0% 50%; }
-  50%  { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-.hero-animate {
-  background: linear-gradient(-45deg, #1e1b4b, #312e81, #1e1b4b, #2d1b69, #0f1117);
-  background-size: 400% 400%;
-  animation: gradShift 12s ease infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-10px); }
-}
-@keyframes shimmer {
-  0%   { background-position: -200% center; }
-  100% { background-position: 200% center; }
-}
-.shimmer-text {
-  background: linear-gradient(90deg, #a78bfa, #06b6d4, #a78bfa, #7c3aed);
-  background-size: 200% auto;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer 3s linear infinite;
-}
-
-/* ── Orbs ── */
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(60px);
-  opacity: 0.35;
-  pointer-events: none;
-}
-.orb-1 { width: 300px; height: 300px; background: #7c3aed; top: -80px; right: -60px; animation: float 8s ease-in-out infinite; }
-.orb-2 { width: 200px; height: 200px; background: #06b6d4; bottom: -60px; left: 20%; animation: float 10s ease-in-out infinite 2s; }
-
-/* ── Card hover ── */
-.hover-card {
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-}
-.hover-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 35px rgba(124,58,237,0.25);
-  border-color: #7c3aed !important;
-}
-
-/* ── Scrollbar ── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: #111827; }
-::-webkit-scrollbar-thumb { background: #1e2d45; border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: #7c3aed; }
-
-/* ── Prediction card ── */
-@keyframes predReveal {
-  from { opacity: 0; transform: scale(0.92) translateY(10px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-.pred-reveal { animation: predReveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-
-/* ── Counter animation ── */
-.counter { font-variant-numeric: tabular-nums; }
-
-/* ── Tooltip ── */
-.tooltip-wrapper { position: relative; display: inline-block; }
-.tooltip-wrapper .tooltip-text {
-  visibility: hidden; opacity: 0;
-  background: #1c2537; border: 1px solid #1e2d45;
-  color: #94a3b8; font-size: 0.72rem; padding: 6px 10px;
-  border-radius: 8px; white-space: nowrap;
-  position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%);
-  transition: opacity 0.2s ease;
-}
-.tooltip-wrapper:hover .tooltip-text { visibility: visible; opacity: 1; }
-
-/* ── Progress bar animation ── */
-@keyframes barFill {
-  from { width: 0%; }
-}
-.bar-animate { animation: barFill 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
-
-/* ── Pulse dot ── */
-@keyframes pulseDot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(1.3); }
-}
-.pulse-dot { animation: pulseDot 2s ease-in-out infinite; }
-
-/* ── Section divider ── */
-.section-rule {
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #1e2d45, transparent);
-  margin: 2rem 0;
-}
-
-/* ── Tag / pill ── */
-.tag {
-  display: inline-flex; align-items: center; gap: 0.3rem;
-  background: #1c2537; border: 1px solid #1e2d45;
-  border-radius: 999px; padding: 0.25rem 0.85rem;
-  font-size: 0.72rem; color: #64748b;
-}
-.tag-violet { border-color: rgba(124,58,237,0.4); color: #a78bfa; background: rgba(124,58,237,0.1); }
-.tag-cyan   { border-color: rgba(6,182,212,0.4); color: #67e8f9; background: rgba(6,182,212,0.1); }
-.tag-emerald{ border-color: rgba(16,185,129,0.4); color: #6ee7b7; background: rgba(16,185,129,0.1); }
-.tag-amber  { border-color: rgba(245,158,11,0.4); color: #fcd34d; background: rgba(245,158,11,0.1); }
-
-/* ── Comparison table ── */
-.compare-table th { color: #a78bfa; font-size: 0.78rem; letter-spacing: 0.07em; text-transform: uppercase; padding: 0.75rem 1rem; border-bottom: 1px solid #1e2d45; }
-.compare-table td { padding: 0.65rem 1rem; border-bottom: 1px solid #1a2234; font-size: 0.85rem; color: #cbd5e1; }
-.compare-table tr:last-child td { border-bottom: none; }
-.compare-table tr:hover td { background: rgba(124,58,237,0.06); }
-
-/* ── GSAP fade-in targets ── */
-.gsap-fadein { opacity: 0; }
-
-/* ── Stepper ── */
-.step-num {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 30px; height: 30px; border-radius: 50%;
-  background: linear-gradient(135deg, #7c3aed, #6d28d9);
-  color: #fff; font-weight: 700; font-size: 0.8rem;
-  flex-shrink: 0; box-shadow: 0 0 12px rgba(124,58,237,0.4);
-}
-.section-header {
-  display: flex; align-items: center; gap: 0.65rem;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.15rem; font-weight: 700; color: #a78bfa;
-  border-bottom: 1px solid #1e2d45; padding-bottom: 0.55rem; margin: 2rem 0 1rem 0;
-}
-
-/* ── Model score indicator ── */
-.score-ring {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 80px; height: 80px; border-radius: 50%;
-  border: 3px solid #7c3aed;
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: 1.2rem; font-weight: 700; color: #a78bfa;
-  box-shadow: 0 0 20px rgba(124,58,237,0.3);
-}
-
-/* ── Salary insight badge ── */
-.insight-badge {
-  display: flex; align-items: flex-start; gap: 0.75rem;
-  background: #1c2537; border: 1px solid #1e2d45; border-radius: 12px;
-  padding: 1rem 1.2rem; margin-bottom: 0.75rem;
+  background: #1C2333;
+  border: 1px solid #252D3D;
+  border-radius: 10px;
+  padding: 1.1rem 1.3rem;
   transition: border-color 0.2s;
 }
-.insight-badge:hover { border-color: #7c3aed; }
-.insight-icon { font-size: 1.3rem; flex-shrink: 0; margin-top: 0.1rem; }
-.insight-text { font-size: 0.85rem; color: #94a3b8; line-height: 1.55; }
-.insight-title { font-weight: 600; color: #e2e8f0; margin-bottom: 0.2rem; font-size: 0.875rem; }
+[data-testid="stMetric"]:hover { border-color: rgba(232, 105, 42, 0.4); }
+[data-testid="stMetricValue"] {
+  color: #F0F4F8 !important;
+  font-family: 'Outfit', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 1.6rem !important;
+}
+[data-testid="stMetricLabel"] {
+  color: #6B7B94 !important;
+  font-size: 0.7rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+}
+[data-testid="stMetricDelta"] { font-size: 0.72rem !important; color: #2ABFBF !important; }
+
+/* ── Dataframe ── */
+[data-testid="stDataFrame"] { border-radius: 10px !important; overflow: hidden !important; }
+
+/* ── Expander ── */
+.streamlit-expanderHeader {
+  background: #1C2333 !important;
+  border-radius: 8px !important;
+  color: #C9D3E0 !important;
+  border: 1px solid #252D3D !important;
+}
+.streamlit-expanderContent {
+  background: #151B27 !important;
+  border: 1px solid #252D3D !important;
+  border-top: none !important;
+  border-radius: 0 0 8px 8px !important;
+}
+
+/* ── Alerts ── */
+.stAlert { border-radius: 8px !important; font-size: 0.85rem !important; }
+div[data-testid="stNotificationContentInfo"] { background: rgba(42, 191, 191, 0.08) !important; border-left: 3px solid #2ABFBF !important; }
+div[data-testid="stNotificationContentSuccess"] { background: rgba(42, 191, 191, 0.08) !important; border-left: 3px solid #2ABFBF !important; }
+div[data-testid="stNotificationContentWarning"] { background: rgba(232, 105, 42, 0.08) !important; border-left: 3px solid #E8692A !important; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #0D1117; }
+::-webkit-scrollbar-thumb { background: #252D3D; border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: #E8692A; }
+
+/* ── Divider ── */
+hr { border-color: #1C2333 !important; margin: 1.5rem 0 !important; }
+
+/* ── COMPONENT CLASSES ── */
+
+/* Page title wordmark */
+.wordmark {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #F0F4F8;
+  letter-spacing: -0.02em;
+}
+.wordmark span { color: #E8692A; }
+
+/* Section label */
+.sec-label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #6B7B94;
+  margin-bottom: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.sec-label::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 2px;
+  background: #E8692A;
+  border-radius: 2px;
+}
+
+/* Section heading */
+.sec-heading {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #F0F4F8;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.25rem 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #1C2333;
+}
+
+/* Stat card */
+.stat-card {
+  background: #1C2333;
+  border: 1px solid #252D3D;
+  border-radius: 10px;
+  padding: 1.1rem 1.3rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.stat-card:hover { border-color: rgba(232, 105, 42, 0.35); transform: translateY(-1px); }
+.stat-card .label { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #6B7B94; margin-bottom: 0.4rem; }
+.stat-card .value { font-size: 1.5rem; font-weight: 700; color: #F0F4F8; font-family: 'Outfit', sans-serif; line-height: 1.1; }
+.stat-card .sub { font-size: 0.72rem; color: #2ABFBF; margin-top: 0.25rem; }
+
+/* Info badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.22rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+.badge-orange { background: rgba(232, 105, 42, 0.12); color: #E8692A; border: 1px solid rgba(232, 105, 42, 0.25); }
+.badge-teal   { background: rgba(42, 191, 191, 0.1);  color: #2ABFBF; border: 1px solid rgba(42, 191, 191, 0.2); }
+.badge-mist   { background: rgba(240, 244, 248, 0.05); color: #8B9BB4; border: 1px solid #252D3D; }
+
+/* Prediction result card */
+.pred-card {
+  background: linear-gradient(160deg, #1C2333 0%, #151B27 100%);
+  border: 1px solid #252D3D;
+  border-radius: 12px;
+  padding: 2rem 2.4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.3s;
+}
+.pred-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #E8692A, #2ABFBF);
+}
+.pred-card:hover { border-color: rgba(232, 105, 42, 0.4); }
+.pred-amount {
+  font-family: 'Outfit', sans-serif;
+  font-size: 3.2rem;
+  font-weight: 700;
+  color: #F0F4F8;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.pred-range {
+  font-size: 0.82rem;
+  color: #6B7B94;
+  margin-top: 0.4rem;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Insight row */
+.insight-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.9rem;
+  background: #1C2333;
+  border: 1px solid #252D3D;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.6rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.insight-row:hover { border-color: rgba(232, 105, 42, 0.3); transform: translateX(2px); }
+.insight-icon { font-size: 1.2rem; flex-shrink: 0; }
+.insight-title { font-weight: 600; color: #F0F4F8; font-size: 0.85rem; margin-bottom: 0.2rem; }
+.insight-body { font-size: 0.82rem; color: #8B9BB4; line-height: 1.55; }
+
+/* Model navbar button */
+.model-nav-btn {
+  background: #1C2333;
+  border: 1px solid #252D3D;
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  text-align: center;
+  width: 100%;
+}
+.model-nav-btn:hover { border-color: #E8692A; background: rgba(232,105,42,0.06); }
+.model-nav-btn.active {
+  border-color: #E8692A;
+  background: rgba(232,105,42,0.1);
+}
+.model-nav-btn .icon { font-size: 1.1rem; margin-bottom: 0.2rem; }
+.model-nav-btn .name { font-size: 0.72rem; font-weight: 600; color: #C9D3E0; }
+.model-nav-btn .desc { font-size: 0.65rem; color: #6B7B94; margin-top: 0.1rem; line-height: 1.3; }
+
+/* Progress bar */
+.prog-wrap { background: #0D1117; border-radius: 999px; height: 5px; overflow: hidden; }
+.prog-bar { height: 5px; border-radius: 999px; background: linear-gradient(90deg, #E8692A, #2ABFBF); transition: width 1s cubic-bezier(0.22,1,0.36,1); }
+
+/* Compare table */
+.cmp-table { width: 100%; border-collapse: collapse; }
+.cmp-table th {
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  color: #6B7B94; padding: 0.7rem 1rem; border-bottom: 1px solid #1C2333;
+  text-align: left;
+}
+.cmp-table td {
+  padding: 0.6rem 1rem; border-bottom: 1px solid #151B27;
+  font-size: 0.84rem; color: #C9D3E0;
+  font-family: 'JetBrains Mono', monospace;
+}
+.cmp-table tr:last-child td { border-bottom: none; }
+.cmp-table tr:hover td { background: rgba(232,105,42,0.04); }
+.cmp-table .winner { color: #2ABFBF; font-weight: 600; }
+
+/* Tier pill */
+.tier-pill {
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  padding: 0.25rem 0.85rem; border-radius: 4px;
+  font-size: 0.74rem; font-weight: 600;
+}
+
+/* Dot separator */
+.dot-sep { color: #252D3D; margin: 0 0.4rem; }
+
+/* Subtle rule */
+.rule { height: 1px; background: #1C2333; margin: 1.5rem 0; }
+
+/* Animated entry */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.45s cubic-bezier(0.22,1,0.36,1) both; }
+.fade-up-1 { animation-delay: 0.05s; }
+.fade-up-2 { animation-delay: 0.12s; }
+.fade-up-3 { animation-delay: 0.19s; }
+.fade-up-4 { animation-delay: 0.26s; }
+
+/* Bridge cable line (hero accent) */
+@keyframes cableDraw {
+  from { stroke-dashoffset: 400; }
+  to   { stroke-dashoffset: 0; }
+}
+.cable-line {
+  stroke-dasharray: 400;
+  animation: cableDraw 1.8s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+
+/* Pulse dot */
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(1.4); }
+}
+.pulse-live { animation: pulse 2.2s ease-in-out infinite; }
+
+/* Shimmer for loading */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #1C2333 25%, #252D3D 50%, #1C2333 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s linear infinite;
+  border-radius: 6px;
+}
+
+/* Counter number */
+.counter-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  color: #2ABFBF;
+}
 </style>
-
-<!-- GSAP init script (runs after DOM) -->
-<script>
-window.addEventListener('load', function() {
-  if (typeof gsap !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
-
-    // Fade in all hero children on load
-    gsap.from('.hero-child', {
-      opacity: 0, y: 30, stagger: 0.12, duration: 0.8,
-      ease: 'power3.out', delay: 0.1
-    });
-
-    // Scroll-triggered fade for metric cards
-    gsap.utils.toArray('.gsap-fadein').forEach(el => {
-      gsap.to(el, {
-        opacity: 1, y: 0,
-        scrollTrigger: { trigger: el, start: 'top 88%', toggleActions: 'play none none none' },
-        duration: 0.65, ease: 'power2.out'
-      });
-    });
-
-    // Counter animate for metric cards
-    document.querySelectorAll('[data-count]').forEach(el => {
-      const target = parseFloat(el.dataset.count);
-      const prefix = el.dataset.prefix || '';
-      const suffix = el.dataset.suffix || '';
-      const decimals = el.dataset.decimals || 0;
-      gsap.from({ val: 0 }, {
-        val: target, duration: 1.6, ease: 'power2.out',
-        onUpdate: function() { el.textContent = prefix + this.targets()[0].val.toFixed(decimals) + suffix; },
-        delay: 0.3
-      });
-    });
-  }
-});
-</script>
 """, unsafe_allow_html=True)
 
+
 # ──────────────────────────────────────────────
-# MATPLOTLIB DARK THEME
+# MATPLOTLIB THEME — bridge palette
 # ──────────────────────────────────────────────
-BG      = "#0b0f1a"
-SURFACE = "#161d2e"
-CARD    = "#1c2537"
-ACCENT  = "#7c3aed"
-ACCENT2 = "#06b6d4"
-ACCENT3 = "#10b981"
-ACCENT4 = "#f59e0b"
-TEXT    = "#e2e8f0"
-MUTED   = "#64748b"
+BG      = "#0D1117"
+SURFACE = "#1C2333"
+CARD    = "#151B27"
+ORANGE  = "#E8692A"
+TEAL    = "#2ABFBF"
+MIST    = "#F0F4F8"
+IRON    = "#8B9BB4"
+MUTED   = "#6B7B94"
+GRID    = "#1C2333"
 
 def dark_fig(w=10, h=4, nrows=1, ncols=1):
     fig, axes = plt.subplots(nrows, ncols, figsize=(w, h))
@@ -390,12 +459,18 @@ def dark_fig(w=10, h=4, nrows=1, ncols=1):
     for ax in ax_list:
         ax.set_facecolor(SURFACE)
         for spine in ax.spines.values():
-            spine.set_edgecolor("#1e2d45")
-        ax.tick_params(colors=MUTED, labelsize=9)
-        ax.xaxis.label.set_color(TEXT)
-        ax.yaxis.label.set_color(TEXT)
-        ax.title.set_color(TEXT)
+            spine.set_edgecolor(GRID)
+            spine.set_linewidth(0.6)
+        ax.tick_params(colors=MUTED, labelsize=8.5, length=3)
+        ax.xaxis.label.set_color(IRON)
+        ax.yaxis.label.set_color(IRON)
+        ax.title.set_color(MIST)
+        ax.title.set_fontsize(10)
+        ax.title.set_fontweight('500')
+        ax.grid(axis='y', color=GRID, linewidth=0.5, alpha=0.7)
+        ax.set_axisbelow(True)
     return fig, axes
+
 
 # ──────────────────────────────────────────────
 # DATA HELPERS
@@ -453,7 +528,6 @@ def train_model(X_train_raw, y_train, _preprocessor_transformer, model_type="Ran
         "Lasso Regression":  Lasso(alpha=1.0, max_iter=5000),
     }
     reg = model_map.get(model_type, RandomForestRegressor(n_estimators=150, random_state=42, n_jobs=-1))
-
     model = Pipeline(steps=[
         ('preprocessor', _preprocessor_transformer),
         ('regressor', reg)
@@ -468,8 +542,8 @@ def get_feature_importance(model, X):
         if not hasattr(reg, 'feature_importances_'):
             return None
         preprocessor = model.named_steps['preprocessor']
-        cat_features  = preprocessor.transformers_[0][2]
-        num_features  = preprocessor.transformers_[1][2]
+        cat_features = preprocessor.transformers_[0][2]
+        num_features = preprocessor.transformers_[1][2]
         ohe = preprocessor.transformers_[0][1]
         cat_names = ohe.get_feature_names_out(cat_features).tolist()
         all_names = cat_names + list(num_features)
@@ -480,10 +554,20 @@ def get_feature_importance(model, X):
 
 
 def salary_tier(val):
-    if val < 30000:   return "🔴 Entry Level", "#f43f5e"
-    elif val < 55000: return "🟡 Mid Level", "#f59e0b"
-    elif val < 75000: return "🟢 Senior Level", "#10b981"
-    else:             return "💜 Executive", "#7c3aed"
+    if val < 30000:   return "Entry Level", ORANGE,   "rgba(232,105,42,0.12)",  "rgba(232,105,42,0.3)"
+    elif val < 55000: return "Mid Level",   "#F5C842", "rgba(245,200,66,0.12)", "rgba(245,200,66,0.3)"
+    elif val < 75000: return "Senior",      TEAL,     "rgba(42,191,191,0.12)",  "rgba(42,191,191,0.3)"
+    else:             return "Executive",   MIST,     "rgba(240,244,248,0.1)",  "rgba(240,244,248,0.25)"
+
+
+MODELS = ["Random Forest", "Gradient Boosting", "Extra Trees", "Ridge Regression", "Lasso Regression"]
+MODEL_META = {
+    "Random Forest":     ("🌲", "Ensemble · Importances"),
+    "Gradient Boosting": ("⚡", "Boosted · Nonlinear"),
+    "Extra Trees":       ("🌳", "Fast · Low variance"),
+    "Ridge Regression":  ("◻", "Linear · L2 reg"),
+    "Lasso Regression":  ("◈", "Linear · Sparse"),
+}
 
 
 # ──────────────────────────────────────────────
@@ -491,233 +575,238 @@ def salary_tier(val):
 # ──────────────────────────────────────────────
 with st.sidebar:
     st.markdown("""
-    <div style="padding: 1rem 0 0.5rem; display:flex; align-items:center; gap:0.5rem;">
-      <div style="width:8px;height:8px;border-radius:50%;background:#7c3aed;" class="pulse-dot"></div>
-      <span style="font-family:'Space Grotesk',sans-serif;font-size:1rem;font-weight:700;color:#e2e8f0;">SalaryIQ</span>
+    <div style="padding: 1.2rem 0 0.8rem; display:flex; align-items:center; gap:0.55rem;">
+      <span class="pulse-live" style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#E8692A;flex-shrink:0;"></span>
+      <span class="wordmark">Salary<span>IQ</span></span>
+    </div>
+    <div style="font-size:0.7rem;color:#6B7B94;margin-bottom:1rem;padding-left:1.3rem;letter-spacing:0.03em;">
+      ML Salary Intelligence
     </div>
     """, unsafe_allow_html=True)
 
     st.divider()
-    st.markdown("### ⚙️ Model Config")
 
-    model_choice = st.selectbox(
+    st.markdown('<div class="sec-label">Model Config</div>', unsafe_allow_html=True)
+
+    model_choice_sidebar = st.selectbox(
         "Algorithm",
-        ["Random Forest", "Gradient Boosting", "Extra Trees", "Ridge Regression", "Lasso Regression"],
-        help="Tree-based models give feature importances."
+        MODELS,
+        help="Tree-based models support feature importance charts.",
+        label_visibility="collapsed"
     )
 
-    test_size = st.slider("Test split (%)", 10, 40, 20, step=5) / 100
-
-    st.markdown("### 🎛️ Advanced")
-    show_confidence = st.checkbox("Show confidence intervals", value=True)
-    enable_comparison = st.checkbox("Enable model comparison mode", value=False)
-    show_shap_proxy = st.checkbox("Show feature attribution chart", value=True)
+    test_size = st.slider("Test split", 10, 40, 20, step=5, format="%d%%") / 100
 
     st.divider()
+    st.markdown('<div class="sec-label">Display</div>', unsafe_allow_html=True)
+    show_confidence  = st.checkbox("Confidence intervals", value=True)
+    enable_comparison = st.checkbox("Model comparison mode", value=False)
+    show_feat_import = st.checkbox("Feature importance chart", value=True)
 
+    st.divider()
     st.markdown("""
-    <div style="font-size:0.78rem;color:#64748b;line-height:1.7;">
-      <b style="color:#a78bfa;">How to use</b><br>
-      1. Upload <code>adult.csv</code><br>
-      2. Explore data in EDA tab<br>
-      3. Train your model<br>
-      4. Predict single or batch<br>
-      5. Export results
+    <div style="font-size:0.75rem; color:#6B7B94; line-height:1.8;">
+      <span style="color:#C9D3E0;font-weight:500;">How to use</span><br>
+      1 · Upload <code style="color:#E8692A;">adult.csv</code><br>
+      2 · Explore data in EDA<br>
+      3 · Train your model<br>
+      4 · Predict single or batch<br>
+      5 · Export results
     </div>
     """, unsafe_allow_html=True)
 
     st.divider()
-    st.markdown('<span class="tag tag-violet">adult.csv · UCI Census Income</span>', unsafe_allow_html=True)
+    st.markdown('<span class="badge badge-mist">UCI Census Income · adult.csv</span>', unsafe_allow_html=True)
 
 
 # ──────────────────────────────────────────────
-# HERO BANNER
+# HERO
 # ──────────────────────────────────────────────
 st.markdown("""
-<div class="hero-animate" style="
-  border: 1px solid rgba(124,58,237,0.35);
-  border-radius: 20px; padding: 2.8rem 2.4rem;
-  margin-bottom: 2rem; position: relative; overflow: hidden;
+<div class="fade-up" style="
+  border-bottom: 1px solid #1C2333;
+  padding-bottom: 2rem;
+  margin-bottom: 2rem;
 ">
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="hero-child" style="position:relative;z-index:1;">
-    <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:0.6rem;">
-      <span style="font-size:2rem;">💡</span>
-      <span class="shimmer-text" style="font-family:'Space Grotesk',sans-serif;font-size:2.6rem;font-weight:700;line-height:1;">SalaryIQ</span>
-    </div>
-    <p style="color:#a5b4fc;font-size:1.05rem;max-width:560px;line-height:1.65;margin:0 0 1.2rem 0;">
-      Machine-learning salary intelligence built on census data. Upload, train in one click, and uncover pay insights instantly.
-    </p>
-    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;">
-      <span class="tag tag-violet">5 ML Models</span>
-      <span class="tag tag-cyan">EDA + Viz</span>
-      <span class="tag tag-emerald">Batch Export</span>
-      <span class="tag tag-amber">Salary Insights</span>
-    </div>
+  <div style="display:flex; align-items:center; gap:0.6rem; margin-bottom:0.5rem;">
+    <span class="badge badge-orange">◈ Live</span>
+    <span class="badge badge-teal">v2.0</span>
+  </div>
+
+  <!-- Bridge cable SVG accent -->
+  <svg width="340" height="32" viewBox="0 0 340 32" fill="none"
+       xmlns="http://www.w3.org/2000/svg" style="display:block;margin-bottom:0.8rem;opacity:0.6;">
+    <line x1="0" y1="28" x2="340" y2="28" stroke="#1C2333" stroke-width="1.5"/>
+    <!-- towers -->
+    <line x1="80"  y1="28" x2="80"  y2="4" stroke="#252D3D" stroke-width="1.5"/>
+    <line x1="260" y1="28" x2="260" y2="4" stroke="#252D3D" stroke-width="1.5"/>
+    <!-- main cable -->
+    <path d="M0 20 Q80 4 170 14 Q260 4 340 20"
+          stroke="#E8692A" stroke-width="1.5" fill="none"
+          stroke-dasharray="480" stroke-dashoffset="480"
+          class="cable-line"/>
+    <!-- suspenders -->
+    <line x1="110" y1="28" x2="113" y2="11" stroke="#2ABFBF" stroke-width="0.8" opacity="0.6"/>
+    <line x1="140" y1="28" x2="144" y2="9"  stroke="#2ABFBF" stroke-width="0.8" opacity="0.6"/>
+    <line x1="170" y1="28" x2="170" y2="14" stroke="#2ABFBF" stroke-width="0.8" opacity="0.6"/>
+    <line x1="200" y1="28" x2="196" y2="9"  stroke="#2ABFBF" stroke-width="0.8" opacity="0.6"/>
+    <line x1="230" y1="28" x2="227" y2="11" stroke="#2ABFBF" stroke-width="0.8" opacity="0.6"/>
+  </svg>
+
+  <h1 style="
+    font-family:'Outfit',sans-serif;
+    font-size:2.4rem;
+    font-weight:700;
+    color:#F0F4F8;
+    letter-spacing:-0.03em;
+    margin:0 0 0.5rem 0;
+    line-height:1.1;
+  ">
+    Salary<span style="color:#E8692A;">IQ</span>
+  </h1>
+
+  <p style="
+    font-size:0.95rem;
+    color:#8B9BB4;
+    max-width:520px;
+    line-height:1.65;
+    margin:0 0 1.2rem 0;
+  ">
+    Machine-learning salary intelligence built on census data.
+    Upload, train in one click, and uncover compensation patterns instantly.
+  </p>
+
+  <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+    <span class="badge badge-orange">5 Algorithms</span>
+    <span class="badge badge-teal">EDA + Visualizations</span>
+    <span class="badge badge-mist">Batch Export</span>
+    <span class="badge badge-mist">Salary Insights</span>
+    <span class="badge badge-mist">Model Comparison</span>
   </div>
 </div>
 """, unsafe_allow_html=True)
 
+
 # ──────────────────────────────────────────────
-# IN-PAGE MODEL SWITCHER NAVBAR
+# MODEL NAVBAR
 # ──────────────────────────────────────────────
+if 'active_model' not in st.session_state:
+    st.session_state['active_model'] = model_choice_sidebar
+
+st.markdown('<div class="sec-label fade-up fade-up-1">Select Algorithm</div>', unsafe_allow_html=True)
+
+nav_cols = st.columns(len(MODELS))
+for i, m in enumerate(MODELS):
+    icon, desc = MODEL_META[m]
+    is_active = st.session_state['active_model'] == m
+    active_style = "border-color:#E8692A !important;background:rgba(232,105,42,0.08) !important;" if is_active else ""
+    name_color   = "#E8692A" if is_active else "#C9D3E0"
+    with nav_cols[i]:
+        st.markdown(f"""
+        <div class="model-nav-btn {'active' if is_active else ''}" style="{active_style}">
+          <div class="icon">{icon}</div>
+          <div class="name" style="color:{name_color};">{m}</div>
+          <div class="desc">{desc}</div>
+        </div>
+        """, unsafe_allow_html=True)
+        if st.button("Select", key=f"navbtn_{i}", use_container_width=True,
+                     help=f"Use {m}"):
+            st.session_state['active_model'] = m
+            st.rerun()
+
+# Hide the Select button text, show only card
 st.markdown("""
 <style>
-.model-btn-active {
-  background: linear-gradient(135deg,#7c3aed,#6d28d9) !important;
-  color: #fff !important;
-  border: 1px solid #7c3aed !important;
-  box-shadow: 0 0 14px rgba(124,58,237,0.4) !important;
-}
-/* Override default button style for navbar */
-div[data-testid="column"] .stButton > button {
-  border-radius: 999px !important;
-  padding: 0.38rem 0.6rem !important;
-  font-size: 0.78rem !important;
-  font-weight: 500 !important;
-  background: #1c2537 !important;
-  color: #94a3b8 !important;
-  border: 1px solid #1e2d45 !important;
-  box-shadow: none !important;
-  letter-spacing: 0.01em !important;
-}
-div[data-testid="column"] .stButton > button:hover {
-  border-color: #7c3aed !important;
-  color: #a78bfa !important;
-  background: rgba(124,58,237,0.12) !important;
-  transform: none !important;
+[key^="navbtn_"] button, div[data-testid="stButton"] button[kind="secondary"] {
+  margin-top: -2.6rem !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  position: absolute !important;
 }
 </style>
 """, unsafe_allow_html=True)
 
-MODELS = ["Random Forest", "Gradient Boosting", "Extra Trees", "Ridge Regression", "Lasso Regression"]
-MODEL_ICONS = {
-    "Random Forest":     "🌲",
-    "Gradient Boosting": "⚡",
-    "Extra Trees":       "🌳",
-    "Ridge Regression":  "📐",
-    "Lasso Regression":  "🔗",
-}
-MODEL_DESCRIPTIONS = {
-    "Random Forest":     "Ensemble · Feature importances · Best accuracy",
-    "Gradient Boosting": "Boosted ensemble · Handles nonlinearity well",
-    "Extra Trees":       "Faster than RF · Low variance",
-    "Ridge Regression":  "Linear · L2 regularisation · Fast",
-    "Lasso Regression":  "Linear · L1 · Sparse features",
-}
-
-if 'navbar_model' not in st.session_state:
-    st.session_state['navbar_model'] = model_choice
-
-st.markdown('<div style="margin-bottom:0.5rem;font-size:0.72rem;text-transform:uppercase;letter-spacing:0.1em;color:#475569;">🎛️ Select Model</div>', unsafe_allow_html=True)
-
-nav_cols = st.columns(len(MODELS))
-for i, m in enumerate(MODELS):
-    with nav_cols[i]:
-        if st.button(f"{MODEL_ICONS[m]} {m}", key=f"nav_model_{i}",
-                     use_container_width=True, help=MODEL_DESCRIPTIONS[m]):
-            st.session_state['navbar_model'] = m
-            st.rerun()
-
-active_model = st.session_state['navbar_model']
-
-# Highlight active button via JS
-active_idx = MODELS.index(active_model)
-st.markdown(f"""
-<script>
-(function() {{
-  const attempt = () => {{
-    const btns = document.querySelectorAll('[data-testid="column"] .stButton > button');
-    if (btns.length < {len(MODELS)}) {{ setTimeout(attempt, 150); return; }}
-    btns.forEach((b, i) => {{
-      b.style.background = '';
-      b.style.color = '';
-      b.style.borderColor = '';
-      b.style.boxShadow = '';
-    }});
-    const active = btns[{active_idx}];
-    if (active) {{
-      active.style.background = 'linear-gradient(135deg,#7c3aed,#6d28d9)';
-      active.style.color = '#fff';
-      active.style.borderColor = '#7c3aed';
-      active.style.boxShadow = '0 0 14px rgba(124,58,237,0.45)';
-    }}
-  }};
-  attempt();
-}})();
-</script>
-""", unsafe_allow_html=True)
-
+# Override: make the full card area the button — via zero-height overlay trick
+# Actually just render small link-style buttons cleanly
 # Active model info bar
+active_model = st.session_state['active_model']
+model_choice = active_model
+icon_a, desc_a = MODEL_META[active_model]
+
 st.markdown(f"""
-<div style="display:flex;align-items:center;gap:0.75rem;
-  background:#1c2537;border:1px solid rgba(124,58,237,0.3);
-  border-radius:12px;padding:0.75rem 1.2rem;margin:0.75rem 0 1.5rem 0;">
-  <span style="font-size:1.4rem;">{MODEL_ICONS[active_model]}</span>
+<div class="fade-up fade-up-2" style="
+  display:flex; align-items:center; gap:0.9rem;
+  background:#1C2333; border:1px solid #252D3D;
+  border-left: 3px solid #E8692A;
+  border-radius:0 8px 8px 0;
+  padding:0.75rem 1.2rem; margin:0.75rem 0 1.8rem 0;
+">
+  <span style="font-size:1.3rem;">{icon_a}</span>
   <div>
-    <div style="font-family:'Space Grotesk',sans-serif;font-weight:700;
-      color:#a78bfa;font-size:0.9rem;">{active_model}</div>
-    <div style="font-size:0.78rem;color:#64748b;margin-top:0.1rem;">
-      {MODEL_DESCRIPTIONS[active_model]}
-    </div>
+    <div style="font-weight:600;color:#F0F4F8;font-size:0.88rem;">{active_model}</div>
+    <div style="font-size:0.74rem;color:#6B7B94;">{desc_a}</div>
   </div>
   <div style="margin-left:auto;">
-    <span style="background:rgba(124,58,237,0.15);border:1px solid rgba(124,58,237,0.3);
-      border-radius:999px;padding:3px 12px;font-size:0.72rem;color:#a78bfa;">● Active</span>
+    <span class="badge badge-orange">● Active</span>
   </div>
 </div>
-<div style="height:1px;background:linear-gradient(90deg,transparent,#1e2d45,transparent);margin-bottom:1.5rem;"></div>
+<div class="rule"></div>
 """, unsafe_allow_html=True)
 
-# Override model_choice with navbar selection
-model_choice = active_model
 
 # ──────────────────────────────────────────────
 # FILE UPLOAD
 # ──────────────────────────────────────────────
-st.markdown('<div class="section-header"><span class="step-num">1</span> Upload Dataset</div>', unsafe_allow_html=True)
+st.markdown('<div class="sec-heading fade-up fade-up-3">Upload Dataset</div>', unsafe_allow_html=True)
 uploaded_file = st.file_uploader("Upload adult.csv", type="csv", label_visibility="collapsed")
 
 if uploaded_file is None:
     st.markdown("""
-    <div style="background:#1c2537;border:1px dashed #1e2d45;border-radius:14px;padding:2rem;text-align:center;color:#64748b;">
-      <div style="font-size:2.5rem;margin-bottom:0.8rem;">📂</div>
-      <div style="font-size:0.95rem;">Drop your <code style="background:#111827;padding:2px 7px;border-radius:5px;color:#a78bfa;">adult.csv</code> file above to get started</div>
-      <div style="font-size:0.78rem;margin-top:0.5rem;color:#475569;">UCI Census Income dataset · 14 features · ~48,000 records</div>
+    <div class="fade-up fade-up-4" style="
+      background:#1C2333; border:1px dashed #252D3D;
+      border-radius:10px; padding:2.5rem; text-align:center; color:#6B7B94;
+    ">
+      <div style="font-size:2rem; margin-bottom:0.6rem; opacity:0.5;">⬆</div>
+      <div style="font-size:0.9rem; color:#8B9BB4; margin-bottom:0.3rem;">
+        Drop <code style="background:#151B27;padding:2px 7px;border-radius:4px;color:#E8692A;">adult.csv</code> above
+      </div>
+      <div style="font-size:0.75rem;">UCI Census Income · 14 features · ~48,000 records</div>
     </div>
     """, unsafe_allow_html=True)
     st.stop()
 
-with st.spinner("Loading and preprocessing data…"):
+with st.spinner("Preprocessing…"):
     df = load_and_preprocess_data(uploaded_file)
 
 if df is None:
-    st.error("Could not process the file. Please check its format.")
+    st.error("Could not process the file — check its format.")
     st.stop()
 
 n_rows, n_cols = df.shape
 high_earners = (df['income_numeric'] == 75000).sum() if 'income_numeric' in df.columns else 0
-pct_high = high_earners / n_rows * 100
-avg_salary = df['income_numeric'].mean() if 'income_numeric' in df.columns else 0
+pct_high     = high_earners / n_rows * 100
+avg_salary   = df['income_numeric'].mean() if 'income_numeric' in df.columns else 0
 
-# ── Dataset stat cards ──
+# Dataset stat cards
 c1, c2, c3, c4 = st.columns(4)
-c1.metric("Records", f"{n_rows:,}", "after cleaning")
-c2.metric("Features", f"{n_cols - 2}", "input columns")
-c3.metric("High Earners (>50K)", f"{pct_high:.1f}%", f"{high_earners:,} records")
-c4.metric("Algorithm", model_choice, "selected")
+c1.metric("Records",           f"{n_rows:,}",          "after cleaning")
+c2.metric("Features",          f"{n_cols - 2}",         "input columns")
+c3.metric("High Earners",      f"{pct_high:.1f}%",      f"{high_earners:,} records")
+c4.metric("Active Algorithm",  model_choice,            "selected")
+
 
 # ──────────────────────────────────────────────
 # TABS
 # ──────────────────────────────────────────────
 tab_eda, tab_train, tab_predict, tab_batch, tab_insights, tab_compare = st.tabs([
-    "📊 Data Explorer",
-    "🤖 Train Model",
-    "🔍 Single Prediction",
-    "📦 Batch Prediction",
-    "💡 Salary Insights",
-    "⚖️ Compare Models",
+    "  Data Explorer  ",
+    "  Train Model  ",
+    "  Single Prediction  ",
+    "  Batch Prediction  ",
+    "  Salary Insights  ",
+    "  Compare Models  ",
 ])
 
 
@@ -725,162 +814,157 @@ tab_eda, tab_train, tab_predict, tab_batch, tab_insights, tab_compare = st.tabs(
 # TAB 1 — EDA
 # ═══════════════════════════════════════════════
 with tab_eda:
-    st.markdown('<div class="section-header"><span class="step-num">2</span> Explore Your Data</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-heading">Explore Your Data</div>', unsafe_allow_html=True)
 
-    eda_tab1, eda_tab2, eda_tab3, eda_tab4 = st.tabs(["Preview & Stats", "Distributions", "Correlation", "Income Breakdown"])
+    eda_t1, eda_t2, eda_t3, eda_t4 = st.tabs(["Preview & Stats", "Distributions", "Correlation", "Income Breakdown"])
 
-    with eda_tab1:
+    with eda_t1:
         col_a, col_b = st.columns([3, 1])
         with col_a:
-            st.markdown("**Dataset Preview** (first 50 rows)")
+            st.markdown('<div class="sec-label">Dataset Preview — first 50 rows</div>', unsafe_allow_html=True)
             st.dataframe(df.drop(columns=['income_numeric'], errors='ignore').head(50), use_container_width=True)
         with col_b:
-            st.markdown("**Quick Stats**")
+            st.markdown('<div class="sec-label">Column Stats</div>', unsafe_allow_html=True)
             num_df = df.select_dtypes(include=np.number)
             for col in num_df.columns[:6]:
                 st.markdown(f"""
-                <div class="insight-badge" style="padding:0.65rem 0.9rem;margin-bottom:0.4rem;">
-                  <div>
-                    <div class="insight-title" style="font-size:0.78rem;">{col}</div>
-                    <div class="insight-text" style="font-size:0.72rem;">
-                      μ {num_df[col].mean():,.1f} · σ {num_df[col].std():,.1f}
-                    </div>
+                <div class="stat-card" style="margin-bottom:0.45rem;padding:0.7rem 0.9rem;">
+                  <div class="label">{col}</div>
+                  <div style="font-size:0.8rem;color:#C9D3E0;font-family:'JetBrains Mono',monospace;">
+                    μ {num_df[col].mean():,.1f}
+                    <span class="dot-sep">·</span>
+                    σ {num_df[col].std():,.1f}
                   </div>
                 </div>
                 """, unsafe_allow_html=True)
-        st.markdown("**Descriptive Statistics**")
+
+        st.markdown('<div class="sec-label" style="margin-top:1.2rem;">Descriptive Statistics</div>', unsafe_allow_html=True)
         st.dataframe(df.describe().round(2), use_container_width=True)
 
-    with eda_tab2:
+    with eda_t2:
         col_sel, col_plot = st.columns([1, 3])
         num_cols = df.select_dtypes(include=np.number).columns.tolist()
         cat_cols = df.select_dtypes(include='object').columns.tolist()
 
         with col_sel:
-            chart_type = st.radio("Chart type", ["Numerical histogram", "Categorical bar", "Box plot"])
-            if chart_type in ["Numerical histogram", "Box plot"]:
-                col_to_plot = st.selectbox("Column", num_cols)
-                color_by_income = st.checkbox("Split by income group", value=True)
+            chart_type = st.radio("Chart type", ["Histogram", "Categorical Bar", "Box Plot"])
+            if chart_type in ["Histogram", "Box Plot"]:
+                col_to_plot  = st.selectbox("Column", num_cols)
+                split_income = st.checkbox("Split by income", value=True)
             else:
-                col_to_plot = st.selectbox("Column", cat_cols)
-                color_by_income = False
+                col_to_plot  = st.selectbox("Column", cat_cols)
+                split_income = False
 
         with col_plot:
-            if chart_type == "Numerical histogram":
+            if chart_type == "Histogram":
                 fig, ax = dark_fig(9, 4)
-                if color_by_income and 'income' in df.columns:
-                    for grp, col in zip(df['income'].unique(), [ACCENT, ACCENT2]):
+                if split_income and 'income' in df.columns:
+                    for grp, clr in zip(df['income'].unique(), [ORANGE, TEAL]):
                         vals = df.loc[df['income'] == grp, col_to_plot].dropna()
-                        ax.hist(vals, bins=40, alpha=0.6, color=col, label=grp, edgecolor="none")
-                    ax.legend(facecolor=SURFACE, edgecolor="#1e2d45", labelcolor=TEXT, fontsize=9)
+                        ax.hist(vals, bins=40, alpha=0.55, color=clr, label=grp, edgecolor="none")
+                    ax.legend(facecolor=SURFACE, edgecolor=GRID, labelcolor=MIST, fontsize=9)
                 else:
-                    ax.hist(df[col_to_plot].dropna(), bins=40, color=ACCENT, edgecolor="none", alpha=0.85)
+                    ax.hist(df[col_to_plot].dropna(), bins=40, color=ORANGE, edgecolor="none", alpha=0.8)
                 ax.set_xlabel(col_to_plot); ax.set_ylabel("Count")
-                ax.set_title(f"Distribution of {col_to_plot}")
+                ax.set_title(f"Distribution — {col_to_plot}")
                 plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
-            elif chart_type == "Box plot":
+            elif chart_type == "Box Plot":
                 fig, ax = dark_fig(9, 4)
-                if color_by_income and 'income' in df.columns:
+                if split_income and 'income' in df.columns:
                     groups = [df.loc[df['income'] == g, col_to_plot].dropna() for g in df['income'].unique()]
                     labels = df['income'].unique().tolist()
                     bp = ax.boxplot(groups, labels=labels, patch_artist=True, notch=True,
-                                    medianprops=dict(color=ACCENT2, linewidth=2))
-                    colors_bp = [ACCENT, ACCENT3]
-                    for patch, c in zip(bp['boxes'], colors_bp):
-                        patch.set_facecolor(c); patch.set_alpha(0.5)
-                    for element in ['whiskers','caps','fliers']:
-                        for item in bp[element]: item.set_color(MUTED)
+                                    medianprops=dict(color=TEAL, linewidth=2))
+                    for patch, clr in zip(bp['boxes'], [ORANGE, TEAL]):
+                        patch.set_facecolor(clr); patch.set_alpha(0.35)
+                    for el in ['whiskers', 'caps', 'fliers']:
+                        for item in bp[el]: item.set_color(MUTED)
                 else:
                     bp = ax.boxplot(df[col_to_plot].dropna(), patch_artist=True, notch=True,
-                                    medianprops=dict(color=ACCENT2, linewidth=2))
-                    bp['boxes'][0].set_facecolor(ACCENT); bp['boxes'][0].set_alpha(0.5)
+                                    medianprops=dict(color=TEAL, linewidth=2))
+                    bp['boxes'][0].set_facecolor(ORANGE); bp['boxes'][0].set_alpha(0.35)
                 ax.set_ylabel(col_to_plot); ax.set_title(f"Box Plot — {col_to_plot}")
                 plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
             else:
                 counts = df[col_to_plot].value_counts()
-                fig, ax = dark_fig(9, max(3, len(counts) * 0.45))
-                colors = plt.cm.get_cmap('Purples')(np.linspace(0.35, 0.9, len(counts)))
-                bars = ax.barh(counts.index, counts.values, color=colors, edgecolor="none")
-                ax.set_xlabel("Count"); ax.set_title(f"Counts by {col_to_plot}"); ax.invert_yaxis()
+                fig, ax = dark_fig(9, max(3, len(counts) * 0.42))
+                grad = np.linspace(0.35, 0.85, len(counts))
+                colors = [(ORANGE if v < 0.6 else TEAL) for v in grad]
+                bars = ax.barh(counts.index, counts.values, color=colors, edgecolor="none", height=0.65)
+                ax.set_xlabel("Count"); ax.set_title(f"Counts — {col_to_plot}"); ax.invert_yaxis()
                 for bar, val in zip(bars, counts.values):
                     ax.text(bar.get_width() + counts.values.max() * 0.01,
                             bar.get_y() + bar.get_height()/2,
                             f"{val:,}", va='center', color=MUTED, fontsize=8)
                 plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
-    with eda_tab3:
+    with eda_t3:
         num_df = df.select_dtypes(include=np.number)
-        corr = num_df.corr()
+        corr   = num_df.corr()
         n = len(corr)
         fig, ax = dark_fig(8, 6)
-        im = ax.imshow(corr.values, cmap='RdBu', vmin=-1, vmax=1, aspect='auto')
+        # Custom diverging colormap using bridge palette
+        from matplotlib.colors import LinearSegmentedColormap
+        bridge_cmap = LinearSegmentedColormap.from_list("bridge", [TEAL, SURFACE, ORANGE])
+        im = ax.imshow(corr.values, cmap=bridge_cmap, vmin=-1, vmax=1, aspect='auto')
         ax.set_xticks(range(n)); ax.set_xticklabels(corr.columns, rotation=45, ha='right', fontsize=8)
         ax.set_yticks(range(n)); ax.set_yticklabels(corr.columns, fontsize=8)
         for i in range(n):
             for j in range(n):
-                ax.text(j, i, f"{corr.values[i, j]:.2f}", ha='center', va='center',
-                        color='white' if abs(corr.values[i, j]) > 0.5 else TEXT, fontsize=7)
+                ax.text(j, i, f"{corr.values[i,j]:.2f}", ha='center', va='center',
+                        color='white' if abs(corr.values[i,j]) > 0.5 else IRON, fontsize=7)
         cbar = fig.colorbar(im, ax=ax, fraction=0.03)
         cbar.ax.tick_params(colors=MUTED)
         ax.set_title("Feature Correlation Matrix")
         plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
-    with eda_tab4:
-        # ── New: income breakdown charts ──
+    with eda_t4:
         if 'income' in df.columns and 'occupation' in df.columns:
             fig, axes = dark_fig(12, 9, nrows=2, ncols=2)
             ax1, ax2, ax3, ax4 = axes.flatten()
 
-            # Occupation income split
             occ_income = df.groupby('occupation')['income_numeric'].mean().sort_values()
-            colors_occ = [ACCENT3 if v >= 50000 else ACCENT for v in occ_income.values]
-            ax1.barh(occ_income.index, occ_income.values, color=colors_occ, edgecolor="none")
-            ax1.set_xlabel("Avg Income ($)")
-            ax1.set_title("Avg Income by Occupation")
-            ax1.axvline(occ_income.mean(), color=ACCENT2, linestyle='--', linewidth=1, label='Mean')
-            ax1.legend(facecolor=SURFACE, edgecolor="#1e2d45", labelcolor=TEXT, fontsize=8)
+            bar_clrs = [TEAL if v >= 50000 else ORANGE for v in occ_income.values]
+            ax1.barh(occ_income.index, occ_income.values, color=bar_clrs, edgecolor="none", height=0.65)
+            ax1.set_xlabel("Avg Income ($)"); ax1.set_title("Avg Income by Occupation")
+            ax1.axvline(occ_income.mean(), color=MIST, linestyle='--', linewidth=0.8, alpha=0.5, label='Mean')
+            ax1.legend(facecolor=SURFACE, edgecolor=GRID, labelcolor=IRON, fontsize=8)
 
-            # Age vs income scatter
             sample = df.sample(min(2000, len(df)), random_state=42)
-            colors_scatter = [ACCENT if v == 75000 else ACCENT2 for v in sample['income_numeric']]
-            ax2.scatter(sample['age'], sample['hours-per-week'], alpha=0.25, s=10, c=colors_scatter, edgecolors='none')
-            ax2.set_xlabel("Age"); ax2.set_ylabel("Hours / Week")
-            ax2.set_title("Age vs. Hours (colour = income tier)")
-            p1 = mpatches.Patch(color=ACCENT, label='>50K')
-            p2 = mpatches.Patch(color=ACCENT2, label='≤50K')
-            ax2.legend(handles=[p1, p2], facecolor=SURFACE, edgecolor="#1e2d45", labelcolor=TEXT, fontsize=8)
+            c_scatter = [ORANGE if v == 75000 else TEAL for v in sample['income_numeric']]
+            ax2.scatter(sample['age'], sample['hours-per-week'], alpha=0.2, s=8, c=c_scatter, edgecolors='none')
+            ax2.set_xlabel("Age"); ax2.set_ylabel("Hours / Week"); ax2.set_title("Age vs. Hours Worked")
+            p1 = mpatches.Patch(color=ORANGE, label='>50K')
+            p2 = mpatches.Patch(color=TEAL, label='≤50K')
+            ax2.legend(handles=[p1, p2], facecolor=SURFACE, edgecolor=GRID, labelcolor=IRON, fontsize=8)
 
-            # Education vs income
             if 'educational-num' in df.columns:
                 edu_income = df.groupby('educational-num')['income_numeric'].mean()
-                ax3.bar(edu_income.index, edu_income.values,
-                        color=plt.cm.get_cmap('Purples')(np.linspace(0.35, 0.9, len(edu_income))),
-                        edgecolor="none")
+                edu_colors = [ORANGE if v < edu_income.mean() else TEAL for v in edu_income.values]
+                ax3.bar(edu_income.index, edu_income.values, color=edu_colors, edgecolor="none", width=0.75)
                 ax3.set_xlabel("Education Level (1–16)"); ax3.set_ylabel("Avg Income ($)")
                 ax3.set_title("Education Level vs. Avg Income")
 
-            # Gender pay gap bar
             if 'gender' in df.columns:
-                gender_income = df.groupby('gender')['income_numeric'].mean()
-                bars_g = ax4.bar(gender_income.index, gender_income.values,
-                                 color=[ACCENT, ACCENT2], edgecolor="none", width=0.4)
+                g_income = df.groupby('gender')['income_numeric'].mean()
+                b = ax4.bar(g_income.index, g_income.values, color=[ORANGE, TEAL], edgecolor="none", width=0.4)
                 ax4.set_ylabel("Avg Income ($)"); ax4.set_title("Income by Gender")
-                for bar in bars_g:
-                    ax4.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 400,
-                             f"${bar.get_height():,.0f}", ha='center', va='bottom', color=TEXT, fontsize=9)
+                for bar in b:
+                    ax4.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 300,
+                             f"${bar.get_height():,.0f}", ha='center', va='bottom', color=MIST, fontsize=9)
 
             plt.tight_layout(pad=2.0); st.pyplot(fig); plt.close(fig)
         else:
-            st.info("Income breakdown charts require income and occupation columns.")
+            st.info("Income breakdown requires `income` and `occupation` columns.")
 
 
 # ═══════════════════════════════════════════════
-# TAB 2 — TRAIN MODEL
+# TAB 2 — TRAIN
 # ═══════════════════════════════════════════════
 with tab_train:
-    st.markdown('<div class="section-header"><span class="step-num">3</span> Train the ML Model</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-heading">Train the Model</div>', unsafe_allow_html=True)
 
     X = df.drop(columns=[c for c in ['income', 'income_numeric'] if c in df.columns])
     y = df['income_numeric']
@@ -895,22 +979,32 @@ with tab_train:
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=test_size, random_state=42)
 
-    col_tr, col_te = st.columns(2)
-    col_tr.metric("Training samples", f"{len(X_train):,}")
-    col_te.metric("Testing samples",  f"{len(X_test):,}")
+    # Split info row
+    col_tr, col_te, col_feat, col_alg = st.columns(4)
+    col_tr.metric("Training Samples",  f"{len(X_train):,}")
+    col_te.metric("Testing Samples",   f"{len(X_test):,}")
+    col_feat.metric("Features",        f"{len(categorical_features) + len(numerical_features)}")
+    col_alg.metric("Algorithm",        model_choice)
 
     st.markdown(f"""
-    <div style="background:#1c2537;border:1px solid #1e2d45;border-radius:12px;padding:1rem 1.2rem;margin-bottom:1rem;">
-      <div style="font-size:0.78rem;color:#64748b;margin-bottom:0.4rem;text-transform:uppercase;letter-spacing:0.08em;">Selected model</div>
-      <div style="font-family:'Space Grotesk',sans-serif;font-size:1.1rem;font-weight:700;color:#a78bfa;">{model_choice}</div>
-      <div style="font-size:0.8rem;color:#64748b;margin-top:0.3rem;">
-        {len(categorical_features)} categorical · {len(numerical_features)} numerical features · {test_size*100:.0f}% test split
+    <div style="
+      background:#1C2333; border:1px solid #252D3D; border-left:3px solid #E8692A;
+      border-radius:0 8px 8px 0; padding:0.85rem 1.2rem; margin:1rem 0;
+      display:flex; align-items:center; gap:1rem;
+    ">
+      <span style="font-size:1.1rem;">{MODEL_META[model_choice][0]}</span>
+      <div>
+        <div style="font-weight:600;color:#F0F4F8;font-size:0.88rem;">{model_choice}</div>
+        <div style="font-size:0.74rem;color:#6B7B94;">
+          {len(categorical_features)} categorical · {len(numerical_features)} numerical
+          · {test_size*100:.0f}% test split
+        </div>
       </div>
     </div>
     """, unsafe_allow_html=True)
 
-    if st.button("🚀 Train Model Now", use_container_width=True):
-        with st.spinner(f"Training {model_choice}… this may take up to 30 s"):
+    if st.button("▶  Train Model", use_container_width=True):
+        with st.spinner(f"Training {model_choice}…"):
             model = train_model(X_train, y_train, preprocessor_transformer, model_type=model_choice)
 
         st.session_state['model']     = model
@@ -920,102 +1014,120 @@ with tab_train:
         st.session_state['y_test']    = y_test
 
         y_pred = model.predict(X_test)
-        mae  = mean_absolute_error(y_test, y_pred)
-        rmse = np.sqrt(mean_squared_error(y_test, y_pred))
-        r2   = r2_score(y_test, y_pred)
+        mae    = mean_absolute_error(y_test, y_pred)
+        rmse   = np.sqrt(mean_squared_error(y_test, y_pred))
+        r2     = r2_score(y_test, y_pred)
         st.session_state['metrics'] = dict(mae=mae, rmse=rmse, r2=r2)
-        st.success(f"✅ {model_choice} trained successfully!")
+        st.success(f"✓ {model_choice} trained successfully.")
 
     if 'metrics' in st.session_state:
         m = st.session_state['metrics']
 
-        # Model metrics row
-        c1, c2, c3 = st.columns(3)
-        c1.metric("MAE",      f"${m['mae']:,.0f}",   "avg absolute error")
-        c2.metric("RMSE",     f"${m['rmse']:,.0f}",  "root mean squared")
-        c3.metric("R² Score", f"{m['r2']:.3f}",      "1.0 = perfect fit")
+        mc1, mc2, mc3 = st.columns(3)
+        mc1.metric("MAE",      f"${m['mae']:,.0f}",  "mean absolute error")
+        mc2.metric("RMSE",     f"${m['rmse']:,.0f}", "root mean squared error")
+        mc3.metric("R² Score", f"{m['r2']:.3f}",     "1.0 = perfect fit")
 
-        # Animated score ring
+        # Fit quality bar
         r2_pct = int(m['r2'] * 100)
-        ring_color = "#10b981" if r2_pct >= 80 else ("#f59e0b" if r2_pct >= 60 else "#f43f5e")
+        ring_color = TEAL if r2_pct >= 80 else (ORANGE if r2_pct >= 60 else "#F5C842")
+        quality    = "Excellent" if r2_pct >= 80 else ("Good" if r2_pct >= 60 else "Moderate")
+        qual_note  = ("Model explains most variance — ready for production." if r2_pct >= 80 else
+                      "Reasonable predictive power." if r2_pct >= 60 else
+                      "Consider a different algorithm or more data.")
+
         st.markdown(f"""
-        <div style="display:flex;align-items:center;gap:1.5rem;margin:1.2rem 0;
-                    background:#1c2537;border:1px solid #1e2d45;border-radius:14px;padding:1.2rem 1.5rem;">
-          <div style="width:80px;height:80px;border-radius:50%;border:3px solid {ring_color};
-                      display:flex;align-items:center;justify-content:center;
-                      font-family:'Space Grotesk',sans-serif;font-size:1.2rem;font-weight:700;color:{ring_color};
-                      box-shadow:0 0 20px {ring_color}44;flex-shrink:0;">
-            {r2_pct}%
-          </div>
+        <div style="
+          background:#1C2333;border:1px solid #252D3D;border-radius:10px;
+          padding:1.2rem 1.4rem;margin:1rem 0;
+          display:flex;align-items:center;gap:1.4rem;
+        ">
+          <div style="
+            width:72px;height:72px;border-radius:50%;
+            border:2.5px solid {ring_color};flex-shrink:0;
+            display:flex;align-items:center;justify-content:center;
+            font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:700;
+            color:{ring_color};box-shadow:0 0 16px {ring_color}44;
+          ">{r2_pct}%</div>
           <div>
-            <div style="font-weight:600;color:#e2e8f0;margin-bottom:0.25rem;">Model Fit Score</div>
-            <div style="font-size:0.82rem;color:#64748b;">
-              {"Excellent fit — model explains most variance." if r2_pct >= 80 else
-               "Good fit — reasonable predictive power." if r2_pct >= 60 else
-               "Moderate fit — consider a different algorithm."}
+            <div style="font-weight:600;color:#F0F4F8;margin-bottom:0.2rem;">{quality} Fit</div>
+            <div style="font-size:0.82rem;color:#8B9BB4;">{qual_note}</div>
+            <div style="margin-top:0.7rem;">
+              <div class="prog-wrap" style="width:200px;">
+                <div class="prog-bar" style="width:{r2_pct}%;"></div>
+              </div>
             </div>
           </div>
         </div>
         """, unsafe_allow_html=True)
 
         # Feature importance
-        fi_df = get_feature_importance(st.session_state['model'], X)
-        if fi_df is not None and show_shap_proxy:
-            st.markdown("**Top 15 Feature Importances**")
-            fig, ax = dark_fig(10, 5)
-            cmap_colors = plt.cm.get_cmap('Purples')(np.linspace(0.35, 0.95, len(fi_df)))
-            bars = ax.barh(fi_df['Feature'], fi_df['Importance'],
-                           color=cmap_colors[::-1], edgecolor="none")
-            ax.invert_yaxis()
-            ax.set_xlabel("Importance"); ax.set_title("Feature Importances (Top 15)")
-            for bar, val in zip(bars, fi_df['Importance']):
-                ax.text(bar.get_width() + 0.001, bar.get_y() + bar.get_height()/2,
-                        f"{val:.3f}", va='center', color=MUTED, fontsize=8)
-            plt.tight_layout(); st.pyplot(fig); plt.close(fig)
+        if show_feat_import:
+            fi_df = get_feature_importance(st.session_state['model'], X)
+            if fi_df is not None:
+                st.markdown('<div class="sec-label" style="margin-top:1.2rem;">Top 15 Feature Importances</div>', unsafe_allow_html=True)
+                fig, ax = dark_fig(10, 5)
+                fi_vals  = fi_df['Importance'].values
+                fi_normed = fi_vals / fi_vals.max()
+                clrs = [ORANGE if v > 0.5 else TEAL for v in fi_normed]
+                bars = ax.barh(fi_df['Feature'], fi_df['Importance'], color=clrs, edgecolor="none", height=0.65)
+                ax.invert_yaxis()
+                ax.set_xlabel("Importance"); ax.set_title("Feature Importances (Top 15)")
+                for bar, val in zip(bars, fi_df['Importance']):
+                    ax.text(bar.get_width() + 0.0005, bar.get_y() + bar.get_height()/2,
+                            f"{val:.3f}", va='center', color=MUTED, fontsize=8)
+                plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
-        # Actual vs Predicted + Residuals side-by-side (NEW)
-        model_eval = st.session_state['model']
-        X_test_s   = st.session_state['X_test']
-        y_test_s   = st.session_state['y_test']
-        y_pred_s   = model_eval.predict(X_test_s)
-        residuals  = y_test_s - y_pred_s
+        # Actual vs Predicted + Residuals
+        model_ev = st.session_state['model']
+        X_te_s   = st.session_state['X_test']
+        y_te_s   = st.session_state['y_test']
+        y_pr_s   = model_ev.predict(X_te_s)
+        residuals = y_te_s - y_pr_s
 
-        col_left, col_right = st.columns(2)
-        with col_left:
+        col_l, col_r = st.columns(2)
+        with col_l:
+            st.markdown('<div class="sec-label">Actual vs. Predicted</div>', unsafe_allow_html=True)
             fig, ax = dark_fig(6, 4)
-            jitter = np.random.RandomState(0).uniform(-1500, 1500, len(y_test_s))
-            ax.scatter(y_test_s + jitter, y_pred_s, alpha=0.2, s=10, color=ACCENT, edgecolors="none")
-            mn = min(y_test_s.min(), y_pred_s.min())
-            mx = max(y_test_s.max(), y_pred_s.max())
-            ax.plot([mn, mx], [mn, mx], color="#a78bfa", linewidth=1.5, linestyle="--", label="Perfect fit")
-            ax.set_xlabel("Actual Salary ($)"); ax.set_ylabel("Predicted Salary ($)")
+            jitter = np.random.RandomState(0).uniform(-1500, 1500, len(y_te_s))
+            ax.scatter(y_te_s + jitter, y_pr_s, alpha=0.18, s=8, color=ORANGE, edgecolors="none")
+            mn = min(y_te_s.min(), y_pr_s.min())
+            mx = max(y_te_s.max(), y_pr_s.max())
+            ax.plot([mn, mx], [mn, mx], color=TEAL, linewidth=1.2, linestyle="--", label="Perfect fit")
+            ax.set_xlabel("Actual ($)"); ax.set_ylabel("Predicted ($)")
             ax.set_title("Actual vs. Predicted")
-            ax.legend(facecolor=SURFACE, edgecolor="#1e2d45", labelcolor=TEXT, fontsize=9)
+            ax.legend(facecolor=SURFACE, edgecolor=GRID, labelcolor=IRON, fontsize=9)
             plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
-        with col_right:
+        with col_r:
+            st.markdown('<div class="sec-label">Residual Distribution</div>', unsafe_allow_html=True)
             fig, ax = dark_fig(6, 4)
-            ax.hist(residuals, bins=40, color=ACCENT2, edgecolor="none", alpha=0.8)
-            ax.axvline(0, color="#a78bfa", linestyle="--", linewidth=1.5, label="Zero error")
+            ax.hist(residuals, bins=40, color=TEAL, edgecolor="none", alpha=0.75)
+            ax.axvline(0, color=ORANGE, linestyle="--", linewidth=1.2, label="Zero error")
             ax.set_xlabel("Residual ($)"); ax.set_ylabel("Count")
             ax.set_title("Residual Distribution")
-            ax.legend(facecolor=SURFACE, edgecolor="#1e2d45", labelcolor=TEXT, fontsize=9)
+            ax.legend(facecolor=SURFACE, edgecolor=GRID, labelcolor=IRON, fontsize=9)
             plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
-        # Download model summary as CSV (NEW)
+        # Download summary
         summary_df = pd.DataFrame({
             'Metric': ['MAE', 'RMSE', 'R²', 'Model', 'Test Size', 'Train Samples', 'Test Samples'],
             'Value':  [f"${m['mae']:,.0f}", f"${m['rmse']:,.0f}", f"{m['r2']:.4f}",
                        model_choice, f"{test_size*100:.0f}%",
                        f"{len(X_train):,}", f"{len(X_test):,}"]
         })
-        st.download_button("⬇️ Download Model Summary", data=summary_df.to_csv(index=False).encode(),
+        st.download_button("⬇  Export Model Summary", data=summary_df.to_csv(index=False).encode(),
                            file_name="model_summary.csv", mime="text/csv")
     else:
         st.markdown("""
-        <div style="background:#1c2537;border:1px solid #1e2d45;border-radius:14px;padding:2rem;text-align:center;">
-          <div style="font-size:2rem;margin-bottom:0.6rem;">🤖</div>
-          <div style="color:#64748b;font-size:0.9rem;">Click <b style="color:#a78bfa;">Train Model Now</b> to begin.</div>
+        <div style="
+          background:#1C2333;border:1px dashed #252D3D;border-radius:10px;
+          padding:2rem;text-align:center;
+        ">
+          <div style="font-size:1.5rem;margin-bottom:0.5rem;opacity:0.4;">◈</div>
+          <div style="color:#6B7B94;font-size:0.88rem;">
+            Click <b style="color:#E8692A;">Train Model</b> to begin.
+          </div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1024,10 +1136,10 @@ with tab_train:
 # TAB 3 — SINGLE PREDICTION
 # ═══════════════════════════════════════════════
 with tab_predict:
-    st.markdown('<div class="section-header"><span class="step-num">4</span> Single Employee Prediction</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-heading">Single Employee Prediction</div>', unsafe_allow_html=True)
 
     if 'model' not in st.session_state:
-        st.warning("⚠️ Train the model first (Train Model tab) before making predictions.")
+        st.warning("Train the model first (Train Model tab) before making predictions.")
     else:
         model     = st.session_state['model']
         X_columns = st.session_state['X_columns']
@@ -1036,35 +1148,37 @@ with tab_predict:
         col1, col2, col3 = st.columns(3)
 
         with col1:
-            st.markdown("""<div style="font-size:0.78rem;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;margin-bottom:0.75rem;">👤 Personal Info</div>""", unsafe_allow_html=True)
+            st.markdown('<div class="sec-label">Personal Info</div>', unsafe_allow_html=True)
             age            = st.slider("Age", int(df_ref['age'].min()), int(df_ref['age'].max()), 30)
             gender         = st.radio("Gender", df_ref['gender'].unique().tolist())
             race           = st.selectbox("Race", df_ref['race'].unique().tolist())
             native_country = st.selectbox("Native Country", sorted(df_ref['native-country'].unique().tolist()))
 
         with col2:
-            st.markdown("""<div style="font-size:0.78rem;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;margin-bottom:0.75rem;">🎓 Education & Work</div>""", unsafe_allow_html=True)
+            st.markdown('<div class="sec-label">Education & Work</div>', unsafe_allow_html=True)
             educational_num = st.slider("Education Level (1–16)",
                                         int(df_ref['educational-num'].min()),
                                         int(df_ref['educational-num'].max()), 10,
-                                        help="1=low, 16=Doctorate")
-            workclass  = st.selectbox("Work Class", df_ref['workclass'].unique().tolist())
-            occupation = st.selectbox("Occupation", df_ref['occupation'].unique().tolist())
-            hours_per_week = st.slider("Hours / Week",
-                                       int(df_ref['hours-per-week'].min()),
-                                       int(df_ref['hours-per-week'].max()), 40)
+                                        help="1 = minimal, 16 = Doctorate")
+            workclass       = st.selectbox("Work Class", df_ref['workclass'].unique().tolist())
+            occupation      = st.selectbox("Occupation", df_ref['occupation'].unique().tolist())
+            hours_per_week  = st.slider("Hours / Week",
+                                        int(df_ref['hours-per-week'].min()),
+                                        int(df_ref['hours-per-week'].max()), 40)
 
         with col3:
-            st.markdown("""<div style="font-size:0.78rem;text-transform:uppercase;letter-spacing:0.1em;color:#64748b;margin-bottom:0.75rem;">🏠 Household & Capital</div>""", unsafe_allow_html=True)
+            st.markdown('<div class="sec-label">Household & Capital</div>', unsafe_allow_html=True)
             marital_status = st.selectbox("Marital Status", df_ref['marital-status'].unique().tolist())
             relationship   = st.selectbox("Relationship",   df_ref['relationship'].unique().tolist())
-            capital_gain   = st.number_input("Capital Gain ($)",  min_value=0, max_value=int(df_ref['capital-gain'].max()), value=0)
-            capital_loss   = st.number_input("Capital Loss ($)",  min_value=0, max_value=int(df_ref['capital-loss'].max()), value=0)
+            capital_gain   = st.number_input("Capital Gain ($)", min_value=0,
+                                              max_value=int(df_ref['capital-gain'].max()), value=0)
+            capital_loss   = st.number_input("Capital Loss ($)", min_value=0,
+                                              max_value=int(df_ref['capital-loss'].max()), value=0)
             fnlwgt         = st.number_input("Final Weight (fnlwgt)",
-                                             min_value=int(df_ref['fnlwgt'].min()),
-                                             max_value=int(df_ref['fnlwgt'].max()), value=200000)
+                                              min_value=int(df_ref['fnlwgt'].min()),
+                                              max_value=int(df_ref['fnlwgt'].max()), value=200000)
 
-        if st.button("💡 Predict Salary", use_container_width=True):
+        if st.button("◈  Predict Salary", use_container_width=True):
             new_data = pd.DataFrame([{
                 'age': age, 'workclass': workclass, 'fnlwgt': fnlwgt,
                 'educational-num': educational_num, 'marital-status': marital_status,
@@ -1075,89 +1189,86 @@ with tab_predict:
             }])[X_columns]
 
             try:
-                predicted = model.predict(new_data)[0]
-                low, high = predicted * 0.85, predicted * 1.15
-                nat_avg   = df_ref['income_numeric'].mean()
-                pct_above = (df_ref['income_numeric'] < predicted).mean() * 100
-                tier_label, tier_color = salary_tier(predicted)
+                predicted  = model.predict(new_data)[0]
+                low, high  = predicted * 0.85, predicted * 1.15
+                nat_avg    = df_ref['income_numeric'].mean()
+                pct_above  = (df_ref['income_numeric'] < predicted).mean() * 100
+                t_label, t_color, t_bg, t_border = salary_tier(predicted)
 
-                # Result card (GSAP animated via pred-reveal class)
                 st.markdown(f"""
-                <div class="pred-reveal" style="
-                  background: linear-gradient(135deg, #1e1b4b, #2d1b69);
-                  border: 1px solid #7c3aed; border-radius: 18px;
-                  padding: 2.2rem; text-align: center; margin-top: 1.5rem;
-                  box-shadow: 0 0 40px rgba(124,58,237,0.3);
-                ">
-                  <div style="font-size:0.78rem;text-transform:uppercase;letter-spacing:0.14em;color:#a78bfa;margin-bottom:0.5rem;">Estimated Annual Salary</div>
-                  <div style="font-family:'Space Grotesk',sans-serif;font-size:3rem;font-weight:700;color:#fff;line-height:1.1;">${predicted:,.0f}</div>
-                  <div style="font-size:0.85rem;color:#a5b4fc;margin-top:0.5rem;">
-                    {"Confidence range: " if show_confidence else ""}${low:,.0f} – ${high:,.0f}
-                  </div>
-                  <div style="margin-top:0.8rem;">
-                    <span style="background:rgba(124,58,237,0.2);border:1px solid rgba(124,58,237,0.4);
-                      border-radius:999px;padding:4px 14px;font-size:0.78rem;color:#a78bfa;">
-                      {tier_label}
+                <div class="pred-card fade-up" style="margin-top:1.5rem;">
+                  <div style="font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;
+                               color:#6B7B94;margin-bottom:0.6rem;">Estimated Annual Salary</div>
+                  <div class="pred-amount">${predicted:,.0f}</div>
+                  {"<div class='pred-range'>Range: $" + f"{low:,.0f} – ${high:,.0f}</div>" if show_confidence else ""}
+                  <div style="margin-top:0.9rem;">
+                    <span class="tier-pill" style="background:{t_bg};color:{t_color};border:1px solid {t_border};">
+                      {t_label}
                     </span>
                   </div>
                 </div>
                 """, unsafe_allow_html=True)
 
                 # Stats row
-                col_a, col_b, col_c = st.columns(3)
-                col_a.metric("Dataset Average", f"${nat_avg:,.0f}")
-                col_b.metric("Percentile",       f"{pct_above:.0f}th")
-                col_c.metric("vs. Average",      f"${predicted - nat_avg:+,.0f}")
+                ca, cb, cc = st.columns(3)
+                ca.metric("Dataset Average", f"${nat_avg:,.0f}")
+                cb.metric("Percentile",       f"{pct_above:.0f}th")
+                cc.metric("vs. Average",      f"${predicted - nat_avg:+,.0f}")
 
-                # Percentile gauge bar
-                fig, ax = dark_fig(7, 0.9)
-                ax.barh([0], [100], color="#1e2d45", height=0.5, edgecolor="none")
-                fill_color = ACCENT3 if pct_above >= 70 else (ACCENT4 if pct_above >= 40 else ACCENT)
-                ax.barh([0], [pct_above], color=fill_color, height=0.5, edgecolor="none")
+                # Percentile gauge
+                fig, ax = dark_fig(7, 0.75)
+                ax.barh([0], [100], color="#151B27", height=0.5, edgecolor="none")
+                fill_c = TEAL if pct_above >= 70 else (ORANGE if pct_above >= 40 else "#F5C842")
+                ax.barh([0], [pct_above], color=fill_c, height=0.5, edgecolor="none")
                 ax.set_xlim(0, 100); ax.set_yticks([])
-                ax.set_xlabel("Salary Percentile in Dataset")
-                ax.set_title(f"This profile is in the {pct_above:.0f}th percentile", fontsize=10)
+                ax.set_xlabel("Percentile in Dataset")
+                ax.set_title(f"{pct_above:.0f}th percentile", fontsize=9)
                 for spine in ax.spines.values(): spine.set_visible(False)
+                ax.grid(axis='y', visible=False)
                 plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
-                # Save to comparison history (NEW)
+                # Save history
                 if 'pred_history' not in st.session_state:
                     st.session_state['pred_history'] = []
                 st.session_state['pred_history'].append({
                     'Age': age, 'Occupation': occupation, 'Hours/Wk': hours_per_week,
-                    'Predicted ($)': int(predicted), 'Percentile': f"{pct_above:.0f}th"
+                    'Predicted ($)': int(predicted), 'Tier': t_label,
+                    'Percentile': f"{pct_above:.0f}th"
                 })
-
-                st.markdown(f'<div style="margin-top:0.5rem;font-size:0.75rem;color:#475569;text-align:center;">Prediction saved to history ({len(st.session_state["pred_history"])} records)</div>', unsafe_allow_html=True)
 
             except Exception as e:
                 st.error(f"Prediction error: {e}")
 
-        # Prediction history table (NEW)
+        # Prediction history
         if 'pred_history' in st.session_state and len(st.session_state['pred_history']) > 0:
-            with st.expander(f"📋 Prediction History ({len(st.session_state['pred_history'])} runs)"):
+            with st.expander(f"Prediction History — {len(st.session_state['pred_history'])} runs"):
                 hist_df = pd.DataFrame(st.session_state['pred_history'])
                 st.dataframe(hist_df, use_container_width=True)
-                st.download_button("⬇️ Export History", data=hist_df.to_csv(index=False).encode(),
-                                   file_name="prediction_history.csv", mime="text/csv")
-                if st.button("🗑️ Clear History"):
-                    st.session_state['pred_history'] = []
-                    st.rerun()
+
+                dl_col, clr_col = st.columns(2)
+                with dl_col:
+                    st.download_button("⬇  Export History",
+                                       data=hist_df.to_csv(index=False).encode(),
+                                       file_name="prediction_history.csv", mime="text/csv")
+                with clr_col:
+                    if st.button("Clear History"):
+                        st.session_state['pred_history'] = []
+                        st.rerun()
 
 
 # ═══════════════════════════════════════════════
 # TAB 4 — BATCH PREDICTION
 # ═══════════════════════════════════════════════
 with tab_batch:
-    st.markdown('<div class="section-header"><span class="step-num">5</span> Batch Prediction</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-heading">Batch Prediction</div>', unsafe_allow_html=True)
 
     if 'model' not in st.session_state:
-        st.warning("⚠️ Train the model first before running batch predictions.")
+        st.warning("Train the model first before running batch predictions.")
     else:
         model     = st.session_state['model']
         X_columns = st.session_state['X_columns']
 
-        with st.expander("📄 View expected CSV format"):
+        with st.expander("Expected CSV Format"):
             sample_csv = (
                 "age,workclass,fnlwgt,educational-num,marital-status,occupation,"
                 "relationship,race,gender,capital-gain,capital-loss,hours-per-week,native-country\n"
@@ -1166,7 +1277,7 @@ with tab_batch:
                 "50,Self-emp-inc,180000,14,Married-civ-spouse,Prof-specialty,Wife,Asian-Pac-Islander,Female,10000,0,50,India"
             )
             st.code(sample_csv, language="csv")
-            st.download_button("⬇️ Download Sample CSV", data=sample_csv,
+            st.download_button("⬇  Download Sample CSV", data=sample_csv,
                                file_name="sample_batch.csv", mime="text/csv")
 
         batch_file = st.file_uploader("Upload batch CSV", type="csv", key="batch_uploader")
@@ -1186,51 +1297,52 @@ with tab_batch:
                         for p in preds
                     ]
 
-                    st.success(f"✅ Predicted salaries for {len(batch_data):,} records.")
+                    st.success(f"✓ Predicted salaries for {len(batch_data):,} records.")
 
-                    # Summary metrics
-                    c1, c2, c3, c4 = st.columns(4)
-                    c1.metric("Average",  f"${preds.mean():,.0f}")
-                    c2.metric("Median",   f"${np.median(preds):,.0f}")
-                    c3.metric("Min",      f"${preds.min():,.0f}")
-                    c4.metric("Max",      f"${preds.max():,.0f}")
+                    bc1, bc2, bc3, bc4 = st.columns(4)
+                    bc1.metric("Average", f"${preds.mean():,.0f}")
+                    bc2.metric("Median",  f"${np.median(preds):,.0f}")
+                    bc3.metric("Min",     f"${preds.min():,.0f}")
+                    bc4.metric("Max",     f"${preds.max():,.0f}")
 
-                    # Distribution chart + tier breakdown (NEW)
                     col_left, col_right = st.columns([2, 1])
                     with col_left:
                         fig, ax = dark_fig(7, 3.5)
-                        ax.hist(preds, bins=30, color=ACCENT, edgecolor="none", alpha=0.85)
-                        ax.axvline(preds.mean(), color=ACCENT2, linewidth=1.5, linestyle="--",
+                        ax.hist(preds, bins=30, color=ORANGE, edgecolor="none", alpha=0.8)
+                        ax.axvline(preds.mean(),      color=TEAL,  linewidth=1.2, linestyle="--",
                                    label=f"Mean ${preds.mean():,.0f}")
-                        ax.axvline(np.median(preds), color=ACCENT3, linewidth=1.5, linestyle=":",
+                        ax.axvline(np.median(preds),  color=MIST,  linewidth=1.2, linestyle=":",
                                    label=f"Median ${np.median(preds):,.0f}")
                         ax.set_xlabel("Predicted Salary ($)"); ax.set_ylabel("Count")
                         ax.set_title("Salary Distribution — Batch Results")
-                        ax.legend(facecolor=SURFACE, edgecolor="#1e2d45", labelcolor=TEXT, fontsize=9)
+                        ax.legend(facecolor=SURFACE, edgecolor=GRID, labelcolor=IRON, fontsize=9)
                         plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
                     with col_right:
-                        st.markdown("**Tier Breakdown**")
+                        st.markdown('<div class="sec-label">Tier Breakdown</div>', unsafe_allow_html=True)
                         tiers = batch_data['Salary_Tier'].value_counts()
                         for tier, count in tiers.items():
                             pct = count / len(batch_data) * 100
+                            t_label, t_color, t_bg, t_border = salary_tier(
+                                {'Entry Level': 20000, 'Mid Level': 42000,
+                                 'Senior': 65000, 'Executive': 80000}.get(tier, 50000)
+                            )
                             st.markdown(f"""
-                            <div style="background:#1c2537;border:1px solid #1e2d45;border-radius:10px;
-                                        padding:0.7rem 1rem;margin-bottom:0.5rem;">
-                              <div style="display:flex;justify-content:space-between;margin-bottom:0.3rem;">
-                                <span style="font-size:0.82rem;color:#e2e8f0;">{tier}</span>
-                                <span style="font-size:0.78rem;color:#a78bfa;">{count} ({pct:.0f}%)</span>
+                            <div style="background:#1C2333;border:1px solid #252D3D;border-radius:8px;
+                                        padding:0.65rem 0.9rem;margin-bottom:0.45rem;">
+                              <div style="display:flex;justify-content:space-between;margin-bottom:0.35rem;">
+                                <span style="font-size:0.8rem;color:#C9D3E0;font-weight:500;">{tier}</span>
+                                <span style="font-size:0.75rem;color:{t_color};">{count} · {pct:.0f}%</span>
                               </div>
-                              <div style="height:4px;background:#111827;border-radius:999px;">
-                                <div style="height:4px;background:#7c3aed;border-radius:999px;width:{pct}%;"></div>
+                              <div class="prog-wrap">
+                                <div class="prog-bar" style="width:{pct}%;background:{t_color};"></div>
                               </div>
                             </div>
                             """, unsafe_allow_html=True)
 
                     st.dataframe(batch_data, use_container_width=True)
-
-                    csv_out = batch_data.to_csv(index=False).encode('utf-8')
-                    st.download_button("⬇️ Download Full Predictions CSV", data=csv_out,
+                    st.download_button("⬇  Download Full Predictions",
+                                       data=batch_data.to_csv(index=False).encode('utf-8'),
                                        file_name='predicted_salaries.csv', mime='text/csv')
 
                 except KeyError as ke:
@@ -1240,92 +1352,96 @@ with tab_batch:
 
 
 # ═══════════════════════════════════════════════
-# TAB 5 — SALARY INSIGHTS (NEW)
+# TAB 5 — SALARY INSIGHTS
 # ═══════════════════════════════════════════════
 with tab_insights:
-    st.markdown('<div class="section-header"><span class="step-num">6</span> Salary Insights & Intelligence</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-heading">Salary Insights</div>', unsafe_allow_html=True)
 
     if 'income_numeric' not in df.columns:
         st.info("Load a dataset with income data to see insights.")
     else:
-        # Summary insights
         high_df = df[df['income_numeric'] == 75000]
         low_df  = df[df['income_numeric'] == 25000]
 
-        # Derived facts
-        top_occupation  = high_df['occupation'].mode()[0]  if 'occupation' in df.columns else "N/A"
-        top_workclass   = high_df['workclass'].mode()[0]   if 'workclass' in df.columns else "N/A"
-        avg_edu_high    = high_df['educational-num'].mean() if 'educational-num' in df.columns else 0
-        avg_edu_low     = low_df['educational-num'].mean()  if 'educational-num' in df.columns else 0
-        avg_hours_high  = high_df['hours-per-week'].mean()  if 'hours-per-week' in df.columns else 0
-        avg_hours_low   = low_df['hours-per-week'].mean()   if 'hours-per-week' in df.columns else 0
+        top_occupation = high_df['occupation'].mode()[0]  if 'occupation' in df.columns else "N/A"
+        top_workclass  = high_df['workclass'].mode()[0]   if 'workclass' in df.columns else "N/A"
+        avg_edu_high   = high_df['educational-num'].mean() if 'educational-num' in df.columns else 0
+        avg_edu_low    = low_df['educational-num'].mean()  if 'educational-num' in df.columns else 0
+        avg_hrs_high   = high_df['hours-per-week'].mean()  if 'hours-per-week' in df.columns else 0
+        avg_hrs_low    = low_df['hours-per-week'].mean()   if 'hours-per-week' in df.columns else 0
 
-        # ── Insight cards ──
         insights = [
             ("💼", "Top High-Earning Occupation",
-             f"<b style='color:#e2e8f0'>{top_occupation}</b> is the most common occupation among high earners in this dataset."),
+             f"<b style='color:#F0F4F8'>{top_occupation}</b> is the most common occupation among high earners."),
             ("🏢", "Dominant Work Class",
-             f"High earners are most frequently employed in <b style='color:#e2e8f0'>{top_workclass}</b>."),
+             f"High earners are most frequently in <b style='color:#F0F4F8'>{top_workclass}</b>."),
             ("🎓", "Education Premium",
-             f"High earners average education level <b style='color:#a78bfa'>{avg_edu_high:.1f}/16</b> vs "
-             f"<b style='color:#64748b'>{avg_edu_low:.1f}/16</b> for low earners — a <b style='color:#10b981'>"
-             f"+{avg_edu_high - avg_edu_low:.1f} level gap</b>."),
-            ("⏱️", "Hours Worked",
-             f"High earners average <b style='color:#a78bfa'>{avg_hours_high:.0f} hrs/week</b> vs "
-             f"<b style='color:#64748b'>{avg_hours_low:.0f} hrs/week</b> for low earners."),
-            ("👥", "Dataset Composition",
-             f"This dataset has <b style='color:#10b981'>{pct_high:.1f}%</b> high earners "
-             f"({high_earners:,} records) and <b style='color:#64748b'>{100-pct_high:.1f}%</b> low earners."),
+             f"High earners average <b style='color:#E8692A'>{avg_edu_high:.1f}/16</b> education level vs "
+             f"<b style='color:#6B7B94'>{avg_edu_low:.1f}/16</b> for low earners — "
+             f"a <b style='color:#2ABFBF'>+{avg_edu_high - avg_edu_low:.1f} level gap</b>."),
+            ("⏱", "Hours Worked",
+             f"High earners work <b style='color:#E8692A'>{avg_hrs_high:.0f} hrs/week</b> on average vs "
+             f"<b style='color:#6B7B94'>{avg_hrs_low:.0f} hrs/week</b> for low earners."),
+            ("📊", "Dataset Composition",
+             f"<b style='color:#2ABFBF'>{pct_high:.1f}%</b> high earners ({high_earners:,} records) vs "
+             f"<b style='color:#6B7B94'>{100-pct_high:.1f}%</b> low earners."),
         ]
 
         for icon, title, body in insights:
             st.markdown(f"""
-            <div class="insight-badge hover-card">
+            <div class="insight-row">
               <div class="insight-icon">{icon}</div>
               <div>
                 <div class="insight-title">{title}</div>
-                <div class="insight-text">{body}</div>
+                <div class="insight-body">{body}</div>
               </div>
             </div>
             """, unsafe_allow_html=True)
 
-        st.markdown('<div class="section-rule"></div>', unsafe_allow_html=True)
+        st.markdown('<div class="rule"></div>', unsafe_allow_html=True)
+        st.markdown('<div class="sec-label">Salary Ranking by Category</div>', unsafe_allow_html=True)
 
-        # ── Salary rank by occupation (interactive select) ──
-        st.markdown("#### 📊 Salary Ranking by Category")
-        rank_col = st.selectbox("Rank by category", [c for c in ['occupation', 'workclass', 'marital-status', 'race', 'gender'] if c in df.columns])
+        rank_col = st.selectbox("Rank by",
+            [c for c in ['occupation', 'workclass', 'marital-status', 'race', 'gender'] if c in df.columns])
 
         fig, ax = dark_fig(10, max(4, df[rank_col].nunique() * 0.4))
         grp = df.groupby(rank_col)['income_numeric'].agg(['mean', 'std', 'count']).sort_values('mean')
-        colors_rank = plt.cm.get_cmap('Purples')(np.linspace(0.3, 0.9, len(grp)))
-        bars = ax.barh(grp.index, grp['mean'], color=colors_rank, edgecolor="none")
-        ax.axvline(df['income_numeric'].mean(), color=ACCENT2, linestyle='--', linewidth=1.2, label="Dataset mean")
-        ax.set_xlabel("Average Salary ($)"); ax.set_title(f"Average Salary by {rank_col.title()}")
-        ax.legend(facecolor=SURFACE, edgecolor="#1e2d45", labelcolor=TEXT, fontsize=9)
+        mean_val = df['income_numeric'].mean()
+        bar_clrs = [TEAL if v >= mean_val else ORANGE for v in grp['mean'].values]
+        bars = ax.barh(grp.index, grp['mean'], color=bar_clrs, edgecolor="none", height=0.65)
+        ax.axvline(mean_val, color=MIST, linestyle='--', linewidth=0.8, alpha=0.4, label="Dataset mean")
+        ax.set_xlabel("Average Salary ($)")
+        ax.set_title(f"Average Salary by {rank_col.replace('-', ' ').title()}")
+        ax.legend(facecolor=SURFACE, edgecolor=GRID, labelcolor=IRON, fontsize=9)
         for bar, (_, row) in zip(bars, grp.iterrows()):
-            ax.text(bar.get_width() + 200, bar.get_y() + bar.get_height()/2,
-                    f"${row['mean']:,.0f} (n={int(row['count'])})",
+            ax.text(bar.get_width() + 150, bar.get_y() + bar.get_height()/2,
+                    f"${row['mean']:,.0f}  n={int(row['count'])}",
                     va='center', color=MUTED, fontsize=7.5)
         plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
 
 # ═══════════════════════════════════════════════
-# TAB 6 — MODEL COMPARISON (NEW)
+# TAB 6 — MODEL COMPARISON
 # ═══════════════════════════════════════════════
 with tab_compare:
-    st.markdown('<div class="section-header"><span class="step-num">7</span> Compare Models</div>', unsafe_allow_html=True)
+    st.markdown('<div class="sec-heading">Compare Models</div>', unsafe_allow_html=True)
 
     if not enable_comparison:
         st.markdown("""
-        <div style="background:#1c2537;border:1px solid #1e2d45;border-radius:14px;padding:2rem;text-align:center;">
-          <div style="font-size:1.8rem;margin-bottom:0.6rem;">⚖️</div>
-          <div style="color:#64748b;font-size:0.9rem;">Enable <b style="color:#a78bfa;">Model Comparison Mode</b> in the sidebar to compare all algorithms.</div>
+        <div style="
+          background:#1C2333;border:1px dashed #252D3D;border-radius:10px;
+          padding:2rem;text-align:center;
+        ">
+          <div style="font-size:1.4rem;margin-bottom:0.5rem;opacity:0.4;">⚖</div>
+          <div style="color:#6B7B94;font-size:0.88rem;">
+            Enable <b style="color:#E8692A;">Model Comparison Mode</b> in the sidebar to compare all algorithms.
+          </div>
         </div>
         """, unsafe_allow_html=True)
     else:
-        st.info("Training all 5 models for comparison — this may take 1–2 minutes.")
+        st.info("Trains all 5 models sequentially — takes ~1–2 minutes.")
 
-        if st.button("🔬 Run Full Comparison", use_container_width=True):
+        if st.button("▶  Run Full Comparison", use_container_width=True):
             X_cmp = df.drop(columns=[c for c in ['income', 'income_numeric'] if c in df.columns])
             y_cmp = df['income_numeric']
 
@@ -1338,58 +1454,69 @@ with tab_compare:
 
             X_tr, X_te, y_tr, y_te = train_test_split(X_cmp, y_cmp, test_size=test_size, random_state=42)
 
-            results = []
+            results  = []
             progress = st.progress(0)
-            models_to_test = ["Random Forest", "Gradient Boosting", "Extra Trees", "Ridge Regression", "Lasso Regression"]
-
-            for i, mname in enumerate(models_to_test):
+            for i, mname in enumerate(MODELS):
                 with st.spinner(f"Training {mname}…"):
                     m = train_model(X_tr, y_tr, prep, model_type=mname)
                     yp = m.predict(X_te)
                     results.append({
-                        'Model': mname,
+                        'Model':    mname,
                         'MAE ($)':  int(mean_absolute_error(y_te, yp)),
                         'RMSE ($)': int(np.sqrt(mean_squared_error(y_te, yp))),
-                        'R² Score': round(r2_score(y_te, yp), 4),
+                        'R²':       round(r2_score(y_te, yp), 4),
                     })
-                progress.progress((i + 1) / len(models_to_test))
+                progress.progress((i + 1) / len(MODELS))
 
             progress.empty()
-            results_df = pd.DataFrame(results).sort_values('R² Score', ascending=False)
+            results_df = pd.DataFrame(results).sort_values('R²', ascending=False)
             st.session_state['comparison_results'] = results_df
-            st.success("✅ Comparison complete!")
+            st.success("✓ Comparison complete.")
 
         if 'comparison_results' in st.session_state:
-            cdf = st.session_state['comparison_results']
+            cdf  = st.session_state['comparison_results']
             best = cdf.iloc[0]['Model']
 
             # Table
+            rows_html = ""
+            for _, row in cdf.iterrows():
+                is_best = row['Model'] == best
+                badge_html = f'<span class="badge badge-teal" style="margin-left:0.4rem;">Best</span>' if is_best else ''
+                rows_html += f"""
+                <tr>
+                  <td style="color:{'#2ABFBF' if is_best else '#C9D3E0'};font-weight:{'600' if is_best else '400'};">
+                    {MODEL_META[row['Model']][0]} {row['Model']}{badge_html}
+                  </td>
+                  <td>${int(row['MAE ($)']):,}</td>
+                  <td>${int(row['RMSE ($)']):,}</td>
+                  <td style="color:{'#2ABFBF' if is_best else '#C9D3E0'};">{row['R²']:.4f}</td>
+                </tr>
+                """
+
             st.markdown(f"""
-            <div style="margin-bottom:0.75rem;">
-              <span class="tag tag-emerald">🏆 Best: {best}</span>
-            </div>
-            <table class="compare-table" style="width:100%;border-collapse:collapse;background:#1c2537;border-radius:14px;overflow:hidden;">
-              <tr>
-                {''.join(f'<th>{col}</th>' for col in cdf.columns)}
-              </tr>
-              {''.join(
-                f'<tr>{"".join(f"<td style=\"color:{"#10b981" if row["Model"] == best else "#e2e8f0"}\">{row[col]}</td>" for col in cdf.columns)}</tr>'
-                for _, row in cdf.iterrows()
-              )}
+            <table class="cmp-table" style="width:100%;background:#1C2333;border-radius:10px;overflow:hidden;border:1px solid #252D3D;">
+              <thead>
+                <tr>
+                  <th>Model</th><th>MAE ($)</th><th>RMSE ($)</th><th>R² Score</th>
+                </tr>
+              </thead>
+              <tbody>{rows_html}</tbody>
             </table>
             """, unsafe_allow_html=True)
 
             # R² comparison chart
+            st.markdown('<div style="margin-top:1.2rem;"></div>', unsafe_allow_html=True)
             fig, ax = dark_fig(9, 3.5)
-            bar_colors = [ACCENT3 if m == best else ACCENT for m in cdf['Model']]
-            bars = ax.barh(cdf['Model'], cdf['R² Score'], color=bar_colors, edgecolor="none")
-            ax.set_xlim(0, 1); ax.set_xlabel("R² Score (higher = better)")
+            bar_clrs = [TEAL if m == best else ORANGE for m in cdf['Model']]
+            bars = ax.barh(cdf['Model'], cdf['R²'], color=bar_clrs, edgecolor="none", height=0.6)
+            ax.set_xlim(0, 1)
+            ax.set_xlabel("R² Score (higher = better)")
             ax.set_title("Model R² Score Comparison")
-            for bar, val in zip(bars, cdf['R² Score']):
-                ax.text(bar.get_width() + 0.005, bar.get_y() + bar.get_height()/2,
-                        f"{val:.4f}", va='center', color=TEXT, fontsize=9)
+            for bar, val in zip(bars, cdf['R²']):
+                ax.text(bar.get_width() + 0.004, bar.get_y() + bar.get_height()/2,
+                        f"{val:.4f}", va='center', color=IRON, fontsize=9)
             plt.tight_layout(); st.pyplot(fig); plt.close(fig)
 
-            st.download_button("⬇️ Download Comparison CSV",
+            st.download_button("⬇  Export Comparison",
                                data=cdf.to_csv(index=False).encode(),
                                file_name="model_comparison.csv", mime="text/csv")
