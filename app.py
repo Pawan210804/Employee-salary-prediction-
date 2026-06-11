@@ -23,7 +23,7 @@ st.set_page_config(
     initial_sidebar_state="expanded",
 )
 
-st.markdown("""
+st.html("""
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -224,7 +224,7 @@ html,body,[class*="css"]{font-family:var(--fb)!important;background:var(--cr)!im
   requestAnimationFrame(tick);
 })();
 </script>
-""", unsafe_allow_html=True)
+""")
 
 # ── MATPLOTLIB CREAM THEME ────────────────────
 BG="F5F0E8";SURFACE="#EDE6D6";CARD="#E3D9C6"
@@ -286,16 +286,16 @@ nav_html+=f"""
   </div>
 </div>
 """
-st.markdown(nav_html,unsafe_allow_html=True)
+st.html(nav_html)
 
 # ── SIDEBAR ───────────────────────────────────
 with st.sidebar:
-    st.markdown("""
+    st.html("""
     <div style="padding:0.8rem 0 0.4rem;display:flex;align-items:center;gap:0.55rem;">
       <div style="width:7px;height:7px;border-radius:50%;background:var(--si);" class="pdt"></div>
       <span style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--ink);">SalaryIQ</span>
     </div>
-    """,unsafe_allow_html=True)
+    """)
     st.divider()
     st.markdown("### ⚙️ Model Config")
     model_choice=st.selectbox("Algorithm",MODEL_NAMES,
@@ -313,7 +313,7 @@ with st.sidebar:
     show_salary_sim =st.checkbox("Salary simulator tool",value=True)
 
     st.divider()
-    st.markdown("""
+    st.html("""
     <div style="font-size:0.78rem;color:var(--ink-mu);line-height:1.75;">
       <b style="color:var(--si);">Quick guide</b><br>
       1. Upload <code>adult.csv</code><br>
@@ -323,9 +323,9 @@ with st.sidebar:
       5. Predict single or batch<br>
       6. Export results
     </div>
-    """,unsafe_allow_html=True)
+    """)
     st.divider()
-    st.markdown('<span class="tag tag-s">adult.csv · UCI Census Income</span>',unsafe_allow_html=True)
+    st.html('<span class="tag tag-s">adult.csv · UCI Census Income</span>')
 
 # ── DATA HELPERS ──────────────────────────────
 @st.cache_data
@@ -386,7 +386,7 @@ def salary_tier(v):
     else:return "Executive",ACC
 
 # ── HERO ──────────────────────────────────────
-st.markdown("""
+st.html("""
 <div class="gc hc" style="margin-bottom:1.5rem;border-radius:var(--r-lg);position:relative;overflow:hidden;">
   <div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--si-l),transparent);opacity:0.5;"></div>
   <div class="hc" style="display:flex;align-items:baseline;gap:0.7rem;margin-bottom:0.5rem;">
@@ -405,14 +405,14 @@ st.markdown("""
     <span class="tag">Model Comparison</span>
   </div>
 </div>
-""",unsafe_allow_html=True)
+""")
 
 # ── FILE UPLOAD ───────────────────────────────
-st.markdown('<div class="sh"><span class="sn">1</span> Upload Dataset</div>',unsafe_allow_html=True)
+st.html('<div class="sh"><span class="sn">1</span> Upload Dataset</div>')
 uploaded_file=st.file_uploader("Upload adult.csv",type="csv",label_visibility="collapsed")
 
 if uploaded_file is None:
-    st.markdown("""
+    st.html("""
     <div class="es" style="margin-bottom:1.5rem;">
       <div class="es-icon">📂</div>
       <div class="es-title">No dataset loaded yet</div>
@@ -436,7 +436,7 @@ if uploaded_file is None:
         <div style="font-size:0.78rem;color:var(--ink-mu);line-height:1.55;">Single-record predictions, batch CSV uploads, and salary simulator.</div>
       </div>
     </div>
-    """,unsafe_allow_html=True)
+    """)
     st.stop()
 
 with st.spinner("Loading and preprocessing data…"):
@@ -473,7 +473,7 @@ tab_eda,tab_train,tab_predict,tab_batch,tab_insights,tab_sim,tab_whatif,tab_comp
 # TAB 1 — EDA
 # ═══════════════════════════════════════════════
 with tab_eda:
-    st.markdown('<div class="sh"><span class="sn">2</span> Explore Your Data</div>',unsafe_allow_html=True)
+    st.html('<div class="sh"><span class="sn">2</span> Explore Your Data</div>')
     eda1,eda2,eda3,eda4,eda5=st.tabs(["Preview & Stats","Distributions","Correlation","Income Breakdown","Data Quality"])
 
     with eda1:
@@ -485,9 +485,9 @@ with tab_eda:
             st.markdown("**Quick Stats**")
             nd=df.select_dtypes(include=np.number)
             for col in nd.columns[:6]:
-                st.markdown(f"""<div class="ib" style="padding:0.55rem 0.85rem;margin-bottom:0.35rem;">
+                st.html(f"""<div class="ib" style="padding:0.55rem 0.85rem;margin-bottom:0.35rem;">
                   <div><div class="ib-title" style="font-size:0.76rem;">{col}</div>
-                  <div class="ib-text" style="font-size:0.7rem;">μ {nd[col].mean():,.1f} · σ {nd[col].std():,.1f}</div></div></div>""",unsafe_allow_html=True)
+                  <div class="ib-text" style="font-size:0.7rem;">μ {nd[col].mean():,.1f} · σ {nd[col].std():,.1f}</div></div></div>""")
         st.markdown("**Descriptive Statistics**")
         st.dataframe(df.describe().round(2),use_container_width=True)
 
@@ -631,7 +631,7 @@ with tab_eda:
 # TAB 2 — TRAIN MODEL
 # ═══════════════════════════════════════════════
 with tab_train:
-    st.markdown('<div class="sh"><span class="sn">3</span> Train the ML Model</div>',unsafe_allow_html=True)
+    st.html('<div class="sh"><span class="sn">3</span> Train the ML Model</div>')
     X=df.drop(columns=[c for c in ['income','income_numeric'] if c in df.columns])
     y=df['income_numeric']
     cat_f=X.select_dtypes(include='object').columns.tolist()
@@ -642,11 +642,11 @@ with tab_train:
     c1,c2=st.columns(2)
     c1.metric("Training samples",f"{len(X_train):,}");c2.metric("Testing samples",f"{len(X_test):,}")
 
-    st.markdown(f"""<div class="gc-sm" style="margin-bottom:1rem;">
+    st.html(f"""<div class="gc-sm" style="margin-bottom:1rem;">
       <div style="font-size:0.72rem;color:var(--ink-mu);margin-bottom:0.3rem;text-transform:uppercase;letter-spacing:0.09em;">Selected model</div>
       <div style="font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:600;color:var(--si);">{MODEL_ICONS[model_choice]} {model_choice}</div>
       <div style="font-size:0.78rem;color:var(--ink-mu);margin-top:0.25rem;">{len(cat_f)} categorical · {len(num_f)} numerical · {test_size*100:.0f}% test · seed {int(random_seed)}</div>
-    </div>""",unsafe_allow_html=True)
+    </div>""")
 
     if st.button("🚀 Train Model Now",use_container_width=True):
         with st.spinner(f"Training {model_choice}…"):
@@ -678,20 +678,20 @@ with tab_train:
         quality_label=("Excellent fit — model explains most variance." if r2_pct>=80 else
                        "Good fit — reasonable predictive power." if r2_pct>=60 else
                        "Moderate fit — consider a different algorithm.")
-        st.markdown(f"""<div class="gc-sm" style="display:flex;align-items:center;gap:1.5rem;margin:1.2rem 0;">
+        st.html(f"""<div class="gc-sm" style="display:flex;align-items:center;gap:1.5rem;margin:1.2rem 0;">
           <div style="width:76px;height:76px;border-radius:50%;border:2.5px solid {ring_color};display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:{ring_color};flex-shrink:0;">
             {r2_pct}%</div>
           <div><div style="font-family:'Playfair Display',serif;font-weight:600;color:var(--ink);margin-bottom:0.2rem;">Model Fit Score</div>
           <div style="font-size:0.83rem;color:var(--ink-m);">{quality_label}</div></div>
-        </div>""",unsafe_allow_html=True)
+        </div>""")
 
         if show_cv and 'cv_scores' in st.session_state:
             cv=st.session_state['cv_scores']
-            st.markdown(f"""<div class="gc-sm" style="margin-bottom:1rem;">
+            st.html(f"""<div class="gc-sm" style="margin-bottom:1rem;">
               <div style="font-size:0.72rem;color:var(--ink-mu);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.4rem;">5-Fold Cross Validation R²</div>
               <div style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--si);">{cv.mean():.3f} <span style="font-size:0.85rem;color:var(--ink-mu);font-family:'DM Sans',sans-serif;">± {cv.std():.3f}</span></div>
               <div style="font-size:0.78rem;color:var(--ink-mu);margin-top:0.3rem;">Fold scores: {', '.join([f'{s:.3f}' for s in cv])}</div>
-            </div>""",unsafe_allow_html=True)
+            </div>""")
 
         fi_df=get_feat_imp(st.session_state['model'],cat_f,num_f)
         if fi_df is not None and show_feat_imp:
@@ -730,36 +730,36 @@ with tab_train:
                                       model_choice,f"{test_size*100:.0f}%",f"{len(X_train):,}",f"{len(X_test):,}"]})
         st.download_button("⬇️ Download Model Summary",data=sum_df.to_csv(index=False).encode(),file_name="model_summary.csv",mime="text/csv")
     else:
-        st.markdown("""<div class="es"><div class="es-icon">🤖</div><div class="es-title">No model trained yet</div>
+        st.html("""<div class="es"><div class="es-icon">🤖</div><div class="es-title">No model trained yet</div>
         <div class="es-sub">Click <b>Train Model Now</b> above. Training takes 10–30 s depending on algorithm.</div>
-        <div class="es-tip">Tip: Random Forest typically gives the best accuracy on this dataset</div></div>""",unsafe_allow_html=True)
+        <div class="es-tip">Tip: Random Forest typically gives the best accuracy on this dataset</div></div>""")
 
 # ═══════════════════════════════════════════════
 # TAB 3 — SINGLE PREDICTION
 # ═══════════════════════════════════════════════
 with tab_predict:
-    st.markdown('<div class="sh"><span class="sn">4</span> Single Employee Prediction</div>',unsafe_allow_html=True)
+    st.html('<div class="sh"><span class="sn">4</span> Single Employee Prediction</div>')
     if 'model' not in st.session_state:
-        st.markdown("""<div class="es"><div class="es-icon">🔍</div><div class="es-title">Train a model first</div>
+        st.html("""<div class="es"><div class="es-icon">🔍</div><div class="es-title">Train a model first</div>
         <div class="es-sub">Head to <b>Train Model</b>, click <b>Train Model Now</b>, then return here.</div>
-        <div class="es-tip">Predictions include confidence interval and percentile ranking</div></div>""",unsafe_allow_html=True)
+        <div class="es-tip">Predictions include confidence interval and percentile ranking</div></div>""")
     else:
         model=st.session_state['model'];X_cols=st.session_state['X_columns'];df_r=st.session_state.get('df',df)
         c1,c2,c3=st.columns(3)
         with c1:
-            st.markdown('<div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-mu);margin-bottom:0.75rem;">👤 Personal Info</div>',unsafe_allow_html=True)
+            st.html('<div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-mu);margin-bottom:0.75rem;">👤 Personal Info</div>')
             age=st.slider("Age",int(df_r['age'].min()),int(df_r['age'].max()),30)
             gender=st.radio("Gender",df_r['gender'].unique().tolist())
             race=st.selectbox("Race",df_r['race'].unique().tolist())
             native_country=st.selectbox("Native Country",sorted(df_r['native-country'].unique().tolist()))
         with c2:
-            st.markdown('<div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-mu);margin-bottom:0.75rem;">🎓 Education & Work</div>',unsafe_allow_html=True)
+            st.html('<div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-mu);margin-bottom:0.75rem;">🎓 Education & Work</div>')
             edu_num=st.slider("Education Level (1–16)",int(df_r['educational-num'].min()),int(df_r['educational-num'].max()),10,help="1=low, 16=Doctorate")
             workclass=st.selectbox("Work Class",df_r['workclass'].unique().tolist())
             occupation=st.selectbox("Occupation",df_r['occupation'].unique().tolist())
             hrs=st.slider("Hours / Week",int(df_r['hours-per-week'].min()),int(df_r['hours-per-week'].max()),40)
         with c3:
-            st.markdown('<div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-mu);margin-bottom:0.75rem;">🏠 Household & Capital</div>',unsafe_allow_html=True)
+            st.html('<div style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-mu);margin-bottom:0.75rem;">🏠 Household & Capital</div>')
             marital=st.selectbox("Marital Status",df_r['marital-status'].unique().tolist())
             relationship=st.selectbox("Relationship",df_r['relationship'].unique().tolist())
             cap_gain=st.number_input("Capital Gain ($)",min_value=0,max_value=int(df_r['capital-gain'].max()),value=0)
@@ -778,12 +778,12 @@ with tab_predict:
                 pct=( df_r['income_numeric']<pred).mean()*100
                 tier_label,tier_color=salary_tier(pred)
 
-                st.markdown(f"""<div class="pr gc" style="text-align:center;margin-top:1.5rem;border-color:rgba(139,74,43,0.3);padding:2rem;">
+                st.html(f"""<div class="pr gc" style="text-align:center;margin-top:1.5rem;border-color:rgba(139,74,43,0.3);padding:2rem;">
                   <div style="font-size:0.72rem;text-transform:uppercase;letter-spacing:0.14em;color:var(--ink-mu);margin-bottom:0.5rem;">Estimated Annual Salary</div>
                   <div style="font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;color:var(--si);line-height:1.1;">${pred:,.0f}</div>
                   <div style="font-size:0.84rem;color:var(--ink-m);margin-top:0.45rem;">{"Confidence range: " if show_confidence else ""}${low:,.0f} – ${high:,.0f}</div>
                   <div style="margin-top:0.8rem;"><span style="background:var(--si-p);border:1px solid var(--bdr-w);border-radius:999px;padding:4px 14px;font-size:0.76rem;color:var(--si);">{tier_label}</span></div>
-                </div>""",unsafe_allow_html=True)
+                </div>""")
 
                 ca,cb,cc=st.columns(3)
                 ca.metric("Dataset Average",f"${nat_avg:,.0f}")
@@ -822,11 +822,11 @@ with tab_predict:
 # TAB 4 — BATCH PREDICTION
 # ═══════════════════════════════════════════════
 with tab_batch:
-    st.markdown('<div class="sh"><span class="sn">5</span> Batch Prediction</div>',unsafe_allow_html=True)
+    st.html('<div class="sh"><span class="sn">5</span> Batch Prediction</div>')
     if 'model' not in st.session_state:
-        st.markdown("""<div class="es"><div class="es-icon">📦</div><div class="es-title">No model available</div>
+        st.html("""<div class="es"><div class="es-icon">📦</div><div class="es-title">No model available</div>
         <div class="es-sub">Train a model in <b>Train Model</b> first, then upload a batch CSV here.</div>
-        <div class="es-tip">Batch results include salary tier labels and percentile rankings</div></div>""",unsafe_allow_html=True)
+        <div class="es-tip">Batch results include salary tier labels and percentile rankings</div></div>""")
     else:
         model=st.session_state['model'];X_cols=st.session_state['X_columns']
         with st.expander("📄 View expected CSV format"):
@@ -861,27 +861,27 @@ with tab_batch:
                         st.markdown("**Tier Breakdown**")
                         for tier,count in bd['Salary_Tier'].value_counts().items():
                             pct_t=count/len(bd)*100
-                            st.markdown(f"""<div class="gc-sm" style="padding:0.65rem 0.9rem;margin-bottom:0.4rem;">
+                            st.html(f"""<div class="gc-sm" style="padding:0.65rem 0.9rem;margin-bottom:0.4rem;">
                               <div style="display:flex;justify-content:space-between;margin-bottom:0.3rem;">
                                 <span style="font-size:0.82rem;">{tier}</span>
                                 <span style="font-size:0.76rem;color:var(--si);">{count} ({pct_t:.0f}%)</span>
                               </div>
                               <div style="height:3px;background:var(--cr-dd);border-radius:999px;">
                                 <div style="height:3px;background:var(--si);border-radius:999px;width:{pct_t}%;"></div>
-                              </div></div>""",unsafe_allow_html=True)
+                              </div></div>""")
                     st.dataframe(bd,use_container_width=True)
                     st.download_button("⬇️ Download Predictions CSV",data=bd.to_csv(index=False).encode('utf-8'),file_name='predicted_salaries.csv',mime='text/csv')
                 except KeyError as ke:st.error(f"Missing column: {ke}")
                 except Exception as e:st.error(f"Batch error: {e}")
         else:
-            st.markdown("""<div class="es" style="margin-top:1rem;"><div class="es-icon">🗂️</div><div class="es-title">Upload a batch file</div>
-            <div class="es-sub">Drop a CSV above. Click <b>View expected CSV format</b> for a sample template.</div></div>""",unsafe_allow_html=True)
+            st.html("""<div class="es" style="margin-top:1rem;"><div class="es-icon">🗂️</div><div class="es-title">Upload a batch file</div>
+            <div class="es-sub">Drop a CSV above. Click <b>View expected CSV format</b> for a sample template.</div></div>""")
 
 # ═══════════════════════════════════════════════
 # TAB 5 — SALARY INSIGHTS
 # ═══════════════════════════════════════════════
 with tab_insights:
-    st.markdown('<div class="sh"><span class="sn">6</span> Salary Insights & Intelligence</div>',unsafe_allow_html=True)
+    st.html('<div class="sh"><span class="sn">6</span> Salary Insights & Intelligence</div>')
     if 'income_numeric' not in df.columns:
         st.info("Load a dataset with income data to see insights.")
     else:
@@ -900,10 +900,10 @@ with tab_insights:
             ("⏱️","Hours Worked",f"High earners average <b style='color:var(--si)'>{avg_hrs_h:.0f} hrs/week</b> vs <b style='color:var(--ink-mu)'>{avg_hrs_l:.0f} hrs/week</b> for low earners."),
             ("👥","Dataset Composition",f"<b style='color:var(--sage)'>{pct_high:.1f}%</b> high earners ({high_earners:,} records) and <b style='color:var(--ink-mu)'>{100-pct_high:.1f}%</b> low earners."),
         ]:
-            st.markdown(f"""<div class="ib"><div class="ib-icon">{icon}</div>
-              <div><div class="ib-title">{title}</div><div class="ib-text">{body}</div></div></div>""",unsafe_allow_html=True)
+            st.html(f"""<div class="ib"><div class="ib-icon">{icon}</div>
+              <div><div class="ib-title">{title}</div><div class="ib-text">{body}</div></div></div>""")
 
-        st.markdown('<div class="sr"></div>',unsafe_allow_html=True)
+        st.html('<div class="sr"></div>')
         st.markdown("#### 📊 Salary Ranking by Category")
         rank_col=st.selectbox("Rank by",[c for c in ['occupation','workclass','marital-status','race','gender'] if c in df.columns])
         grp=df.groupby(rank_col)['income_numeric'].agg(['mean','std','count']).sort_values('mean')
@@ -917,7 +917,7 @@ with tab_insights:
         plt.tight_layout();st.pyplot(fig);plt.close(fig)
 
         # ── NEW: top-earner profile ──
-        st.markdown('<div class="sr"></div>',unsafe_allow_html=True)
+        st.html('<div class="sr"></div>')
         st.markdown("#### 🏆 High Earner Profile vs Low Earner Profile")
         profile_cols=[c for c in ['age','educational-num','hours-per-week','capital-gain'] if c in df.columns]
         comp_data=[]
@@ -929,17 +929,17 @@ with tab_insights:
 # TAB 6 — SALARY SIMULATOR (NEW)
 # ═══════════════════════════════════════════════
 with tab_sim:
-    st.markdown('<div class="sh"><span class="sn">7</span> Salary Simulator</div>',unsafe_allow_html=True)
+    st.html('<div class="sh"><span class="sn">7</span> Salary Simulator</div>')
     if not show_salary_sim:
         st.info("Enable **Salary Simulator** in the sidebar to use this tool.")
     elif 'model' not in st.session_state:
-        st.markdown("""<div class="es"><div class="es-icon">🎯</div><div class="es-title">Train a model first</div>
-        <div class="es-sub">The salary simulator needs a trained model. Go to <b>Train Model</b> tab first.</div></div>""",unsafe_allow_html=True)
+        st.html("""<div class="es"><div class="es-icon">🎯</div><div class="es-title">Train a model first</div>
+        <div class="es-sub">The salary simulator needs a trained model. Go to <b>Train Model</b> tab first.</div></div>""")
     else:
-        st.markdown("""<div class="gc-sm" style="margin-bottom:1.2rem;">
+        st.html("""<div class="gc-sm" style="margin-bottom:1.2rem;">
           <div class="ib-title" style="margin-bottom:0.3rem;">Interactive Career Planner</div>
           <div class="ib-text">Adjust sliders to simulate how changes in education, hours worked, or age affect predicted salary. Lock a base profile and compare scenarios.</div>
-        </div>""",unsafe_allow_html=True)
+        </div>""")
 
         model=st.session_state['model'];X_cols=st.session_state['X_columns'];df_r=st.session_state.get('df',df)
 
@@ -973,11 +973,11 @@ with tab_sim:
                 tier_label,_=salary_tier(base_pred)
                 pct_above=(df_r['income_numeric']<base_pred).mean()*100
 
-                st.markdown(f"""<div class="gc-sm" style="text-align:center;margin-top:1rem;border-color:rgba(139,74,43,0.25);">
+                st.html(f"""<div class="gc-sm" style="text-align:center;margin-top:1rem;border-color:rgba(139,74,43,0.25);">
                   <div style="font-size:0.7rem;color:var(--ink-mu);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;">Predicted Salary</div>
                   <div style="font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--si);">${base_pred:,.0f}</div>
                   <div style="font-size:0.78rem;color:var(--ink-mu);margin-top:0.3rem;">{tier_label} · {pct_above:.0f}th percentile</div>
-                </div>""",unsafe_allow_html=True)
+                </div>""")
 
                 # Sensitivity analysis — vary each factor
                 st.markdown("**Sensitivity: What changes the most?**")
@@ -1006,15 +1006,15 @@ with tab_sim:
 # TAB 7 — WHAT-IF ANALYSIS
 # ═══════════════════════════════════════════════
 with tab_whatif:
-    st.markdown('<div class="sh"><span class="sn">8</span> What-If Analysis</div>',unsafe_allow_html=True)
+    st.html('<div class="sh"><span class="sn">8</span> What-If Analysis</div>')
     if 'model' not in st.session_state:
-        st.markdown("""<div class="es"><div class="es-icon">📈</div><div class="es-title">Train a model first</div>
-        <div class="es-sub">What-If analysis needs a trained model. Go to <b>Train Model</b> tab first.</div></div>""",unsafe_allow_html=True)
+        st.html("""<div class="es"><div class="es-icon">📈</div><div class="es-title">Train a model first</div>
+        <div class="es-sub">What-If analysis needs a trained model. Go to <b>Train Model</b> tab first.</div></div>""")
     else:
-        st.markdown("""<div class="gc-sm" style="margin-bottom:1.2rem;">
+        st.html("""<div class="gc-sm" style="margin-bottom:1.2rem;">
           <div class="ib-title" style="margin-bottom:0.3rem;">Side-by-Side Scenario Comparison</div>
           <div class="ib-text">Define two employee profiles and compare their predicted salaries instantly.</div>
-        </div>""",unsafe_allow_html=True)
+        </div>""")
 
         model=st.session_state['model'];X_cols=st.session_state['X_columns'];df_r=st.session_state.get('df',df)
 
@@ -1054,20 +1054,20 @@ with tab_whatif:
                 cols_map={list(profiles.keys())[0]:ca,list(profiles.keys())[1]:cb}
                 for label,res in results.items():
                     with cols_map[label]:
-                        st.markdown(f"""<div class="gc-sm" style="text-align:center;border-color:rgba(139,74,43,0.25);margin-top:1rem;">
+                        st.html(f"""<div class="gc-sm" style="text-align:center;border-color:rgba(139,74,43,0.25);margin-top:1rem;">
                           <div style="font-size:0.7rem;color:var(--ink-mu);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.3rem;">{label}</div>
                           <div style="font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;color:var(--si);">${res['pred']:,.0f}</div>
                           <div style="font-size:0.78rem;color:var(--ink-mu);margin-top:0.3rem;">{res['tier']} · {res['pct']:.0f}th percentile</div>
-                        </div>""",unsafe_allow_html=True)
+                        </div>""")
 
                 preds=[r['pred'] for r in results.values()]
                 diff=abs(preds[0]-preds[1])
                 higher=list(results.keys())[0] if preds[0]>=preds[1] else list(results.keys())[1]
-                st.markdown(f"""<div class="ib" style="margin-top:1.2rem;">
+                st.html(f"""<div class="ib" style="margin-top:1.2rem;">
                   <div class="ib-icon">💡</div>
                   <div><div class="ib-title">Comparison Result</div>
                   <div class="ib-text"><b style="color:var(--si)">{higher}</b> earns <b style="color:var(--si)">${diff:,.0f} more</b> per year based on their profile differences.</div></div>
-                </div>""",unsafe_allow_html=True)
+                </div>""")
 
                 fig,ax=dark_fig(6,3)
                 labels_list=list(results.keys())
@@ -1086,17 +1086,17 @@ with tab_whatif:
 # TAB 8 — COMPARE MODELS
 # ═══════════════════════════════════════════════
 with tab_compare:
-    st.markdown('<div class="sh"><span class="sn">9</span> Compare Models</div>',unsafe_allow_html=True)
+    st.html('<div class="sh"><span class="sn">9</span> Compare Models</div>')
     if not enable_comparison:
         st.info("Enable **Model comparison** in the sidebar to use this tab.")
     elif 'model' not in st.session_state:
-        st.markdown("""<div class="es"><div class="es-icon">⚖️</div><div class="es-title">Train a model first</div>
-        <div class="es-sub">Train at least one model, then enable model comparison in the sidebar.</div></div>""",unsafe_allow_html=True)
+        st.html("""<div class="es"><div class="es-icon">⚖️</div><div class="es-title">Train a model first</div>
+        <div class="es-sub">Train at least one model, then enable model comparison in the sidebar.</div></div>""")
     else:
-        st.markdown("""<div class="gc-sm" style="margin-bottom:1.2rem;">
+        st.html("""<div class="gc-sm" style="margin-bottom:1.2rem;">
           <div class="ib-title" style="margin-bottom:0.3rem;">Multi-Algorithm Benchmark</div>
           <div class="ib-text">Train all 5 models on identical data splits and compare MAE, RMSE, and R² side-by-side.</div>
-        </div>""",unsafe_allow_html=True)
+        </div>""")
 
         if st.button("🏆 Run Full Model Comparison",use_container_width=True):
             X_c=df.drop(columns=[c for c in ['income','income_numeric'] if c in df.columns])
@@ -1139,10 +1139,10 @@ with tab_compare:
             plt.tight_layout();st.pyplot(fig);plt.close(fig)
 
             best=comp_df.iloc[0]
-            st.markdown(f"""<div class="ib" style="margin-top:0.5rem;">
+            st.html(f"""<div class="ib" style="margin-top:0.5rem;">
               <div class="ib-icon">🏆</div>
               <div><div class="ib-title">Best Model: {best['Model']}</div>
               <div class="ib-text">R² = {best['R²']:.4f} · MAE = ${best['MAE ($)']:,} · RMSE = ${best['RMSE ($)']:,}</div></div>
-            </div>""",unsafe_allow_html=True)
+            </div>""")
 
             st.download_button("⬇️ Download Comparison CSV",data=comp_df.to_csv(index=False).encode(),file_name="model_comparison.csv",mime="text/csv")
